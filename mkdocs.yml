@@ -22,7 +22,7 @@ theme:
     - search.suggest
   palette:
   - scheme: default
-      primary: blue grey
+      primary: blue
       accent: red
       toggle:
         icon: material/weather-night
