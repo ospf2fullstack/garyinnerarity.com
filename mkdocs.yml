@@ -2,7 +2,7 @@
 site_name: Gary Innerarity
 site_description: Gary Innerarity (OSPF2FULLSTACK).
 site_author: Gary Innerarity
-site_url: https://ospf2fullstack.github.io
+site_url: https://garyinnerarity.com
 
 # Configuration
 docs_dir: docs
@@ -20,19 +20,6 @@ theme:
     - navigation.tracking
     - search.highlight
     - search.suggest
-  # palette:
-  # - scheme: default
-  #     primary: blue grey
-  #     accent: red
-  #     toggle:
-  #       icon: material/weather-night
-  #       name: Switch to dark mode
-  #   - scheme: slate
-  #     primary: blue grey
-  #     accent: indigo
-  #     toggle:
-  #       icon: material/weather-sunny
-  #       name: Switch to light mode
 
 # Plugins
 plugins: 

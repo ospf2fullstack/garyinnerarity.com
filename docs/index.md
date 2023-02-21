@@ -1,5 +1,5 @@
 # Hello 👋
-> My name is [Gary@ospf2fullstack](## "Innerarity").
+> My name is [Gary@ospf2fullstack](## "Technologist").
 > "There are no secrets, just stuff you haven't learned yet."
 ## Virtual Meet and Greet
 >  - 🔭 I’m currently working on Digital Twins. 
