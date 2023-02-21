@@ -2,22 +2,24 @@
 My name is [Gary@ospf2fullstack](## "Technologist"). 
 
 [//]: <> (Admonitions: https://squidfunk.github.io/mkdocs-material/reference/admonitions/)
-
-??? reminder
+??? tip
         "There are no secrets, just stuff you haven't learned yet."
 
-## Virtual Meet and Greet
+## Virtual Meet and Greet 
+[LinkedIn](https://www.linkedin.com/in/ginnerarity/){ .md-button}
 >  - 🔭 I’m currently working on Digital Twins. 
 >  - 🌱 Learning Terraform, Kubernetes and Javascript and all things DevOps.
->  - 🤔 I’m looking for collaborations with EVERYTHING.
->  - 📫 How to reach me: [LinkedIn](https://www.linkedin.com/in/ginnerarity/)
 >  - ⚡ Fun fact: I'm addicted to learning and progressing. 
+
+---
+
 
 ## My [Site] ToDo
     - [x] Build out Materials mkdocs site
     - [x] Migrate Basic information and Domain
     - [ ] Migrate historical documentation
 
+---
 
 ## Things I Break
 ### Clouds
