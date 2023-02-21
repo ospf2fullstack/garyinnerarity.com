@@ -3,7 +3,7 @@ My name is [Gary@ospf2fullstack](## "Technologist").
 
 [//]: <> (Admonitions: https://squidfunk.github.io/mkdocs-material/reference/admonitions/)
 ??? tip
-        "There are no secrets, just stuff you haven't learned yet.(1)"
+        "There are no secrets, just stuff you haven't learned yet."
 
 
 ## Virtual Meet and Greet 
