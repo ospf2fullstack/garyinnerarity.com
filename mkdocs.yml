@@ -12,6 +12,8 @@ theme:
   logo: ../assets/img/gary.jpg
   icon:
     repo: fontawesome/brands/github-alt
+    admonition:
+      <type>: material/sticker-alert
   language: en
   font: false
   features:
@@ -20,6 +22,7 @@ theme:
     - navigation.tracking
     - search.highlight
     - search.suggest
+  
 
 # Plugins
 plugins: 
@@ -35,3 +38,9 @@ nav:
     - "aws/AWS-IoT.md"
   - Notion:
     - "notion/notion-ai.md"
+
+# Extensions
+markdown_extensions: 
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences

@@ -1,6 +1,11 @@
 # Hello 👋
-> My name is [Gary@ospf2fullstack](## "Technologist").
-> "There are no secrets, just stuff you haven't learned yet."
+My name is [Gary@ospf2fullstack](## "Technologist"). 
+
+[//]: <> (Admonitions: https://squidfunk.github.io/mkdocs-material/reference/admonitions/)
+
+??? reminder
+        "There are no secrets, just stuff you haven't learned yet."
+
 ## Virtual Meet and Greet
 >  - 🔭 I’m currently working on Digital Twins. 
 >  - 🌱 Learning Terraform, Kubernetes and Javascript and all things DevOps.
