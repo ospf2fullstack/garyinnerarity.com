@@ -2,7 +2,7 @@
 site_name: Gary Innerarity
 site_description: Gary Innerarity (OSPF2FULLSTACK) complete maintainer.
 site_author: Gary Innerarity
-site_url: https://garyinnerarity.com
+site_url: https://ospf2fullstack.github.io
 
 # Configuration
 docs_dir: docs
