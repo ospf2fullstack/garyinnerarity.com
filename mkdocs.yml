@@ -9,7 +9,7 @@ docs_dir: docs
 
 theme:
   name: material
-  logo: assets/img/gary.jpg
+  logo: ../assets/img/gary.jpg
   icon:
     repo: fontawesome/brands/github-alt
   language: en
@@ -40,8 +40,12 @@ plugins:
       lang: en
   - minify:
       minify_html: true
+  - blog:
+      blog_dir: blog/posts/
 
 # Navigation
 nav:
   - Home:
-      -"index.md"
+      - index.md
+  - blog:
+      - blog/index.md
