@@ -1,8 +1,7 @@
-name: ci 
+name: auto-publish-my-site
 on:
   push:
     branches:
-      - master 
       - main
 permissions:
   contents: write
