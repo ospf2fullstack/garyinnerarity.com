@@ -1,1 +1,1 @@
-{"config":{"lang":["en"],"separator":"[\\s\\-]+","pipeline":["stopWordFilter"]},"docs":[{"location":"","title":"Gary Innerarity","text":"<p>Hello, </p>"},{"location":"#home","title":"Home","text":""},{"location":"blog/","title":"Blog","text":""}]}
+{"config":{"lang":["en"],"separator":"[\\s\\-]+","pipeline":["stopWordFilter"]},"docs":[{"location":"","title":"Gary Innerarity","text":"<p>Hello, </p>"},{"location":"#home","title":"Home","text":""}]}
