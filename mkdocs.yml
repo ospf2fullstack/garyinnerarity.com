@@ -45,7 +45,5 @@ plugins:
 
 # Navigation
 nav:
-  - Home:
-      - index.md
-  - blog:
-      - blog/index.md
+  - Home: index.md
+  - Blog: blog/index.md
