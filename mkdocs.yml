@@ -40,8 +40,8 @@ plugins:
       lang: en
   - minify:
       minify_html: true
-  - blog:
-      blog_dir: blog/posts/
+  # - blog:
+  #     blog_dir: blog/posts/
 
 # Navigation
 nav:
