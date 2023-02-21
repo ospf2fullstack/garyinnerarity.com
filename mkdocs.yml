@@ -44,3 +44,7 @@ plugins:
 # Navigation
 nav:
   - Home: index.md
+  - AWS: 
+    - "aws/AWS-IoT.md"
+  - Notion:
+    - "notion/notion-ai.md"
