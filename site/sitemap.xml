@@ -11,7 +11,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://garyinnerarity.com/aws/AWS/</loc>
+         <loc>https://garyinnerarity.com/hardware/compute_blade/compute_blade/</loc>
+         <lastmod>2023-02-21</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://garyinnerarity.com/hardware/raspberry_pi/raspberry_pi/</loc>
+         <lastmod>2023-02-21</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://garyinnerarity.com/hardware/sparkfun/micromod/</loc>
          <lastmod>2023-02-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
