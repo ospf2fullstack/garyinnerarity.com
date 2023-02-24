@@ -36,6 +36,8 @@ nav:
   - Home: index.md
   - AWS: 
     - "aws/AWS-IoT.md"
+  - GitLab:
+    - "gitlab/gitlab.md"
   - Hardware:
     - "hardware/compute_blade/compute_blade.md"
     - "hardware/raspberry_pi/raspberry_pi.md"
