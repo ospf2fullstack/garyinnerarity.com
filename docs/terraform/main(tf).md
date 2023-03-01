@@ -3,6 +3,18 @@ Terraform offers a lot of great resources on their website which covers [install
 
 Below, you'll find resources that helped me get started or common gotchas along the way. 
 
+# Table of Contents
+- [Terraform](#terraform)
+- [Table of Contents](#table-of-contents)
+- [Terraform for AWS](#terraform-for-aws)
+  - [Structure](#structure)
+  - [Variables](#variables)
+    - [Variables within Child Modules](#variables-within-child-modules)
+  - [Outputs](#outputs)
+    - [Outputs within Child Modules](#outputs-within-child-modules)
+- [Terminal](#terminal)
+  - [Alias](#alias)
+
 # Terraform for AWS
 Here's the direct link to the [AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) documentation. 
 
