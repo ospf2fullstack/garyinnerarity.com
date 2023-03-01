@@ -5,3 +5,19 @@ Below, you'll find resources that helped me get started or common gotchas along 
 
 # Terraform for AWS
 Here's the direct link to the [AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) documentation. 
+
+## Structure
+
+## Variables 
+
+### Variables within Child Modules
+
+## Outputs
+
+### Outputs within Child Modules
+
+# Terminal
+Some of the best things about coding come when you have the ability to customize your dev environment. 
+
+## Alias 
+`terraform plan | apply | destroy` = `tf p | a | d`
