@@ -44,6 +44,8 @@ nav:
     - "hardware/sparkfun/micromod.md"
   - Notion:
     - "notion/notion-ai.md"
+  - Terraform:
+    - "terraform/main(tf).md"
 
 
 # Extensions
