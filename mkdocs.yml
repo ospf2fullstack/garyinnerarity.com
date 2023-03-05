@@ -31,11 +31,18 @@ theme:
   language: en
   font: false
   features:
-    - navigation.tabs
+    - navigation.instant
     - navigation.sections
     - navigation.tracking
+    - navigation.expand
+    - navigation.path
+    - navigation.prune
+    - navigation.top
+    - toc.follow
+    - toc.integrate
     - search.highlight
     - search.suggest
+    - search.share
   
 
 # Plugins
@@ -71,41 +78,7 @@ extra:
     analytics: google analytics
     github: github
     
-  # add alternative language support. Must be written in that language.
-  alternate:
-    - name: English
-      link: /en/
-      lang: en
-    # - name: Deutsch
-    #   link: /de/
-    #   lang: de
-    # - name: Italian
-    #   link: /it/
-    #   lang: it
-    # - name: Korean
-    #   link: /ko/
-    #   lang: ko
-    # - name: Polish
-    #   link: /pl/
-    #   lang: pl
-    # - name: Romainian
-    #   link: /ro/
-    #   lang: ro
-    # - name: Dutch
-    #   link: /nl/
-    #   lang: nl
-    # - name: French
-    #   link: /fr/
-    #   lang: fr
-    # - name: German
-    #   link: /de/
-    #   lang: de
-    # - name: Hindi
-    #   link: /hi/
-    #   lang: hi
-    # - name: Spanish
-    #   link: /es/
-    #   lang: es
+
 
 # Navigation
 nav:
