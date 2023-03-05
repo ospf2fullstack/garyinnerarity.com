@@ -75,9 +75,10 @@ extra:
       find what they're searching for. With your consent, you're helping us to
       make our documentation better.
   cookies:
-    analytics: google analytics
+    analytics:
+      provider: google
+      property: UA-86188510-4
     github: github
-    
 
 
 # Navigation
