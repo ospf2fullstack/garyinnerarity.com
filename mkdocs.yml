@@ -66,6 +66,33 @@ extra:
     - name: Deutsch
       link: /de/
       lang: de
+    - name: Italian
+      link: /it/
+      lang: it
+    - name: Korean
+      link: /ko/
+      lang: ko
+    - name: Polish
+      link: /pl/
+      lang: pl
+    - name: Romainian
+      link: /ro/
+      lang: ro
+    - name: Dutch
+      link: /nl/
+      lang: nl
+    - name: French
+      link: /fr/
+      lang: fr
+    - name: German
+      link: /de/
+      lang: de
+    - name: Hindi
+      link: /hi/
+      lang: hi
+    - name: Spanish
+      link: /es/
+      lang: es
 
 # Navigation
 nav:
