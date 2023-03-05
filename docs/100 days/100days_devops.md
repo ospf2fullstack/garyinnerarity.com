@@ -4,4 +4,3 @@
 # 100 Days of DevOps
 ## Origination
 You can access a forked version [here](https://github.com/ospf2fullstack/100daysofdevops)
-
