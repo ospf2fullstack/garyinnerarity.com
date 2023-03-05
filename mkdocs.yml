@@ -12,13 +12,15 @@ theme:
   palette: 
 
     # Palette toggle for light mode
-    - scheme: blue
+    - media: "(prefers-color-scheme: light)"
+      scheme: blue
       toggle:
         icon: material/lightbulb
         name: Switch to light mode
 
     # Palette toggle for dark mode
-    - scheme: slate
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
       toggle:
         icon: material/lightbulb-outline
         name: Switch to dark mode
