@@ -77,7 +77,7 @@ extra:
   cookies:
     analytics:
       provider: google
-      property: UA-86188510-4
+      property: G-356552642
     github: github
 
 # Navigation
