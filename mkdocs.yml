@@ -39,12 +39,11 @@ nav:
       - "100_days/100days_devops.md"
     - Cloud Resume Challege:
       - "cloud_resume/cloud_resume_challenge.md"
-    - Dev Ops Tools:
-      - "devops/devops_tools.md"
+  - DevOps Tools:
+    - "devops/devops_tools.md"
+    - "gitlab/gitlab.md"
   - AWS: 
     - "aws/AWS-IoT.md"
-  - GitLab:
-    - "gitlab/gitlab.md"
   - Hardware:
     - "hardware/compute_blade/compute_blade.md"
     - "hardware/raspberry_pi/raspberry_pi.md"
