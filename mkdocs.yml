@@ -34,6 +34,7 @@ plugins:
 # Navigation
 nav:
   - Home: index.md
+  - 100 Days: "100_days/100days_devops.md"
   - AWS: 
     - "aws/AWS-IoT.md"
   - GitLab:

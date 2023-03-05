@@ -10,7 +10,6 @@ My name is [Gary@ospf2fullstack](## "Technologist").
 [LinkedIn](https://www.linkedin.com/in/ginnerarity/){ .md-button}
 >  - 🔭 I’m currently working on Digital Twins. 
 >  - 🌱 Learning Terraform, Kubernetes and Javascript and all things DevOps.
->  - ⚡ Fun fact: I'm addicted to learning and progressing. 
 
 ---
 
