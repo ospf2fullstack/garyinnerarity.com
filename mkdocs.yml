@@ -9,6 +9,8 @@ docs_dir: docs
 
 theme:
   name: material
+  palette:
+    scheme: slate
   logo: ../assets/img/gary.jpg
   icon:
     repo: fontawesome/brands/github-alt
