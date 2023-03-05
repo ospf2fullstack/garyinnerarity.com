@@ -80,7 +80,6 @@ extra:
       property: UA-86188510-4
     github: github
 
-
 # Navigation
 nav:
   - Home: index.md
