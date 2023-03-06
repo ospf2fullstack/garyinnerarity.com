@@ -83,6 +83,8 @@ extra:
 # Navigation
 nav:
   - Home: index.md
+  - AWS: 
+    - "aws/AWS-IoT.md"
   - Challenges:
     - 100 Days:
       - "100_days/100days_devops.md"
@@ -91,15 +93,12 @@ nav:
   - DevOps Tools:
     - "devops/devops_tools.md"
     - "gitlab/gitlab.md"
-  - AWS: 
-    - "aws/AWS-IoT.md"
+    - "terraform/main(tf).md"
   - Hardware:
     - "hardware/compute_blade/compute_blade.md"
     - "hardware/raspberry_pi/raspberry_pi.md"
     - "hardware/sparkfun/micromod.md"
   - Notion:
     - "notion/notion-ai.md"
-  - Terraform:
-    - "terraform/main(tf).md"
 
 
