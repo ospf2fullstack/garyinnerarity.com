@@ -91,5 +91,7 @@ nav:
     - "hardware/sparkfun/micromod.md"
   - Notion:
     - "notion/notion-ai.md"
+  - Recovery:
+    - "recovery/backup_recovery.md"
 
 
