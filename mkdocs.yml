@@ -10,7 +10,7 @@ docs_dir: docs
 theme:
   name: material
   palette: 
-    scheme: slate
+    scheme: default
     accent: blue
   logo: ../assets/img/gary.jpg
   favicon: ../assets/img/gary.jpg
