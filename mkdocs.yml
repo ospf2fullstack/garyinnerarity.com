@@ -75,6 +75,7 @@ nav:
   - Home: index.md
   - AWS: 
     - "aws/AWS-IoT.md"
+    - "aws/eks.md"
   - Challenges:
     - 100 Days:
       - "100_days/100days_devops.md"
