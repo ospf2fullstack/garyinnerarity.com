@@ -14,7 +14,7 @@ My name is [Gary@ospf2fullstack](## "Technologist").
 ---
 
 
-## My [Site] ToDo
+## My ToDo
     - [x] Build out Materials mkdocs site
     - [x] Migrate Basic information and Domain
     - [ ] Migrate historical documentation
