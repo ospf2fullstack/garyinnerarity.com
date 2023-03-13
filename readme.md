@@ -10,3 +10,4 @@ This is my site, completely generated with mkdocs.
 > `mkdocs build`
 > `mkdocs serve`
 
+# Obsidian Backend with MKDocs Frontend
