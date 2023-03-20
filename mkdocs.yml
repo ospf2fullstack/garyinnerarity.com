@@ -14,13 +14,13 @@ theme:
   # toggle for light mode
   - scheme: default
     toggle:
-      icon: material/brightness-7
+      icon: material/lightbulb
       name: Switch to dark mode
 
   # toggle for dark mode
   - scheme: slate
     toggle:
-      icon: material/brightness-4
+      icon: material/lightbulb-outline
       name: Switch to light mode
   logo: ../assets/img/gary.jpg
   favicon: ../assets/img/gary.jpg
