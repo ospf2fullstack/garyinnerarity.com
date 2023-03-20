@@ -5,13 +5,6 @@ My name is [Gary@ospf2fullstack](## "Technologist").
 ??? tip
         "There are no secrets, just stuff you haven't learned yet."
 
-```Yaml
-Testing 
-```
-```console
-// Go to the home directory
-$ cd
-```
 
 ## Virtual Meet and Greet 
 [LinkedIn](https://www.linkedin.com/in/ginnerarity/){ .md-button}
