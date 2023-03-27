@@ -9,6 +9,7 @@ Your resume needs to have the AWS Cloud Practitioner certification on it. This i
 [//]: <> (Admonitions: https://squidfunk.github.io/mkdocs-material/reference/admonitions/)
 ??? obtained
         <img src="./../assets/img/AWS_CloudPract.png" alt="gary innerarity aws cloud practitioner" height="250">
+        ![](../assets/img/AWS_CloudPract.png)
 
 2. HTML
 Your resume needs to be written in HTML. Not a Word doc, not a PDF. Here is an example of what I mean.
