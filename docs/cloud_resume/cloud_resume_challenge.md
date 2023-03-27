@@ -7,7 +7,8 @@
   - [CSS Code](#css-code)
 - [Static Website](#static-website)
   - [Terraform](#terraform)
-  - [Pipelines (the dirty type)](#pipelines-the-dirty-type)
+  - [Pipelines (the dirty type :smile: )](#pipelines-the-dirty-type-smile-)
+  - [CNAME](#cname)
 ---
 # Cloud Resume Challenge for AWS
 [Original Challenge Link](https://cloudresumechallenge.dev/docs/the-challenge/aws/){ .md-button }
@@ -75,6 +76,8 @@ p {
 :heavy_check_mark: Static Website
 Your HTML resume should be deployed online as an Amazon S3 static website. Services like Netlify and GitHub Pages are great and I would normally recommend them for personal static site deployments, but they make things a little too abstract for our purposes here. Use S3.
 
+
+
 > Make it harder! Deploy s3 with terraform :smile:
 
 ## Terraform 
@@ -105,8 +108,43 @@ resource "aws_s3_bucket_public_access_block" "innerarity-allow-public" {
   restrict_public_buckets = false
 }
 ```
-## Pipelines (the dirty type)
+## Pipelines (the dirty type :smile: )
+``` yaml
+name: SyncHub2S3
 
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # https://github.com/marketplace/actions/s3-sync 
+    steps:
+      - uses: actions/checkout@master
+      - uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete --exclude '.git/*' --exclude '.github/*'
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          SOURCE_DIR: '.'
+```
+
+## CNAME 
+This part is VERY easy if you have AWS Route53 as your DNS provider and registrar - which I do, but I also use CloudFlare to make my life a pain in the ass... So, at the moment, I'm using CloudFlare as my registrar. 
+
+So, point the sub-domain to the s3 bucket address with a CNAME record: 
+``` shell
+CNAME awscloudresumechallenge -> awscloudresumechallenge.garyinnerarity.com.s3-website-us-east-1.amazonaws.com 
+```
+
+If you have the AWS account, use the `a` record to create an alias to the s3 service. 
 
 [ ] HTTPS
 The S3 website URL should use HTTPS for security. You will need to use Amazon CloudFront to help with this.
