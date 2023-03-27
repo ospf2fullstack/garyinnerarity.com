@@ -83,26 +83,26 @@ extra:
 # Navigation
 nav:
   - Home: index.md
-  - AWS: 
-    - "aws/AWS-IoT.md"
-    - "aws/eks.md"
+  # - AWS: 
+  #   - "aws/AWS-IoT.md"
+  #   - "aws/eks.md"
   - Challenges:
-    - 100 Days:
-      - "100_days/100days_devops.md"
+    # - 100 Days:
+    #   - "100_days/100days_devops.md"
     - Cloud Resume Challege:
       - "cloud_resume/cloud_resume_challenge.md"
       
-  - DevOps Tools:
-    - "devops/devops_tools.md"
-    - "gitlab/gitlab.md"
-    - "terraform/main(tf).md"
-  - Hardware:
-    - "hardware/compute_blade/compute_blade.md"
-    - "hardware/raspberry_pi/raspberry_pi.md"
-    - "hardware/sparkfun/micromod.md"
-  - Notion:
-    - "notion/notion-ai.md"
-  - Recovery:
-    - "recovery/backup_recovery.md"
+  # - DevOps Tools:
+  #   - "devops/devops_tools.md"
+  #   - "gitlab/gitlab.md"
+  #   - "terraform/main(tf).md"
+  # - Hardware:
+  #   - "hardware/compute_blade/compute_blade.md"
+  #   - "hardware/raspberry_pi/raspberry_pi.md"
+  #   - "hardware/sparkfun/micromod.md"
+  # - Notion:
+  #   - "notion/notion-ai.md"
+  # - Recovery:
+  #   - "recovery/backup_recovery.md"
 
 
