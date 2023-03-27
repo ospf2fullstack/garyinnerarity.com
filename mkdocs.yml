@@ -43,6 +43,8 @@ theme:
     - search.highlight
     - search.suggest
     - search.share
+    - content.code.select # select code from code block
+    - content.code.copy   # copy code from code block
   
 
 # Plugins
