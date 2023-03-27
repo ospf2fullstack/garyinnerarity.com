@@ -9,5 +9,3 @@ This is my site, completely generated with mkdocs.
 > `pip install plugins`
 > `mkdocs build`
 > `mkdocs serve`
-
-# Obsidian Backend with MKDocs Frontend

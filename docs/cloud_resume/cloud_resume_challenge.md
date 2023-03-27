@@ -1,24 +1,11 @@
-- [Cloud Resume Challenge for AWS](#cloud-resume-challenge-for-aws)
-- [Certification](#certification)
-  - [Pre-req](#pre-req)
-- [The HTML](#the-html)
-  - [HTML Code](#html-code)
-- [The CSS](#the-css)
-  - [CSS Code](#css-code)
-- [Static Website](#static-website)
-  - [Terraform](#terraform)
-  - [Pipelines (the dirty type :smile: )](#pipelines-the-dirty-type-smile-)
-  - [CNAME](#cname)
-
 ``` mermaid
 graph LR
-    A[Project] --> B{Bored?};
-    B --> |Yes| C[Get to fuckingwork!];
-    C --> D[Do A Challenge];
+    A[CRC] --> B{Ready?};
+    B --> |Yes| C[Keep Reading!];
+    C --> D[Cloud Resume Challenge];
     D --> B;
-    B ----> |No| E[Keep Raising the Bar!];
+    B ----> |No| E[Loser.];
     E --> B;
-
 ```
 
 ---
