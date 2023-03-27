@@ -1,14 +1,12 @@
-- [Cloud Resume Challenge for AWS](#cloud-resume-challenge-for-aws)
-
 # Cloud Resume Challenge for AWS
-[Original-Challenge](https://cloudresumechallenge.dev/docs/the-challenge/aws/){ .md-button }
+[Original Challenge Link](https://cloudresumechallenge.dev/docs/the-challenge/aws/){ .md-button }
 
-[Completed Project](https://ospf2fullstack.github.io/garyinnerarity/){ .md-button }
+[My Completed Project](https://ospf2fullstack.github.io/garyinnerarity/){ .md-button }
 
 
-- [x] [Certification](https://github.com/ospf2fullstack/docs/blob/main/docs/assets/img/AWS_CloudPract.png?raw=true)
+:heavy_check_mark: [Certification](https://github.com/ospf2fullstack/docs/blob/main/docs/assets/img/AWS_CloudPract.png?raw=true)
 Your resume needs to have the AWS Cloud Practitioner certification on it. This is an introductory certification that orients you on the industry-leading AWS cloud.
-!!! proof ""
+
 ![AWS CCP](../assets/img/AWS_CloudPract.png){ loading=lazy }
 
 1. HTML
