@@ -91,6 +91,7 @@ nav:
       - "100_days/100days_devops.md"
     - Cloud Resume Challege:
       - "cloud_resume/cloud_resume_challenge.md"
+      
   - DevOps Tools:
     - "devops/devops_tools.md"
     - "gitlab/gitlab.md"
