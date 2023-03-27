@@ -3,14 +3,20 @@
 
 [My Completed Project](https://ospf2fullstack.github.io/garyinnerarity/){ .md-button }
 
+- [Certification](#certification)
+- 
 
+# Certification 
+## Pre-req
 :heavy_check_mark: [Certification](https://github.com/ospf2fullstack/docs/blob/main/docs/assets/img/AWS_CloudPract.png?raw=true)
 Your resume needs to have the AWS Cloud Practitioner certification on it. This is an introductory certification that orients you on the industry-leading AWS cloud.
 
 ![AWS CCP](../assets/img/AWS_CloudPract.png){ loading=lazy }
 
+# The HTML
 :heavy_check_mark: HTML
 Your resume needs to be written in HTML. Not a Word doc, not a PDF. Here is an example of what I mean.
+## HTML Code
 ```html
 <html>
     <body>
@@ -20,6 +26,7 @@ Your resume needs to be written in HTML. Not a Word doc, not a PDF. Here is an e
 </html>
 ```
 
+# The CSS
 :heavy_check_mark: CSS
 Your resume needs to be styled with CSS. No worries if you’re not a designer – neither am I. It doesn’t have to be fancy. But we need to see something other than raw HTML when we open the webpage.
 ```css
@@ -54,10 +61,12 @@ p {
 }
 ```
 
-[ ] Static Website
+:heavy_check_mark: Static Website
 Your HTML resume should be deployed online as an Amazon S3 static website. Services like Netlify and GitHub Pages are great and I would normally recommend them for personal static site deployments, but they make things a little too abstract for our purposes here. Use S3.
 
 > Make it harder! Deploy s3 with terraform :smile:
+
+## Terraform 
 ``` yaml
 # create le bucket
 resource "aws_s3_bucket" "awscloudresumechallenge" {
