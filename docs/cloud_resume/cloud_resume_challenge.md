@@ -5,10 +5,8 @@
 
 - [x] [Certification](https://github.com/ospf2fullstack/docs/blob/main/docs/assets/img/AWS_CloudPract.png?raw=true)
 Your resume needs to have the AWS Cloud Practitioner certification on it. This is an introductory certification that orients you on the industry-leading AWS cloud.
-
-[//]: <> (Admonitions: https://squidfunk.github.io/mkdocs-material/reference/admonitions/)
-??? obtained
-        ![AWS CCP](../assets/img/AWS_CloudPract.png)
+!!! proof ""
+![AWS CCP](../assets/img/AWS_CloudPract.png){ loading=lazy }
 
 1. HTML
 Your resume needs to be written in HTML. Not a Word doc, not a PDF. Here is an example of what I mean.
