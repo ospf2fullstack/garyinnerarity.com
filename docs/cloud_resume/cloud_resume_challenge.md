@@ -3,9 +3,11 @@
 # Cloud Resume Challenge for AWS
 URL Ref: https://cloudresumechallenge.dev/docs/the-challenge/aws/ 
 1. Certification
-Your resume needs to have the AWS Cloud Practitioner certification on it. This is an introductory certification that orients you on the industry-leading AWS cloud – if you have a more advanced AWS cert, that’s fine but not expected. You can sit this exam online for $100 USD. A Cloud Guru offers exam prep resources.
+Your resume needs to have the AWS Cloud Practitioner certification on it. This is an introductory certification that orients you on the industry-leading AWS cloud.
 
-??? tip ![AWS Practitioner](./../assets/img/AWS_CloudPract.png "AWS Cloud Practitioner - Gary Innerarity")
+[//]: <> (Admonitions: https://squidfunk.github.io/mkdocs-material/reference/admonitions/)
+??? tip
+        ![AWS Practitioner](./../assets/img/AWS_CloudPract.png "AWS Cloud Practitioner - Gary Innerarity")
 
 1. HTML
 Your resume needs to be written in HTML. Not a Word doc, not a PDF. Here is an example of what I mean.
