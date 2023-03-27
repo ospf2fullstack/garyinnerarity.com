@@ -9,12 +9,50 @@ Your resume needs to have the AWS Cloud Practitioner certification on it. This i
 
 ![AWS CCP](../assets/img/AWS_CloudPract.png){ loading=lazy }
 
-[ ] HTML
+:heavy_check_mark: HTML
 Your resume needs to be written in HTML. Not a Word doc, not a PDF. Here is an example of what I mean.
+```html
+<html>
+    <body>
+        <h1>My Name, </h1>
+        <p>Some beautiful information about me. </p>
+    </body>
+</html>
+```
 
-
-[ ] CSS
+:heavy_check_mark: CSS
 Your resume needs to be styled with CSS. No worries if you’re not a designer – neither am I. It doesn’t have to be fancy. But we need to see something other than raw HTML when we open the webpage.
+```css
+body {
+  font-family: "Georgia";
+  background: #2980b9;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+h1 {
+  color: white;
+  font-size: 2em;
+  font-weight: 100;
+  letter-spacing: 0.2em;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+p {
+  color: white;
+  font-size: 1em;
+  font-weight: 100;
+  letter-spacing: 0.2em;
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+```
 
 [ ] Static Website
 Your HTML resume should be deployed online as an Amazon S3 static website. Services like Netlify and GitHub Pages are great and I would normally recommend them for personal static site deployments, but they make things a little too abstract for our purposes here. Use S3.
