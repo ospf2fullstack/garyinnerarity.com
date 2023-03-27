@@ -68,6 +68,7 @@ markdown_extensions:
   - footnotes
   - toc:
       permalink: true
+      toc_depth: 3
 
 extra:
   homepage: https://garyinnerarity.com # this is default behavior for clicking logo
