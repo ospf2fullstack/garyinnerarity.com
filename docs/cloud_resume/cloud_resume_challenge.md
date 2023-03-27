@@ -2,6 +2,7 @@
 
 # Cloud Resume Challenge for AWS
 [Original] (https://cloudresumechallenge.dev/docs/the-challenge/aws/) 
+
 1. Certification
 Your resume needs to have the AWS Cloud Practitioner certification on it. This is an introductory certification that orients you on the industry-leading AWS cloud.
 
