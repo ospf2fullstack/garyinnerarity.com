@@ -135,21 +135,24 @@ jobs:
           SOURCE_DIR: '.'
 ```
 
-## CNAME 
+If you have the AWS account, use the `a` record to create an alias to the s3 service. 
+
+# HTTPS
+:heavy_check_mark: HTTPS
+The S3 website URL should use HTTPS for security. You will need to use Amazon CloudFront to help with this.
+
+`AWS Certificate Manager is your friend.`
+
+# CNAME
+:heavy_check_mark: DNS
+Point a custom DNS domain name to the CloudFront distribution, so your resume can be accessed at something like my-c00l-resume-website.com. You can use Amazon Route 53 or any other DNS provider for this. A domain name usually costs about ten bucks to register.
+
 This part is VERY easy if you have AWS Route53 as your DNS provider and registrar - which I do, but I also use CloudFlare to make my life a pain in the ass... So, at the moment, I'm using CloudFlare as my registrar. 
 
 So, point the sub-domain to the s3 bucket address with a CNAME record: 
 ``` shell
 CNAME awscloudresumechallenge -> awscloudresumechallenge.garyinnerarity.com.s3-website-us-east-1.amazonaws.com 
 ```
-
-If you have the AWS account, use the `a` record to create an alias to the s3 service. 
-
-[ ] HTTPS
-The S3 website URL should use HTTPS for security. You will need to use Amazon CloudFront to help with this.
-
-[ ] DNS
-Point a custom DNS domain name to the CloudFront distribution, so your resume can be accessed at something like my-c00l-resume-website.com. You can use Amazon Route 53 or any other DNS provider for this. A domain name usually costs about ten bucks to register.
 
 [ ] Javascript
 Your resume webpage should include a visitor counter that displays how many people have accessed the site. You will need to write a bit of Javascript to make this happen. Here is a helpful tutorial to get you started in the right direction.
