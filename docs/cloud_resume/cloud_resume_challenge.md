@@ -1,11 +1,7 @@
 ``` mermaid
-graph LR
-    A[CRC] --> B{Ready?};
-    B --> |Yes| C[Keep Reading!];
-    C --> D[Cloud Resume Challenge];
-    D --> B;
-    B ----> |No| E[Loser.];
-    E --> B;
+sequenceDiagram
+    autonumber
+    Cloud Resume Challenge ->> Static Site : Code
 ```
 
 ---
