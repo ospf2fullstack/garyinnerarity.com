@@ -66,6 +66,8 @@ markdown_extensions:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
   - footnotes
+  - toc:
+      permalink: true
 
 extra:
   homepage: https://garyinnerarity.com # this is default behavior for clicking logo
