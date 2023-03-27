@@ -9,6 +9,18 @@
   - [Terraform](#terraform)
   - [Pipelines (the dirty type :smile: )](#pipelines-the-dirty-type-smile-)
   - [CNAME](#cname)
+
+``` mermaid
+graph LR
+    A[Project] --> B{Bored?};
+    B --> |Yes| C[Get to fuckingwork!];
+    C --> D[Do A Challenge];
+    D --> B;
+    B ----> |No| E[Keep Raising the Bar!];
+    E --> B;
+
+```
+
 ---
 # Cloud Resume Challenge for AWS
 [Original Challenge Link](https://cloudresumechallenge.dev/docs/the-challenge/aws/){ .md-button }
