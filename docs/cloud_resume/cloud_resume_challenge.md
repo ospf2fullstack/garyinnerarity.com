@@ -1,10 +1,18 @@
+- [Cloud Resume Challenge for AWS](#cloud-resume-challenge-for-aws)
+- [Certification](#certification)
+  - [Pre-req](#pre-req)
+- [The HTML](#the-html)
+  - [HTML Code](#html-code)
+- [The CSS](#the-css)
+  - [CSS Code](#css-code)
+- [Static Website](#static-website)
+  - [Terraform](#terraform)
+  - [Pipelines (the dirty type)](#pipelines-the-dirty-type)
+---
 # Cloud Resume Challenge for AWS
 [Original Challenge Link](https://cloudresumechallenge.dev/docs/the-challenge/aws/){ .md-button }
 
 [My Completed Project](https://ospf2fullstack.github.io/garyinnerarity/){ .md-button }
-
-- [Certification](#certification)
-- 
 
 # Certification 
 ## Pre-req
@@ -16,6 +24,7 @@ Your resume needs to have the AWS Cloud Practitioner certification on it. This i
 # The HTML
 :heavy_check_mark: HTML
 Your resume needs to be written in HTML. Not a Word doc, not a PDF. Here is an example of what I mean.
+
 ## HTML Code
 ```html
 <html>
@@ -29,6 +38,8 @@ Your resume needs to be written in HTML. Not a Word doc, not a PDF. Here is an e
 # The CSS
 :heavy_check_mark: CSS
 Your resume needs to be styled with CSS. No worries if you’re not a designer – neither am I. It doesn’t have to be fancy. But we need to see something other than raw HTML when we open the webpage.
+
+## CSS Code
 ```css
 body {
   font-family: "Georgia";
@@ -60,13 +71,14 @@ p {
   transform: translate3d(-50%, -50%, 0);
 }
 ```
-
+# Static Website
 :heavy_check_mark: Static Website
 Your HTML resume should be deployed online as an Amazon S3 static website. Services like Netlify and GitHub Pages are great and I would normally recommend them for personal static site deployments, but they make things a little too abstract for our purposes here. Use S3.
 
 > Make it harder! Deploy s3 with terraform :smile:
 
 ## Terraform 
+
 ``` yaml
 # create le bucket
 resource "aws_s3_bucket" "awscloudresumechallenge" {
@@ -93,6 +105,8 @@ resource "aws_s3_bucket_public_access_block" "innerarity-allow-public" {
   restrict_public_buckets = false
 }
 ```
+## Pipelines (the dirty type)
+
 
 [ ] HTTPS
 The S3 website URL should use HTTPS for security. You will need to use Amazon CloudFront to help with this.
