@@ -6,7 +6,7 @@ URL Ref: https://cloudresumechallenge.dev/docs/the-challenge/aws/
 Your resume needs to have the AWS Cloud Practitioner certification on it. This is an introductory certification that orients you on the industry-leading AWS cloud.
 
 [//]: <> (Admonitions: https://squidfunk.github.io/mkdocs-material/reference/admonitions/)
-??? tip
+??? obtained!
         ![AWS Practitioner](./../assets/img/AWS_CloudPract.png "AWS Cloud Practitioner - Gary Innerarity")
 
 1. HTML
