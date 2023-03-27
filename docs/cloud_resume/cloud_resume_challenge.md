@@ -57,6 +57,34 @@ p {
 [ ] Static Website
 Your HTML resume should be deployed online as an Amazon S3 static website. Services like Netlify and GitHub Pages are great and I would normally recommend them for personal static site deployments, but they make things a little too abstract for our purposes here. Use S3.
 
+> Make it harder! Deploy s3 with terraform :smile:
+``` yaml
+# create le bucket
+resource "aws_s3_bucket" "awscloudresumechallenge" {
+  bucket = "awscloudresumechallenge.garyinnerarity.com"
+}
+
+# create static website configuration (attahc to bucket)
+resource "aws_s3_bucket_website_configuration" "awscloudresumechallengeconfig" {
+  bucket = var.awscloudresumechallenge
+  
+  index_document {
+    suffix = "index.html"
+  }
+
+}
+
+# attach policy to s3 bucket that is le static website 
+resource "aws_s3_bucket_public_access_block" "innerarity-allow-public" {
+  bucket = var.awscloudresumechallenge
+
+  block_public_acls = false
+  block_public_policy = false
+  ignore_public_acls = false
+  restrict_public_buckets = false
+}
+```
+
 [ ] HTTPS
 The S3 website URL should use HTTPS for security. You will need to use Amazon CloudFront to help with this.
 
