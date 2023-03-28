@@ -149,12 +149,43 @@ So, point the sub-domain to the s3 bucket address with a CNAME record:
 ``` shell
 CNAME awscloudresumechallenge -> awscloudresumechallenge.garyinnerarity.com.s3-website-us-east-1.amazonaws.com 
 ```
-
-[ ] Javascript
+# JavaScript
+:heavy_check_mark: Javascript
 Your resume webpage should include a visitor counter that displays how many people have accessed the site. You will need to write a bit of Javascript to make this happen. Here is a helpful tutorial to get you started in the right direction.
 
-[ ] Database
+```js
+// the basics - below in the api section i'll included updated code
+    var counterContainer = document.querySelector(".visitorcounter");
+    var visitCount = localStorage.getItem("page_view");
+    visitCount = 100013;
+
+    //add entry for key="page_view"
+    localStorage.setItem("page_view", 1);
+    
+    visitCount = Number(visitCount) + 1;
+
+    //update local storage value
+    localStorage.setItem("page_view", visitCount);
+
+    counterContainer.innerHTML = visitCount;
+```
+
+# Database (dynamodb)
+:heavy_check_mark: Database
 The visitor counter will need to retrieve and update its count in a database somewhere. I suggest you use Amazon’s DynamoDB for this. (Use on-demand pricing for the database and you’ll pay essentially nothing, unless you store or retrieve much more data than this project requires.) Here is a great free course on DynamoDB.
+
+```js
+// dynamodb configuration
+{
+  "VisitorID": {
+    "S": ""
+  },
+  "CreationDate": {
+    "S": ""
+  }
+}
+```
+
 
 [ ] API
 Do not communicate directly with DynamoDB from your Javascript code. Instead, you will need to create an API that accepts requests from your web app and communicates with the database. I suggest using AWS’s API Gateway and Lambda services for this. They will be free or close to free for what we are doing.
