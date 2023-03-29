@@ -1,5 +1,5 @@
 # Hello 👋
-My name is [Gary@ospf2fullstack](## "Technologist"). 
+My name is Gary Doing fun things as [@ospf2fullstack](#)
 
 ![Hub Stats](https://github-readme-stats.vercel.app/api?username=ospf2fullstack&show_icons=true&hide_title=true&theme=solarized-dark&count_private=true&hide=stars)
     - ![Hub Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=ospf2fullstack&hide=TeX&layout=compact)
@@ -34,4 +34,5 @@ My name is [Gary@ospf2fullstack](## "Technologist").
 > - Blades (coming soon)
 
 ---
+
 
