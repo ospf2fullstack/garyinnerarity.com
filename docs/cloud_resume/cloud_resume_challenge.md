@@ -186,9 +186,11 @@ The visitor counter will need to retrieve and update its count in a database som
 }
 ```
 
-
-[ ] API
+# API
+:heavy_check_mark: API
 Do not communicate directly with DynamoDB from your Javascript code. Instead, you will need to create an API that accepts requests from your web app and communicates with the database. I suggest using AWS’s API Gateway and Lambda services for this. They will be free or close to free for what we are doing.
+
+>[Look, I followed this okay.](https://aws.amazon.com/blogs/compute/using-amazon-api-gateway-as-a-proxy-for-dynamodb/), don't forget to create your IAM role before making your REST API. 
 
 [ ] Python
 You will need to write a bit of code in the Lambda function; you could use more Javascript, but it would be better for our purposes to explore Python – a common language used in back-end programs and scripts – and its boto3 library for AWS. Here is a good, free Python tutorial.
