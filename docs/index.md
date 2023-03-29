@@ -1,6 +1,8 @@
 # Hello 👋
 My name is [Gary@ospf2fullstack](## "Technologist"). 
 
+![Hub Stats](https://github-readme-stats.vercel.app/api?username=ospf2fullstack&show_icons=true&hide_title=true&theme=solarized-dark&count_private=true&hide=stars)
+    - ![Hub Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=ospf2fullstack&hide=TeX&layout=compact)
 [//]: <> (Admonitions: https://squidfunk.github.io/mkdocs-material/reference/admonitions/)
 ??? quote
         "Everything fails, all the time" ~ Dr. Werner Vogels
@@ -32,6 +34,4 @@ My name is [Gary@ospf2fullstack](## "Technologist").
 > - Blades (coming soon)
 
 ---
-## Github Stats
-![Hub Stats](https://github-readme-stats.vercel.app/api?username=ospf2fullstack&show_icons=true&hide_title=true&theme=solarized-dark&count_private=true&hide=stars)
-    - ![Hub Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=ospf2fullstack&hide=TeX&layout=compact)
+
