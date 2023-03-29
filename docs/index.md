@@ -2,7 +2,7 @@
 My name is [Gary@ospf2fullstack](## "Technologist"). 
 
 [//]: <> (Admonitions: https://squidfunk.github.io/mkdocs-material/reference/admonitions/)
-??? tip
+??? quote
         "Everything fails, all the time" ~ Dr. Werner Vogels
 
 
