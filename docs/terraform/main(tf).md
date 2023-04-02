@@ -2,12 +2,10 @@
 - [Table of Contents](#table-of-contents)
 - [Terraform](#terraform)
 - [Terraform for AWS](#terraform-for-aws)
-  - [Structure](#structure)
-  - [Variables](#variables)
-    - [Variables within Child Modules](#variables-within-child-modules)
-  - [Outputs](#outputs)
-    - [Outputs within Child Modules](#outputs-within-child-modules)
-- [Terminal](#terminal)
+- [Structure](#structure)
+  - [Main.tf](#maintf)
+  - [Variables.tf](#variablestf)
+  - [Outputs.tf](#outputstf)
   - [Alias](#alias)
 - [Random Gotchas](#random-gotchas)
   - [Move State (aka., for a specific resource)](#move-state-aka-for-a-specific-resource)
@@ -21,18 +19,16 @@ Below, you'll find resources that helped me get started or common gotchas along 
 # Terraform for AWS
 Here's the direct link to the [AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) documentation. 
 
-## Structure
+# Structure
+## Main.tf
+This is where you will declare. 
 
-## Variables 
+## Variables.tf
+Input variables... it should be `input.tf` 
 
-### Variables within Child Modules
 
-## Outputs
-
-### Outputs within Child Modules
-
-# Terminal
-Some of the best things about coding come when you have the ability to customize your dev environment. 
+## Outputs.tf
+Output variables, that will be spit into the terminal after `terraform apply`
 
 ## Alias 
 `terraform plan | apply | destroy` = `tf p | a | d`
