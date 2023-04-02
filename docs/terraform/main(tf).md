@@ -40,7 +40,7 @@ Some of the best things about coding come when you have the ability to customize
 # Random Gotchas
 ## Move State (aka., for a specific resource)
 Today, I decided to refactor my folder structure by deployment instead of 'service'. So originally, I had all of my S3 service configured in `/modues/s3/`, but now I wanted them to be in `/modules/whateverdeployment/`. I rebuilt everything thing and hit the `terraform plan` with all of my buckets flagged for delete! 
-Terraform doesn't know that it changed because programatically, it's listed as `module.s3.aws_s3_bucket.my_bucket_name` and the new resource is `module.my_deployment.aws_s3_bucket.my_bucket_name`... did you see that "s3" is now "my_deployment". That's what we are fixing here. 
+Terraform doesn't know that it changed because programmatically, it's listed as `module.s3.aws_s3_bucket.my_bucket_name` and the new resource is `module.my_deployment.aws_s3_bucket.my_bucket_name`... did you see that "s3" is now "my_deployment". That's what we are fixing here. 
 
 Use the move command to migrate the state to the new module. 
 
