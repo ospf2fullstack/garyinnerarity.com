@@ -96,10 +96,10 @@ nav:
     #   - "100_days/100days_devops.md"
       - "cloud_resume/cloud_resume_challenge.md"
       
-  # - DevOps Tools:
+  - DevOps Tools:
   #   - "devops/devops_tools.md"
   #   - "gitlab/gitlab.md"
-  #   - "terraform/main(tf).md"
+    - "terraform/main(tf).md"
   # - Hardware:
   #   - "hardware/compute_blade/compute_blade.md"
   #   - "hardware/raspberry_pi/raspberry_pi.md"
