@@ -1,5 +1,4 @@
-# Table of Contents
-- [Table of Contents](#table-of-contents)
+# Terraform
 - [Terraform](#terraform)
 - [Terraform for AWS](#terraform-for-aws)
 - [Structure](#structure)
@@ -10,8 +9,6 @@
 - [Random Gotchas](#random-gotchas)
   - [Move State (aka., for a specific resource)](#move-state-aka-for-a-specific-resource)
 
-
-# Terraform 
 Terraform offers a lot of great resources on their website which covers [installation, building and destroying infrastructure](https://developer.hashicorp.com/tutorials/library?product=terraform). 
 
 Below, you'll find resources that helped me get started or common gotchas along the way. 
