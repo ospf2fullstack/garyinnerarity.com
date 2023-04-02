@@ -9,6 +9,8 @@
     - [Outputs within Child Modules](#outputs-within-child-modules)
 - [Terminal](#terminal)
   - [Alias](#alias)
+- [Random Gotchas](#random-gotchas)
+  - [Move State (aka., for a specific resource)](#move-state-aka-for-a-specific-resource)
 
 
 # Terraform 
@@ -34,3 +36,14 @@ Some of the best things about coding come when you have the ability to customize
 
 ## Alias 
 `terraform plan | apply | destroy` = `tf p | a | d`
+
+# Random Gotchas
+## Move State (aka., for a specific resource)
+Today, I decided to refactor my folder structure by deployment instead of 'service'. So originally, I had all of my S3 service configured in `/modues/s3/`, but now I wanted them to be in `/modules/whateverdeployment/`. I rebuilt everything thing and hit the `terraform plan` with all of my buckets flagged for delete! 
+Terraform doesn't know that it changed because programatically, it's listed as `module.s3.aws_s3_bucket.my_bucket_name` and the new resource is `module.my_deployment.aws_s3_bucket.my_bucket_name`... did you see that "s3" is now "my_deployment". That's what we are fixing here. 
+
+Use the move command to migrate the state to the new module. 
+
+```YAML
+terraform state mv module.s3.aws_s3_bucket.my_bucketname module.my_deployment.aws_s3_bucket.my_bucket
+```
