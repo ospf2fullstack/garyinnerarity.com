@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,300,100);
 body {
   font-family: "Georgia";
-  background: #cccfd2;
+  background: #dbdddf;
   overflow: hidden;
   height: 100%;
   width: 100%;
@@ -12,7 +12,7 @@ body {
           user-select: none;
 }
 
-#particles-js, #parallax, .layer, .some-space, .some-more-space {
+#particles-js, #parallax, .layer {
   height: 100%;
   position: absolute;
   width: 100%;
@@ -23,12 +23,35 @@ body {
 }
 
 #particles-js {
-  opacity: .75;
+  opacity: 1;
 }
 
+/* Container for my Error message */
+.neumorphic-container {
+  background-color: #cccfd2; /* Match the background color */
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 10px 10px 20px #aaa, -10px -10px 20px #fff; /* Neumorphic shadows */
+  position: relative;
+  z-index: 2; /* Ensure it's above the particles */
+  max-width: 600px; /* Adjust as needed */
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center; /* To center the text within the elements */
+}
+.neumorphic-container:hover {
+background-color: #efefef; /* Slightly darker background on hover */
+}
+
+/* Name */
 h1 {
   color: rgb(0, 0, 0);
-  font-size: 2em;
+  font-size: 2em !important;
   font-weight: 100;
   letter-spacing: 0.2em;
   position: static;
@@ -37,6 +60,7 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* text */
 p {
   color: rgb(9, 9, 9);
   font-size: .75em;
@@ -50,68 +74,7 @@ p {
 
 a {
   color: rgb(0, 0, 0);
-  /* border: none; */
-  display: table;
-  position: static;
-  top: auto;
-  left: auto;
   letter-spacing: 0.05em;
   text-decoration: none;
   transition: all 200ms ease;
-  padding: 10px 15px;
-  background-color: #cccfd2;
-  border-radius: 10px;
-  box-shadow: 6px 6px 12px #aaa, -6px -6px 12px #fff;
-  margin-top: 5px;
-  margin-bottom: 25px;
-}
-
-.neumorphic-container {
-    background-color: #cccfd2; /* Match the background color */
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 10px 10px 20px #aaa, -10px -10px 20px #fff; /* Neumorphic shadows */
-    position: relative;
-    z-index: 2; /* Ensure it's above the particles */
-    max-width: 600px; /* Adjust as needed */
-    margin: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center; /* To center the text within the elements */
-}
-.neumorphic-container:hover {
-  background-color: #efefef; /* Slightly darker background on hover */
-}
-
-.some-space {
-  /* animation: rotate 18s 0.5s infinite linear reverse; */
-  box-shadow: inset 4px 4px 8px #aaa, inset -4px -4px 8px #c4bdbd; /* Inset shadows for pressed effect */
-
-}
-
-.some-more-space {
-  -webkit-animation: rotate 15s 0.1s infinite linear;
-          animation: rotate 15s 0.1s infinite linear;
-}
-
-@-webkit-keyframes rotate {
-  0% {
-    transform: rotateZ(0deg) translate3d(0, 1.5%, 0) rotateZ(0deg);
-  }
-  100% {
-    transform: rotateZ(360deg) translate3d(0, 1.5%, 0) rotateZ(-360deg);
-  }
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotateZ(0deg) translate3d(0, 1.5%, 0) rotateZ(0deg);
-  }
-  100% {
-    transform: rotateZ(360deg) translate3d(0, 1.5%, 0) rotateZ(-360deg);
-  }
 }

@@ -1,15 +1,7 @@
-$('#parallax').parallax({
-	invertX: true,
-	invertY: true,
-	scalarX: .01,
-	 frictionY: .01
-});
-
-
-particlesJS("particles-js", {
+{
   "particles": {
     "number": {
-      "value": 50,
+      "value": 350,
       "density": {
         "enable": true,
         "value_area": 1815.039575754227
@@ -100,7 +92,7 @@ particlesJS("particles-js", {
         "size": 28.42270243054708,
         "duration": 3.329516570435515,
         "opacity": 1,
-        "speed": 30
+        "speed": 3
       },
       "repulse": {
         "distance": 200,
@@ -115,4 +107,4 @@ particlesJS("particles-js", {
     }
   },
   "retina_detect": true
-});
+}
