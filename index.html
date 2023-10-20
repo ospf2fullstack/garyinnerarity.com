@@ -31,6 +31,10 @@ body {
   height: 100%;
   position: absolute;
   width: 100%;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 #particles-js {
@@ -42,10 +46,11 @@ h1 {
   font-size: 2em;
   font-weight: 100;
   letter-spacing: 0.2em;
-  position: absolute;
-  top: 47%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
+  position: static;
+  top: auto;
+  left: auto;
+  /* transform: translate3d(-50%, -50%, 0); */
+  margin-bottom: 20px;
 }
 
 p {
@@ -53,10 +58,11 @@ p {
   font-size: .75em;
   font-weight: 100;
   letter-spacing: 0.2em;
-  position: absolute;
-  top: 55%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
+  position: static;
+  top: auto;
+  left: auto;
+  /* transform: translate3d(-50%, -50%, 0); */
+  margin: 10px 0
 }
 
 a {
@@ -64,23 +70,42 @@ a {
   border: none;
   /* border: 1px solid rgb(207, 191, 191); */
   display: table;
-  position: absolute;
-  top: 61%;
-  left: 50%;
+  position: static;
+  top: auto;
+  left: auto;
   letter-spacing: 0.05em;
-  transform: translate3d(-50%, -50%, 0);
+  /* transform: translate3d(-50%, -50%, 0); */
   text-decoration: none;
   transition: all 200ms ease;
   padding: 10px 15px;
   background-color: #cccfd2;
   border-radius: 10px;
   box-shadow: 6px 6px 12px #aaa, -6px -6px 12px #fff;
+  margin: 20px;
 }
 a:hover {
   border: #2980b9;
   background: white;
   color: black;
 }
+.neumorphic-container {
+    background-color: #cccfd2; /* Match the background color */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 10px 10px 20px #aaa, -10px -10px 20px #fff; /* Neumorphic shadows */
+    position: relative;
+    z-index: 2; /* Ensure it's above the particles */
+    max-width: 600px; /* Adjust as needed */
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* To center the text within the elements */
+}
+
 
 .some-space {
   /* animation: rotate 18s 0.5s infinite linear reverse; */
@@ -117,141 +142,25 @@ a:hover {
   <div id="parallax">
     <div class="layer" data-depth="0.6">
       <div class="some-space">
-        <h1>Gary I., MBA</h1>
-        <img style="display: block; margin: auto; height: 100px; " src="./assets/oops.jpg">
-        <p>Error: Just kidding, you found this page via some link or direct search- proceed to the madness.</p>
+        <div class="layer" data-depth="0.4">
+          <div id="particles-js"></div>
+        </div>
+          <div class="layer" data-depth="0.3">
+            <div class="neumorphic-container">
+              <h1>Gary I., MBA</h1>
+              <img style="display: block; margin: auto; height: 100px; " src="./assets/oops.jpg">
+              <p>Error: No, really, you found this page via some link or direct search- proceed to the madness.</p>
+              <a href="https://brain.garyinnerarity.com/">Enter</a>
+            </div>
+          </div>
       </div>
-    </div>
-      <div class="layer" data-depth="0.4">
-        <div id="particles-js"></div>
-      </div>
-    <div class="layer" data-depth="0.3">
-      <div class="some-more-space"><a href="https://brain.garyinnerarity.com/">Enter</a></div>
     </div>
   </div>
+
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js'></script>
 <script src='https://matthew.wagerfield.com/parallax/deploy/jquery.parallax.js'></script><script  src="./script.js"></script>
+<script src="./particles.js"></script>
 
 </body>
 </html>
-<script>
-  $('#parallax').parallax({
-	invertX: true,
-	invertY: true,
-	scalarX: .01,
-	 frictionY: .01
-});
-
-
-particlesJS("particles-js", {
-  "particles": {
-    "number": {
-      "value": 120,
-      "density": {
-        "enable": true,
-        "value_area": 800
-      }
-    },
-    "color": {
-      "value": "#000019" // dots
-    },
-    "shape": {
-      "type": "circle",
-      "stroke": {
-        "width": 0,
-        "color": "#000019"
-      },
-      "polygon": {
-        "nb_sides": 5
-      },
-      "image": {
-        "src": "img/github.svg",
-        "width": 100,
-        "height": 100
-      }
-    },
-    "opacity": {
-      "value": 1.5,
-      "random": false,
-      "anim": {
-        "enable": false,
-        "speed": .5,
-        "opacity_min": 0.1,
-        "sync": true
-      }
-    },
-    "size": {
-      "value": 3,
-      "random": true,
-      "anim": {
-        "enable": false,
-        "speed": 40,
-        "size_min": 0.1,
-        "sync": false
-      }
-    },
-    "line_linked": {
-      "enable": true,
-      "distance": 150,
-      "color": "#ffffff",
-      "opacity": 0.4,
-      "width": 1
-    },
-    "move": {
-      "enable": true,
-      "speed": 6,
-      "direction": "none",
-      "random": false,
-      "straight": false,
-      "out_mode": "out",
-      "bounce": false,
-      "attract": {
-        "enable": false,
-        "rotateX": 600,
-        "rotateY": 1200
-      }
-    }
-  },
-  "interactivity": {
-    "detect_on": "canvas",
-    "events": {
-      "onhover": {
-        "enable": true,
-        "mode": "grab"
-      },
-      "onclick": {
-        "enable": true,
-        "mode": "push"
-      },
-      "resize": true
-    },
-    "modes": {
-      "grab": {
-        "distance": 140,
-        "line_linked": {
-          "opacity": 1
-        }
-      },
-      "bubble": {
-        "distance": 400,
-        "size": 40,
-        "duration": 2,
-        "opacity": 8,
-        "speed": 3
-      },
-      "repulse": {
-        "distance": 200,
-        "duration": 0.4
-      },
-      "push": {
-        "particles_nb": 4
-      },
-      "remove": {
-        "particles_nb": 2
-      }
-    }
-  },
-  "retina_detect": true
-});
-</script>
