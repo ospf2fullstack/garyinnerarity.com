@@ -16,13 +16,13 @@ particlesJS("particles-js", {
       }
     },
     "color": {
-      "value": "#000019" // dots
+      "value": "#000055" // dots
     },
     "shape": {
       "type": "circle",
       "stroke": {
         "width": 0,
-        "color": "#000019"
+        "color": "#000055"
       },
       "polygon": {
         "nb_sides": 5

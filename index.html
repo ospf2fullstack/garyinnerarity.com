@@ -10,157 +10,31 @@
     <meta name="keywords" content="Gary Innerarity">
     <meta name="author" content="Gary Innerarity">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <meta name="google-site-verification" content="K3P6TC5-vIqhinDOMB9CZvR5PTyBa5kC9wISY02B-9Q" />
-    <style>
-      @import url(https://fonts.googleapis.com/css?family=Lato:400,300,100);
-body {
-  font-family: "Georgia";
-  background: #cccfd2;
-  overflow: hidden;
-  height: 100%;
-  width: 100%;
-  -webkit-font-smoothing: antialiased;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-
-#particles-js, #parallax, .layer, .some-space, .some-more-space {
-  height: 100%;
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-#particles-js {
-  opacity: .75;
-}
-
-h1 {
-  color: rgb(0, 0, 0);
-  font-size: 2em;
-  font-weight: 100;
-  letter-spacing: 0.2em;
-  position: static;
-  top: auto;
-  left: auto;
-  /* transform: translate3d(-50%, -50%, 0); */
-  margin-bottom: 20px;
-}
-
-p {
-  color: rgb(9, 9, 9);
-  font-size: .75em;
-  font-weight: 100;
-  letter-spacing: 0.2em;
-  position: static;
-  top: auto;
-  left: auto;
-  /* transform: translate3d(-50%, -50%, 0); */
-  margin: 10px 0
-}
-
-a {
-  color: rgb(0, 0, 0);
-  border: none;
-  /* border: 1px solid rgb(207, 191, 191); */
-  display: table;
-  position: static;
-  top: auto;
-  left: auto;
-  letter-spacing: 0.05em;
-  /* transform: translate3d(-50%, -50%, 0); */
-  text-decoration: none;
-  transition: all 200ms ease;
-  padding: 10px 15px;
-  background-color: #cccfd2;
-  border-radius: 10px;
-  box-shadow: 6px 6px 12px #aaa, -6px -6px 12px #fff;
-  margin: 20px;
-}
-a:hover {
-  border: #2980b9;
-  background: white;
-  color: black;
-}
-.neumorphic-container {
-    background-color: #cccfd2; /* Match the background color */
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 10px 10px 20px #aaa, -10px -10px 20px #fff; /* Neumorphic shadows */
-    position: relative;
-    z-index: 2; /* Ensure it's above the particles */
-    max-width: 600px; /* Adjust as needed */
-    margin: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center; /* To center the text within the elements */
-}
-
-
-.some-space {
-  /* animation: rotate 18s 0.5s infinite linear reverse; */
-  box-shadow: inset 4px 4px 8px #aaa, inset -4px -4px 8px #c4bdbd; /* Inset shadows for pressed effect */
-
-}
-
-.some-more-space {
-  -webkit-animation: rotate 15s 0.1s infinite linear;
-          animation: rotate 15s 0.1s infinite linear;
-}
-
-@-webkit-keyframes rotate {
-  0% {
-    transform: rotateZ(0deg) translate3d(0, 1.5%, 0) rotateZ(0deg);
-  }
-  100% {
-    transform: rotateZ(360deg) translate3d(0, 1.5%, 0) rotateZ(-360deg);
-  }
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotateZ(0deg) translate3d(0, 1.5%, 0) rotateZ(0deg);
-  }
-  100% {
-    transform: rotateZ(360deg) translate3d(0, 1.5%, 0) rotateZ(-360deg);
-  }
-}
-    </style>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 </head>
 
 <body>
   <div id="parallax">
     <div class="layer" data-depth="0.6">
-      <div class="some-space">
-        <div class="layer" data-depth="0.4">
-          <div id="particles-js"></div>
-        </div>
-          <div class="layer" data-depth="0.3">
-            <div class="neumorphic-container">
-              <h1>Gary I., MBA</h1>
-              <img style="display: block; margin: auto; height: 100px; " src="./assets/oops.jpg">
-              <p>Error: No, really, you found this page via some link or direct search- proceed to the madness.</p>
-              <a href="https://brain.garyinnerarity.com/">Enter</a>
+        <div class="some-space">
+            <div class="layer" data-depth="0.4">
+                <div id="particles-js"></div>
             </div>
-          </div>
-      </div>
+            <div class="layer" data-depth="0.3">
+                <a href="https://brain.garyinnerarity.com/" class="neumorphic-container">
+                    <h1>Gary I., MBA</h1>
+                    <img style="display: block; margin: auto; height: 100px;" src="./assets/oops.jpg">
+                    <p>Error: No, really, you found this page via some link or direct search- proceed to the madness.</p>
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
-
+</div>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js'></script>
 <script src='https://matthew.wagerfield.com/parallax/deploy/jquery.parallax.js'></script><script  src="./script.js"></script>
 <script src="./particles.js"></script>
-
 </body>
 </html>
