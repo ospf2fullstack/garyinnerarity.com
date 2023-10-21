@@ -1,0 +1,75 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,100);
+
+html {
+    height: 100%;
+}
+body {
+    font-family: "Georgia";
+    background: #28282B;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.top-banner {
+    background-color: #28282B;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* box-shadow: 5px 5px 15px #1c1c1e, -5px -5px 15px #343436; */
+}
+
+.container {
+    display: flex;
+}
+
+.left-menu {
+    width: 10%;
+    background-color: #28282B;
+    padding: 22px;
+    box-shadow: 3px 3px 15px #353539, -3px -3px 15px #353539;
+}
+
+.left-menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.left-menu li {
+    margin-bottom: 10px;
+}
+
+.left-menu a {
+    text-decoration: none;
+    color: #4e4e52;
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+    background-color: #28282B;
+    box-shadow: 3px 3px 8px #1c1c1e, -3px -3px 8px #343436;
+    transition: background-color 0.3s;
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Display '...' for overflowed content */
+    white-space: nowrap; /* Keep text on a single line */
+}
+
+.left-menu a:hover {
+    background-color: #222225;
+    box-shadow: inset 3px 3px 8px #232326, inset -3px -3px 8px #232326;
+}
+
+.content {
+    width: 90%;
+    padding: 20px;
+}
+
+.graph {
+    width: 100%;
+    height: 500px;
+    background-color: #303033;
+    margin-top: 20px;
+    border-radius: 5px;
+}

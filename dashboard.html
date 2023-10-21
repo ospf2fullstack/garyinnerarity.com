@@ -1,10 +1,37 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Gary Innerarity Dashboard</title>
-    <link rel="stylesheet" href="./styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gary Innerarity | Dashboard</title>
+    <link rel="stylesheet" href="dash.css">
 </head>
 <body>
-    <div>
-        <h1>Gary Innerarity</h1>
+    <div class="top-banner">
+        <h1 id="pageTitle">Gary Innerarity</h1>
+        <div class="date-time">
+            <span id="currentDate"></span>
+            <span id="currentTime"></span>
+        </div>
     </div>
+    <div class="container">
+        <nav class="left-menu">
+            <ul>
+                <li><a href="https://brain.garyinnerarity.com">Docs</a></li>
+                <li class="showGraphButton" data-iframe="proxmox"><a href="#">proxmox</a></li>
+                <li class="showGraphButton" data-iframe="k8s"><a href="#">K8s</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+            <!-- Placeholder for historical data graph -->
+            <div class="graph">
+                <iframe id="proxmox" src="https://docs.google.com/presentation/d/e/2PACX-1vTeeolqrQO9pkbChUVJap_ZASLJJtdAvTfW2Ol2seZM_CxEcT35WWKe1mbNUllT0WMq1gHzVCm5qMdh/embed?start=true&loop=true&delayms=3000"  id="grafanaIframe" width="100%" height="500" frameborder="0" style="display: none;"></iframe>
+                <iframe id="k8s" src="https://brain.garyinnerarity.com"  id="grafanaIframe" width="100%" height="500px" frameborder="0" style="display: none;"></iframe>
+
+                <!-- Graph goes here -->
+            </div>
+        </div>
+    </div>
+    <script src="dash.js"></script>
 </body>
+</html>
