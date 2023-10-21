@@ -16,13 +16,13 @@ particlesJS("particles-js", {
       }
     },
     "color": {
-      "value": "#ffffff"
+      "value": "#304656" /* center of orb */
     },
     "shape": {
       "type": "circle",
       "stroke": {
         "width": 2,
-        "color": "#0e0b2a"
+        "color": "#304656"
       },
       "polygon": {
         "nb_sides": 3
@@ -56,8 +56,8 @@ particlesJS("particles-js", {
     "line_linked": {
       "enable": true,
       "distance": 189.39543399174545,
-      "color": "#1b1818",
-      "opacity": 0.4,
+      "color": "#304656", // more color for orbs
+      "opacity": 1,
       "width": 1
     },
     "move": {

@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,300,100);
 body {
   font-family: "Georgia";
-  background: #dbdddf;
+  background: #28282B;
   overflow: hidden;
   height: 100%;
   width: 100%;
@@ -28,10 +28,10 @@ body {
 
 /* Container for my Error message */
 .neumorphic-container {
-  background-color: #cccfd2; /* Match the background color */
+  background-color: #28282B; /* Match the background color */
   padding: 20px;
   border-radius: 15px;
-  box-shadow: 10px 10px 20px #aaa, -10px -10px 20px #fff; /* Neumorphic shadows */
+  box-shadow: 10px 10px 20px #304656, -10px -10px 20px #304656; /* Neumorphic shadows */
   position: relative;
   z-index: 2; /* Ensure it's above the particles */
   max-width: 600px; /* Adjust as needed */
@@ -45,12 +45,12 @@ body {
   text-align: center; /* To center the text within the elements */
 }
 .neumorphic-container:hover {
-background-color: #efefef; /* Slightly darker background on hover */
+  background-color: #293c4a; /* Slightly darker background on hover */
 }
 
 /* Name */
 h1 {
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   font-size: 2em !important;
   font-weight: 100;
   letter-spacing: 0.2em;
@@ -62,7 +62,7 @@ h1 {
 
 /* text */
 p {
-  color: rgb(9, 9, 9);
+  color: rgb(255, 255, 255);
   font-size: .75em;
   font-weight: 100;
   letter-spacing: 0.2em;
@@ -73,7 +73,7 @@ p {
 }
 
 a {
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   letter-spacing: 0.05em;
   text-decoration: none;
   transition: all 200ms ease;
