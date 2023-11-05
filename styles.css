@@ -46,6 +46,7 @@ body {
 }
 .neumorphic-container:hover {
   background-color: #293c4a; /* Slightly darker background on hover */
+  box-shadow: 10px 10px 20px #28282B, -10px -10px 20px #28282B;
 }
 
 /* Name */
