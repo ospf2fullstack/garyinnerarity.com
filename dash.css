@@ -5,12 +5,12 @@
     --border-radius-base: 0.5rem;
 }
 [data-theme="light"] {
-    --color-bg: #ffffff;
-    --color-fg: #28282B;
+    --color-bg: #dfdbdb;
+    --color-fg: #4e4e52;
 }
 [data-theme="dark"] {
     --color-bg: #28282B;
-    --color-fg: #ffffff;
+    --color-fg: #4e4e52;
 }
 
 html {
@@ -27,11 +27,21 @@ body {
 }
 
 button {
-    background-color: var(--color-bg);
+    text-decoration: none;
     color: var(--color-fg);
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+    background-color: var(--color-bg);
+    box-shadow: 3px 3px 8px var(--color-bg), -3px -3px 8px var(--color-fg);
+    transition: background-color 0.3s;
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Display '...' for overflowed content */
+    white-space: nowrap; /* Keep text on a single line */
 }
 button:hover {
-    opacity: 70%;
+    background-color: var(--color-bg);
+    box-shadow: inset 3px 3px 8px var(--color-bg), inset -3px -3px 8px var(--color-fg);
 }
 /* body {
     font-family: "Georgia";
@@ -74,12 +84,12 @@ button:hover {
 
 .left-menu a {
     text-decoration: none;
-    color: #4e4e52;
+    color: var(--color-fg);
     padding: 10px;
     display: block;
     border-radius: 5px;
-    background-color: #28282B;
-    box-shadow: 3px 3px 8px #1c1c1e, -3px -3px 8px #343436;
+    background-color: var(--color-bg);
+    box-shadow: 3px 3px 8px var(--color-bg), -3px -3px 8px var(--color-fg);
     transition: background-color 0.3s;
     overflow: hidden; /* Hide overflow */
     text-overflow: ellipsis; /* Display '...' for overflowed content */
