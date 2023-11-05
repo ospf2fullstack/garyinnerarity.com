@@ -1,8 +1,16 @@
-// theme preferences
-localStorage.getItem("theme");
-localStorage.getItem("theme", newTheme);
-    const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
-    const systemSettingLight = windows.matchMedia("(prefers-color-scheme: light)");
+// // theme preferences
+// localStorage.getItem("theme");
+// localStorage.getItem("theme", updateTheme);
+
+// document.setTheme('.button-link'{
+//     function updateTheme() {
+//         const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
+//         const systemSettingLight = windows.matchMedia("(prefers-color-scheme: light)");
+//     }
+//     updateTheme();
+
+// );
+
 
 // date & time data
 document.addEventListener("DOMContentLoaded", function() {
@@ -31,12 +39,3 @@ document.querySelectorAll('.showGraphButton').forEach(function(button) {
     });
 });
 
-// Title of page selected refreshes page
-document.getElementById('pageTitle').addEventListener('click', function() {
-    // Hide all iframes
-    document.querySelectorAll('.graph iframe').forEach(function(iframe) {
-        iframe.style.display = 'none';
-    });
-
-    // Reset any other changes to the view as needed
-});

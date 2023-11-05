@@ -13,7 +13,7 @@
     --color-fg: #4e4e52;
 }
 
-html {
+.html {
     height: 100%;
 }
 body {
@@ -25,32 +25,6 @@ body {
     margin: 0;
     padding: 0;
 }
-
-button {
-    text-decoration: none;
-    color: var(--color-fg);
-    padding: 10px;
-    display: block;
-    border-radius: 5px;
-    background-color: var(--color-bg);
-    box-shadow: 3px 3px 8px var(--color-bg), -3px -3px 8px var(--color-fg);
-    transition: background-color 0.3s;
-    overflow: hidden; /* Hide overflow */
-    text-overflow: ellipsis; /* Display '...' for overflowed content */
-    white-space: nowrap; /* Keep text on a single line */
-}
-button:hover {
-    background-color: var(--color-bg);
-    box-shadow: inset 3px 3px 8px var(--color-bg), inset -3px -3px 8px var(--color-fg);
-}
-/* body {
-    font-family: "Georgia";
-    background: #28282B;
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-} */
 
 .top-banner {
     background-color: #28282B;
@@ -99,6 +73,24 @@ button:hover {
 .left-menu a:hover {
     background-color: #222225;
     box-shadow: inset 3px 3px 8px #232326, inset -3px -3px 8px #232326;
+}
+
+.button-link {
+    text-decoration: none;
+    color: var(--color-fg);
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+    background-color: var(--color-bg);
+    box-shadow: 3px 3px 8px var(--color-bg), -3px -3px 8px var(--color-fg);
+    transition: background-color 0.3s;
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Display '...' for overflowed content */
+    white-space: nowrap; /* Keep text on a single line */
+}
+.button-link:hover {
+    background-color: var(--color-bg);
+    box-shadow: inset 3px 3px 8px var(--color-bg), inset -3px -3px 8px var(--color-fg);
 }
 
 .content {
