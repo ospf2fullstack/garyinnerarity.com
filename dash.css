@@ -1,16 +1,46 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,300,100);
 
+:root {
+    --grid-unit: 1rem;
+    --border-radius-base: 0.5rem;
+}
+[data-theme="light"] {
+    --color-bg: #ffffff;
+    --color-fg: #28282B;
+}
+[data-theme="dark"] {
+    --color-bg: #28282B;
+    --color-fg: #ffffff;
+}
+
 html {
     height: 100%;
 }
 body {
+    font-family: "Georgia";
+    background: var(--color-bg);
+    color: var(--color-fg);
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+}
+button:hover {
+    opacity: 70%;
+}
+/* body {
     font-family: "Georgia";
     background: #28282B;
     height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
-}
+} */
 
 .top-banner {
     background-color: #28282B;

@@ -1,3 +1,9 @@
+// theme preferences
+localStorage.getItem("theme");
+localStorage.getItem("theme", newTheme);
+    const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
+    const systemSettingLight = windows.matchMedia("(prefers-color-scheme: light)");
+
 // date & time data
 document.addEventListener("DOMContentLoaded", function() {
     function updateDateTime() {
