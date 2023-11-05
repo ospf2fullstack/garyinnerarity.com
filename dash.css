@@ -62,7 +62,7 @@ button:hover {
     /* box-shadow: 5px 5px 15px #1c1c1e, -5px -5px 15px #343436; */
 }
 
-.container {
+.body-container {
     display: flex;
 }
 
