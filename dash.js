@@ -1,17 +1,3 @@
-// // theme preferences
-// localStorage.getItem("theme");
-// localStorage.getItem("theme", updateTheme);
-
-// document.setTheme('.button-link'{
-//     function updateTheme() {
-//         const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
-//         const systemSettingLight = windows.matchMedia("(prefers-color-scheme: light)");
-//     }
-//     updateTheme();
-
-// );
-
-
 // date & time data
 document.addEventListener("DOMContentLoaded", function() {
     function updateDateTime() {
