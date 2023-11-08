@@ -25,3 +25,6 @@ document.querySelectorAll('.showGraphButton').forEach(function(button) {
     });
 });
 
+document.getElementById('pageTitleLink').addEventListener('click', function() {
+    location.reload(); // Refreshes the page
+});

@@ -13,7 +13,7 @@
     --color-fg: #4e4e52;
 }
 
-.html {
+html {
     height: 100%;
 }
 body {
@@ -26,7 +26,19 @@ body {
     padding: 0;
 }
 
+#horizontal hr {
+    border: none;
+    height: 2px;
+    background-color: #353539;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    box-shadow: 3px 3px 15px #353539, -3px -3px 15px #353539;
+
+}
+
 .top-banner {
+    position: relative;
     background-color: #28282B;
     color: white;
     padding: 10px 20px;
@@ -36,6 +48,10 @@ body {
     /* box-shadow: 5px 5px 15px #1c1c1e, -5px -5px 15px #343436; */
 }
 
+#pageTitleLink {
+    text-decoration: none;
+    color: inherit;
+}
 .body-container {
     display: flex;
 }
