@@ -2,7 +2,13 @@
     "daily": {
         "quotes": [
             {"quote": "To make a difference, understand that difficulty and change are the only constants."},
-            {"quote": "There's only one way to succeed in anything, and that is to give it everything."}
+            {"quote": "There's only one way to succeed in anything, and that is to give it everything."},
+            {"quote": "I didn't come here to be average. ~ Unknown"},
+            {"quote": "When you want to succeed as bad as you want to breathe, then you’ll be successful. – Eric Thomas"},
+            {"quote": "It does not matter how slowly you go as long as you do not stop. – Confucius"},
+            {"quote": "The only way to do great work is to love what you do. – Steve Jobs"},
+            {"quote": "Pressure is a privilege – it only comes to those who earn it. – Billie Jean King"},
+            {"quote": "Today I will do what others won’t, so tomorrow I can accomplish what others can’t. – Jerry Rice"}
         ]
     }
 }
