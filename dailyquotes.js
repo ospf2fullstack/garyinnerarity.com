@@ -1,34 +1,3 @@
-// document.addEventListener('DOMContentLoaded', function() {
-//     fetchQuotes();
-// });
-
-// function fetchQuotes() {
-//     const url = 'https://xqhgsd62ea.execute-api.us-east-1.amazonaws.com/Production/quotes';
-
-//     fetch(url)
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.statusCode === 200) {
-//                 displayQuotes(data.body.daily.quotes);
-//             } else {
-//                 console.error('Failed to fetch quotes');
-//             }
-//         })
-//         .catch(error => {
-//             console.error('Error:', error);
-//         });
-// }
-
-// function displayQuotes(quotes) {
-//     const container = document.getElementById('quotes-container');
-//     container.innerHTML = ''; // Clear existing content
-
-//     quotes.forEach(quoteObj => {
-//         const p = document.createElement('p');
-//         p.textContent = quoteObj.quote;
-//         container.appendChild(p);
-//     });
-// }
 document.addEventListener('DOMContentLoaded', function() {
     fetchQuotes().then(data => {
         if (data && data.daily && data.daily.quotes) {
