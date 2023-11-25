@@ -1,6 +1,7 @@
-document.addEventListener('DOMContentLoaded', function() {
-    fetchQuote();
-});
+// this event listener is allowing the page content to load first, but I don't like the response time
+// document.addEventListener('DOMContentLoaded', function() {
+//     fetchQuote();
+// });
 
 function fetchQuote() {
     const url = 'https://xqhgsd62ea.execute-api.us-east-1.amazonaws.com/Production/quotes';
