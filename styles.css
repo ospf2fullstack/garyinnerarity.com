@@ -26,12 +26,11 @@ body {
   opacity: 1;
 }
 
-/* Container for my Error message */
 .neumorphic-container {
-  background-color: #ffffff; /* Match the background color */
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 15px;
-  box-shadow: 10px 10px 20px #304656, -10px -10px 20px #304656; /* Neumorphic shadows */
+  box-shadow: 2px 2px 20px #304656, -2px -2px 20px #304656;
   position: relative;
   z-index: 2; /* Ensure it's above the particles */
   max-width: 600px; /* Adjust as needed */
@@ -44,12 +43,12 @@ body {
   justify-content: center;
   text-align: center; /* To center the text within the elements */
 }
+
 .neumorphic-container:hover {
-  background-color: rgb(187, 192, 196); /* Slightly darker background on hover */
-  box-shadow: 10px 10px 20px #28282B, -10px -10px 20px #28282B;
+  background-color: rgb(187, 192, 196);
+  box-shadow: none;
 }
 
-/* Name */
 h1 {
   color: #304656;
   font-size: 2em !important;
@@ -61,7 +60,6 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* text */
 p {
   color: #304656;
   font-size: .75em;
@@ -70,7 +68,7 @@ p {
   position: static;
   top: auto;
   left: auto;
-  margin: 10px 0 20px 0;
+  margin: 2px 0 20px 0;
 }
 
 a {

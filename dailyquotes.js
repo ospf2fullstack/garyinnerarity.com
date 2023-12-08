@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function fetchQuote() {
+    // const url = 'https://d1h1xul2fhiqep.cloudfront.net';
     const url = 'https://xqhgsd62ea.execute-api.us-east-1.amazonaws.com/Production/quotes';
 
     fetch(url)
