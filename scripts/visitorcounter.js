@@ -2,8 +2,10 @@ const xhr = new XMLHttpRequest();
 xhr.open('GET', 'https://xqhgsd62ea.execute-api.us-east-1.amazonaws.com/Production/visitorCount');
 xhr.onload = function() {
     if (xhr.status >= 200 && xhr.status < 300) {
-        const response = xhr.responseText;
-        document.getElementById('visitorcount').textContent = response;
+        const jsonResponse = JSON.parse(xhr.responseText);
+        const count = jsonResponse.count;
+
+        document.getElementById('visitorcount').textContent = count;
     }
     // console.log('Lambda function triggered successfully');
 };
