@@ -4,6 +4,6 @@ xhr.onload = function() {
     console.log('Lambda function triggered successfully');
 };
 xhr.onerror = function(err) {
-    console.error('Error triggering Lambda function:', err);
+    console.error('Error triggering Lambda function, you may be trying to bypass my CORS policy :)... or this:', err);
 };
 xhr.send();
