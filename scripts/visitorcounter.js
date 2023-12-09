@@ -3,9 +3,10 @@ xhr.open('GET', 'https://xqhgsd62ea.execute-api.us-east-1.amazonaws.com/Producti
 xhr.onload = function() {
     if (xhr.status >= 200 && xhr.status < 300) {
         const jsonResponse = JSON.parse(xhr.responseText);
-        const count = jsonResponse.id;
+        const body = jsonResponse.body;
+        const count = body.count;
 
-        document.getElementById('visitorcount').textContent = id;
+        document.getElementById('visitorcount').textContent = count;
     }
     // console.log('Lambda function triggered successfully');
 };
