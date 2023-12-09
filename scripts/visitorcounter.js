@@ -8,7 +8,7 @@ xhr.onload = function() {
 
         document.getElementById('visitorcount').textContent = count;
     }
-    // console.log('Lambda function triggered successfully');
+    console.log(count);
 };
 xhr.onerror = function(err) {
     console.error('Error triggering Lambda function, you may be trying to bypass my CORS policy :)... or this:', err);
