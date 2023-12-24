@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,300,100);
 body {
   font-family: "Georgia";
-  background: #ffffff;
+  background: #101020;
   overflow: hidden;
   height: 100%;
   width: 100%;
@@ -27,7 +27,7 @@ body {
 }
 
 .neumorphic-container {
-  background-color: #ffffff;
+  background-color: #101020;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 2px 2px 20px #304656, -2px -2px 20px #304656;
