@@ -50,9 +50,9 @@
         .onChange(orientation => graph && graph.dagMode(orientation));
   
       // graph config
-      const NODE_REL_SIZE = 2;
+      const NODE_REL_SIZE = 3;
       const graph = ForceGraph3D()
-        .dagMode('td')
+        .dagMode('null')
         .dagLevelDistance(200)
         .backgroundColor('#101020')
         .linkColor(() => 'rgba(255,255,255,0.2)')
