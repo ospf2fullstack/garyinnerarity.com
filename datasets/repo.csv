@@ -10,10 +10,11 @@ size,path
 ,styles.css
 ,.github/workflows
 ,.github/workflows/static.yml
+,assets/globals
 ,assets/models
-,assets/favicon.ico
-,assets/oops.jpg
 ,assets/particlesjs-config.json
+,assets/globals/favicon.ico
+,assets/globals/oops.jpg
 ,assets/models/flowers.glb
 ,assets/models/history.glb
 ,assets/models/Outdoor-lamp.glb
