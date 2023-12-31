@@ -44,7 +44,7 @@
   
     <script>
       // controls
-      const controls = { 'DAG Orientation': 'bu'};
+      const controls = { 'DAG Orientation': 'null'};
       const gui = new dat.GUI();
       gui.add(controls, 'DAG Orientation', ['td', 'bu', null])
         .onChange(orientation => graph && graph.dagMode(orientation));
