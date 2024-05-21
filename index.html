@@ -1,39 +1,242 @@
 <!DOCTYPE html>
-<html>
-  <head>
-  <meta charset="UTF-8">
-  <title>Gary Innerarity</title>
-    <link rel="canonical" href="https://garyinnerarity.com"/>
-    <link rel="icon" type="image/png" href="./assets/globals/oops.jpg">
-    <meta name="description" content="Gary Innerarity, Digital Twins, Systems Architect, Solutions Architect, MBA">
-    <meta name="robots" content="index,follow">
-    <meta name="keywords" content="Gary Innerarity, Digital Twins, Systems Architect, Solutions Architect, MBA">
-    <meta name="author" content="Gary Innerarity">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="K3P6TC5-vIqhinDOMB9CZvR5PTyBa5kC9wISY02B-9Q" />
+    <title>Gary Innerarity - Space Theme</title>
     <link rel="stylesheet" href="./styles.css">
-  </head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Orbitron', sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            position: relative;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, #1a1a1a, #000);
+            border-radius: 50%;
+            border: 2px solid #444;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+        .planet {
+            background: url('./assets/earth.png') no-repeat center;
+            background-size: contain;
+            width: 100px;
+            height: 100px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            z-index: 10;
+        }
+        .orbit {
+            border: 1px dashed #fff;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .orbit .orbiting-body {
+            width: 50px;
+            height: 50px;
+            background: no-repeat center;
+            background-size: contain;
+            position: absolute;
+            top: -25px;
+            left: calc(50% - 25px);
+        }
+        .orbit1 .orbiting-body {
+          content: url('./assets/small-planet.png');
+        }
+        .orbit2 .orbiting-body {
+          content: url('./assets/planet2.png');
+        }
+        .orbit3 .orbiting-body {
+          content: url('./assets/planet.png');
+        }
+        .orbit4 .orbiting-body {
+          content: url('./assets/satellite.png');
+        }
+        .orbit5 .orbiting-body {
+          content: url('./assets/planet3.png');
+        }
+        .orbit1 {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            animation: rotate1 20s linear infinite;
+            z-index: 1;
+        }
+        .orbit2 {
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            animation: rotate2 25s linear infinite reverse;
+            z-index: 2;
+        }
+        .orbit3 {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            animation: rotate3 30s linear infinite;
+            z-index: 3;
+        }
+        .orbit4 {
+            width: 90%;
+            height: 90%;
+            top: 5%;
+            left: 5%;
+            animation: rotate4 35s linear infinite reverse;
+            z-index: 4;
+        }
+        .orbit5 {
+            width: 50%;
+            height: 50%;
+            top: 25%;
+            left: 25%;
+            animation: rotate5 40s linear infinite;
+            z-index: 5;
+        }
+        @keyframes rotate1 {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes rotate2 {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes rotate3 {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes rotate4 {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes rotate5 {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes fly {
+            0% {
+                transform: rotate(0deg) translateX(150px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(150px) rotate(-360deg);
+            }
+        }
+        .content {
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: #b5b5b5;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        .content-top {
+            position: absolute;
+            top: 0;
+            text-align: start;
+        }
+        .content-bottom {
+            position: absolute;
+            bottom: 0;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #ffffff;
+            font-weight: lighter;
+        }
+        p {
+            margin-bottom: 20px;
+            color: #dcdcdc;
+        }
+        .buttons a {
+            background: #444;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: background 0.3s;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+        .buttons a:hover {
+            background: #666;
+        }
+        .rocket {
+            width: 50px;
+            height: 50px;
+            background: url('./assets/rocket.png') no-repeat center;
+            background-size: contain;
+            top: 50%;
+            left: 50%;
+            animation: fly 10s linear infinite;
+            position: absolute;
+            z-index: 20;
+        }
+    </style>
+</head>
 <body>
-  <div id="parallax">
-    <div class="layer" data-depth="0.6">
-            <div class="layer" data-depth="0.4">
-                <div id="particles-js"></div>
-            </div>
-            <div class="layer" data-depth="0.3">
-                <a href="./graph.html" class="neumorphic-container">
-                    <h1>Gary I., MBA</h1>
-                    <img style="display: block; margin: auto; height: 100px;" src="./assets/globals/oops.jpg">
-                    <div id="quotes-container"></div>
-                    <div id="visitorcount"></div>
-                </a>
-            </div>
+    <div class="content content-top">
+        <h1>Gary I., MBA</h1>
+        <p>Digital Twins, Solutions Architecture and Business</p>
+        <div class="buttons">
+            <a href="#">About</a>
+            <!-- <a href="#">More</a> -->
+        </div>
     </div>
-</div>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js'></script>
-<script src='https://matthew.wagerfield.com/parallax/deploy/jquery.parallax.js'></script>
-<script src="./scripts/particles.js"></script>
-<script src="./scripts/dailyquotes.js"></script>
-<script src="./scripts/visitorcounter.js"></script>
+    <div class="container">
+        <div class="planet"></div>
+        <div class="orbit orbit1">
+            <div class="orbiting-body"></div>
+        </div>
+        <div class="orbit orbit2">
+            <div class="orbiting-body"></div>
+        </div>
+        <div class="orbit orbit3">
+            <div class="orbiting-body"></div>
+        </div>
+        <div class="orbit orbit4">
+            <div class="orbiting-body"></div>
+        </div>
+        <div class="orbit orbit5">
+            <div class="orbiting-body"></div>
+        </div>
+        <div class="rocket"></div>
+    </div>
 </body>
 </html>
