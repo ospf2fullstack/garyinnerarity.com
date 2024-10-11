@@ -3,9 +3,9 @@ body, html {
     padding: 0;
     width: 100%;
     min-height: 100vh; /* Ensure at least full viewport height */
-    background-color: #1b1b1b;
+    background-color: #ffffff;
     font-family: 'Roboto', sans-serif;
-    color: #ffffff;
+    color: #4e4e4e;
     overflow-x: hidden; /* Prevent horizontal overflow */
     display: flex; /* Add flexbox to center the content */
     justify-content: center; /* Horizontally center the container */
@@ -26,10 +26,10 @@ body, html {
 
 /* Adjust grid columns to give About Me and Contact sections balanced space */
 .about-card {
-    background-color: #202020;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 5px;
-    border: 2px solid #3e4c4e;
+    border: 2px solid #3e4c4edc #3e4c4edc;
     text-align: left;
     grid-column: 1 / 3; /* Span full width only when necessary */
     max-width: 100%; /* Prevent overflowing full width */
@@ -55,7 +55,7 @@ body, html {
 
 /* Me and Contact Cards */
 .me-card, .contact-card {
-    background-color: #202020;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 5px;
     text-align: center;
@@ -64,7 +64,7 @@ body, html {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 2px solid #3e4c4e;
+    border: 2px solid #3e4c4edc;
 }
 
 /* Profile Picture */
@@ -79,7 +79,7 @@ body, html {
 .name {
     font-size: 1.3rem;
     margin-bottom: 5px;
-    color: #0aa0be;
+    color: #045d6f;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: lighter;
@@ -103,13 +103,13 @@ body, html {
 /* Contact Card */
 .contact-card h3 {
     font-size: 1rem;
-    color: #0aa0be;
+    color: #045d6f;
     text-transform: uppercase;
     margin-bottom: 5px;
 }
 
 .contact-card p {
-    color: #d1d1d1;
+    color: #565454;
     font-size: 0.9rem;
 }
 
@@ -121,7 +121,7 @@ body, html {
 
 .contact-card a {
     text-decoration: none;
-    color: #0aa0be;
+    color: #565454;
     font-weight: 500;
     transition: color 0.3s ease;
 }
@@ -132,10 +132,10 @@ body, html {
 
 /* About Me Section */
 .about-card {
-    background-color: #202020;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 5px;
-    border: 2px solid #3e4c4e;
+    border: 2px solid #3e4c4edc;
     text-align: left;
     grid-column: 2 / 3;
 }
@@ -146,13 +146,13 @@ body, html {
 }
 
 .certifications h3 {
-    color: #0aa0be;
+    color: #045d6f;
     margin-bottom: 10px;
     text-transform: uppercase;
 }
 
 .certifications i {
-    color: #ffffff;
+    color: #045d6f;
     margin-right: 10px;
     transition: transform 0.3s ease;
 }
@@ -160,7 +160,7 @@ body, html {
 /* Hover effect on certification icons */
 .certifications i:hover {
     transform: scale(1.1); /* Slight zoom on hover */
-    color: #00ffea; /* Optional: Change color on hover */
+    color: #045d6fbb; /* Optional: Change color on hover */
 }
 
 /* Responsive font size for smaller screens */
@@ -172,29 +172,29 @@ body, html {
 
 .about-card h2 {
     font-size: 1.5rem;
-    color: #0aa0be;
+    color: #045d6f;
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .about-card p {
-    color: #d1d1d1;
+    color: #565454;
     line-height: 1.6;
 }
 
 
 /* Project Cards */
 .project-card {
-    background-color: #202020;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 5px;
-    border: 2px solid #3e4c4e;
+    border: 2px solid #3e4c4edc;
     transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .project-card h3 {
-    color: #0aa0be;
+    color: #045d6f;
     text-transform: uppercase;
     font-size: 1.2rem;
     margin-bottom: 10px;
@@ -202,7 +202,7 @@ body, html {
 }
 
 .project-card p {
-    color: #b0b0b0;
+    color: #045d6f;
     font-size: 0.95rem;
     line-height: 1.5;
 }
@@ -217,7 +217,7 @@ body, html {
 }
 
 .project-card a:hover {
-    color: #00ffea;
+    color: #13867c;
 }
 
 .project-card:hover {
