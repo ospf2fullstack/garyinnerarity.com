@@ -1,14 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gary Innerarity</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Font Awesome for certification icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Timeline</title>
+  <style>
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .event {
+      position: relative;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      cursor: pointer;
+    }
+    .event-details {
+      display: none;
+      position: absolute;
+      top: 30px;
+      left: 0;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid #ccc;
+      z-index: 1;
+    }
+    .event:hover .event-details {
+      display: block;
+    }
+  </style>
 </head>
 <body>
-    <p class="GaryInnerarity">Gary I., MBA</p>
+  <p>Gary Innerarity, MBA</p>
+  <div class="timeline" id="timeline"></div>
+
+  <script>
+    async function loadEvents() {
+      const response = await fetch('events.json'); // Change to `events.yaml` if YAML
+      const events = await response.json(); // If YAML, use a library like js-yaml to parse
+      const timeline = document.getElementById('timeline');
+
+      events.forEach(event => {
+        const eventEl = document.createElement('div');
+        eventEl.className = 'event';
+        eventEl.innerHTML = `
+          <strong>${event.date}: ${event.title}</strong>
+          <div class="event-details">${event.description}</div>
+        `;
+        timeline.appendChild(eventEl);
+      });
+    }
+
+    loadEvents();
+  </script>
 </body>
 </html>
