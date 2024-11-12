@@ -5,26 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Event Timeline</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f5deb3; /* Tanish background */
-      padding: 20px;
-    }
-
-    .timeline-container {
-      overflow-x: auto;
-      white-space: nowrap;
-      padding: 20px;
-      border: 1px solid #ccc;
-      background-color: #fff;
-    }
-
-    .timeline {
-      display: inline-flex;
-      gap: 20px;
-    }
-
     .event {
       display: inline-block;
       position: relative;
@@ -35,7 +15,22 @@
       min-width: 150px;
       text-align: center;
     }
-
+  
+    .event.project {
+      border-color: #4CAF50;
+      background-color: #e8f5e9;
+    }
+  
+    .event.certificate {
+      border-color: #FF9800;
+      background-color: #fff3e0;
+    }
+  
+    .event.holiday {
+      border-color: #2196F3;
+      background-color: #e3f2fd;
+    }
+  
     .event-details {
       display: none;
       position: absolute;
@@ -48,11 +43,11 @@
       z-index: 1;
       width: 200px;
     }
-
+  
     .event:hover .event-details {
       display: block;
     }
-  </style>
+  </style>  
 </head>
 <body>
   <p>Gary Innerarity, MBA</p>
@@ -65,10 +60,10 @@
       const response = await fetch('events.json'); // Change to `events.yaml` if YAML
       const events = await response.json(); // If YAML, use a library like js-yaml to parse
       const timeline = document.getElementById('timeline');
-
+  
       events.forEach(event => {
         const eventEl = document.createElement('div');
-        eventEl.className = 'event';
+        eventEl.className = `event ${event.type}`; // Dynamically add type-specific class
         eventEl.innerHTML = `
           <strong>${event.date}</strong><br>${event.title}
           <div class="event-details">${event.description}</div>
@@ -76,8 +71,9 @@
         timeline.appendChild(eventEl);
       });
     }
-
+  
     loadEvents();
   </script>
+  
 </body>
 </html>
