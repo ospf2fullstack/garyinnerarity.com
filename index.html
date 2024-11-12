@@ -3,77 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Event Timeline</title>
-  <style>
-    .event {
-      display: inline-block;
-      position: relative;
-      padding: 10px;
-      border: 1px solid #ccc;
-      background-color: #f9f9f9;
-      cursor: pointer;
-      min-width: 150px;
-      text-align: center;
-    }
-  
-    .event.project {
-      border-color: #4CAF50;
-      background-color: #e8f5e9;
-    }
-  
-    .event.certificate {
-      border-color: #FF9800;
-      background-color: #fff3e0;
-    }
-  
-    .event.holiday {
-      border-color: #2196F3;
-      background-color: #e3f2fd;
-    }
-  
-    .event-details {
-      display: none;
-      position: absolute;
-      top: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 10px;
-      background: #fff;
-      border: 1px solid #ccc;
-      z-index: 1;
-      width: 200px;
-    }
-  
-    .event:hover .event-details {
-      display: block;
-    }
-  </style>  
+  <title>Neumorphic Event Timeline with Graph</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <p>Gary Innerarity, MBA</p>
   <div class="timeline-container">
+    <canvas id="background-graph"></canvas> <!-- Background canvas -->
     <div class="timeline" id="timeline"></div>
   </div>
 
   <script>
     async function loadEvents() {
-      const response = await fetch('events.json'); // Change to `events.yaml` if YAML
-      const events = await response.json(); // If YAML, use a library like js-yaml to parse
+      const response = await fetch('events.json'); // Load the events
+      const events = await response.json(); 
+
       const timeline = document.getElementById('timeline');
-  
-      events.forEach(event => {
+      const graphCanvas = document.getElementById('background-graph');
+      const ctx = graphCanvas.getContext('2d');
+      
+      graphCanvas.width = document.body.clientWidth; 
+      graphCanvas.height = 300; // Fixed height for graph
+      const graphData = { health: [], certificate: [], project: [] };
+
+      // Populate the graph data and timeline
+      events.forEach((event, index) => {
+        const { date, title, description, type } = event;
+
+        // Populate graph data
+        if (!graphData[type]) graphData[type] = [];
+        graphData[type].push({ x: index + 1, y: graphData[type].length + 1 });
+
+        // Create event timeline card
         const eventEl = document.createElement('div');
-        eventEl.className = `event ${event.type}`; // Dynamically add type-specific class
+        eventEl.className = `event ${type}`;
         eventEl.innerHTML = `
-          <strong>${event.date}</strong><br>${event.title}
-          <div class="event-details">${event.description}</div>
+          <strong>${date}</strong><br>${title}
+          <div class="event-details">${description}</div>
         `;
         timeline.appendChild(eventEl);
       });
+
+      drawGraph(ctx, graphData);
     }
-  
+
+    function drawGraph(ctx, graphData) {
+      const colors = { health: '#4CAF50', certificate: '#FF9800', project: '#2196F3' };
+      const offsetX = 50;
+      const offsetY = 200; // baseline for graph
+      ctx.lineWidth = 2;
+
+      Object.keys(graphData).forEach((type) => {
+        ctx.strokeStyle = colors[type];
+        ctx.beginPath();
+        graphData[type].forEach((point, index) => {
+          const x = point.x * 100 + offsetX; 
+          const y = offsetY - point.y * 20; 
+          if (index === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+      });
+    }
+
     loadEvents();
   </script>
-  
 </body>
 </html>
