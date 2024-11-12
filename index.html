@@ -15,58 +15,110 @@
 
   <script>
     async function loadEvents() {
-      const response = await fetch('events.json'); // Load the events
-      const events = await response.json(); 
+  const response = await fetch('events.json'); // Load the events
+  const events = await response.json();
 
-      const timeline = document.getElementById('timeline');
-      const graphCanvas = document.getElementById('background-graph');
-      const ctx = graphCanvas.getContext('2d');
-      
-      graphCanvas.width = document.body.clientWidth; 
-      graphCanvas.height = 300; // Fixed height for graph
-      const graphData = { health: [], certificate: [], project: [] };
+  const timeline = document.getElementById('timeline');
+  const graphCanvas = document.getElementById('background-graph');
+  const ctx = graphCanvas.getContext('2d');
 
-      // Populate the graph data and timeline
-      events.forEach((event, index) => {
-        const { date, title, description, type } = event;
+  // Set canvas width dynamically to match timeline width + padding for visibility
+  const totalWidth = timeline.scrollWidth + 100; // Add padding
+  graphCanvas.width = totalWidth; 
+  graphCanvas.height = 300;
 
-        // Populate graph data
-        if (!graphData[type]) graphData[type] = [];
-        graphData[type].push({ x: index + 1, y: graphData[type].length + 1 });
+  // Fix blurry rendering by adjusting canvas scaling for high DPI screens
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  graphCanvas.width = totalWidth * devicePixelRatio;
+  graphCanvas.height = 300 * devicePixelRatio;
+  ctx.scale(devicePixelRatio, devicePixelRatio);
 
-        // Create event timeline card
-        const eventEl = document.createElement('div');
-        eventEl.className = `event ${type}`;
-        eventEl.innerHTML = `
-          <strong>${date}</strong><br>${title}
-          <div class="event-details">${description}</div>
-        `;
-        timeline.appendChild(eventEl);
-      });
+  // Initialize graph data for all event types, starting from (0,0)
+  const graphData = {
+    health: [{ x: 0, y: 0 }],
+    certificate: [{ x: 0, y: 0 }],
+    project: [{ x: 0, y: 0 }],
+    training: [{ x: 0, y: 0 }]
+  };
 
-      drawGraph(ctx, graphData);
+  let eventCounter = 0;
+
+  events.forEach((event) => {
+    const { date, title, description, type } = event;
+
+    // Increment the respective graph line
+    if (graphData[type]) {
+      eventCounter++;
+      const lastPoint = graphData[type][graphData[type].length - 1];
+      graphData[type].push({ x: eventCounter, y: lastPoint.y + 1 });
     }
 
-    function drawGraph(ctx, graphData) {
-      const colors = { health: '#4CAF50', certificate: '#FF9800', project: '#2196F3' };
-      const offsetX = 50;
-      const offsetY = 200; // baseline for graph
-      ctx.lineWidth = 2;
+    // Extend other lines without a new event to stay constant
+    Object.keys(graphData).forEach((key) => {
+      if (!graphData[key].find((point) => point.x === eventCounter)) {
+        const lastPoint = graphData[key][graphData[key].length - 1];
+        graphData[key].push({ x: eventCounter, y: lastPoint.y });
+      }
+    });
 
-      Object.keys(graphData).forEach((type) => {
-        ctx.strokeStyle = colors[type];
-        ctx.beginPath();
-        graphData[type].forEach((point, index) => {
-          const x = point.x * 100 + offsetX; 
-          const y = offsetY - point.y * 20; 
-          if (index === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        });
-        ctx.stroke();
-      });
+    // Create event timeline card
+    const eventEl = document.createElement('div');
+    eventEl.className = `event ${type}`;
+    eventEl.innerHTML = `
+      <strong>${date}</strong><br>${title}
+      <div class="event-details">${description}</div>
+    `;
+    timeline.appendChild(eventEl);
+  });
+
+  // Extend all lines to the last x-axis point
+  const maxX = eventCounter;
+  Object.keys(graphData).forEach((type) => {
+    const lastPoint = graphData[type][graphData[type].length - 1];
+    if (lastPoint.x < maxX) {
+      graphData[type].push({ x: maxX, y: lastPoint.y });
     }
+  });
 
-    loadEvents();
+  drawGraph(ctx, graphData, maxX, totalWidth);
+}
+
+function drawGraph(ctx, graphData, maxX, totalWidth) {
+  const colors = {
+    health: '#4CAF50',
+    certificate: '#FF9800',
+    project: '#2196F3',
+    training: '#8E44AD'
+  };
+
+  const offsetX = 0; // Ensure lines are drawn from the very start
+  const offsetY = 200; // Baseline for graph
+  const xSpacing = totalWidth / maxX; // Dynamically adjust for timeline length
+  const yScaling = 20; // Bump height
+
+  ctx.lineWidth = 2;
+
+  Object.keys(graphData).forEach((type) => {
+    ctx.strokeStyle = colors[type];
+    ctx.beginPath();
+
+    graphData[type].forEach((point, index) => {
+      const x = point.x * xSpacing + offsetX;
+      const y = offsetY - point.y * yScaling;
+
+      if (index === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
+    });
+
+    ctx.stroke();
+  });
+}
+
+loadEvents();
+
   </script>
 </body>
 </html>

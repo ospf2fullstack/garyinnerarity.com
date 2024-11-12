@@ -1,32 +1,98 @@
 [
   {
-    "date": "2024-11-03",
-    "title": "Hot Chocolate Run 5k - Chicago",
-    "description": "Ran the 5k hot chocolate run in Chicago!",
-    "type": "health"
+    "date": "2021-06-15",
+    "title": "KPI Dashboard Development",
+    "description": "Developed KPI dashboard linked to custom CRM for tracking key metrics.",
+    "type": "project"
   },
   {
-    "date": "2023-12-15",
-    "title": "Solutions Architect Associate",
-    "description": "Passed AWS Solutions Architect Associate",
-    "type": "certificate"
+    "date": "2021-12-10",
+    "title": "Azure Active Directory Sync",
+    "description": "Enabled off-site directory recovery and management.",
+    "type": "project"
   },
   {
-    "date": "2023-01-15",
-    "title": "CompTia Security+",
-    "description": "Passed",
-    "type": "certificate"
+    "date": "2022-06-20",
+    "title": "Docker Expertise",
+    "description": "Gained expertise in Docker through KodeKloud training.",
+    "type": "training"
+  },
+  {
+    "date": "2022-08-20",
+    "title": "Collapsed Core Design Implementation",
+    "description": "Reduced infrastructure Capex by $200k with a new core design.",
+    "type": "project"
+  },
+  {
+    "date": "2022-09-10",
+    "title": "Kubernetes Mastery",
+    "description": "Completed Kubernetes training on KodeKloud.",
+    "type": "training"
   },
   {
     "date": "2022-11-15",
     "title": "AWS Cloud Practitioner",
-    "description": "Passed",
+    "description": "Passed AWS Cloud Practitioner certification.",
     "type": "certificate"
+  },
+  {
+    "date": "2023-01-05",
+    "title": "Generative AI Fundamentals",
+    "description": "Completed Databricks training on Generative AI fundamentals.",
+    "type": "training"
+  },
+  {
+    "date": "2023-01-15",
+    "title": "CompTIA Security+ Certification",
+    "description": "Achieved Security+ certification.",
+    "type": "certificate"
+  },
+  {
+    "date": "2023-05-01",
+    "title": "Regscale Implementation",
+    "description": "Deployed NIST 800(53) Rev 5 SSP using EKS, Helm, and Docker.",
+    "type": "project"
+  },
+  {
+    "date": "2023-07-10",
+    "title": "CI/CD Pipeline Optimization",
+    "description": "Enhanced CI/CD pipelines for Sev1Tech's NASA project.",
+    "type": "project"
+  },
+  {
+    "date": "2023-09-01",
+    "title": "Hypervisor Migration",
+    "description": "Migrated on-prem infrastructure to a Hyper-V and hybrid cloud model.",
+    "type": "project"
   },
   {
     "date": "2023-10-30",
     "title": "Cloud Resume Challenge",
-    "description": "Built the Cloud Resume Cloud Challenge",
+    "description": "Built the Cloud Resume Challenge showcasing skills in cloud and development.",
     "type": "project"
+  },
+  {
+    "date": "2023-11-01",
+    "title": "Strategic Budgeting",
+    "description": "Reduced Opex by 25% through strategic software migration and optimization.",
+    "type": "project"
+  },
+  {
+    "date": "2023-12-15",
+    "title": "Solutions Architect Associate",
+    "description": "Passed AWS Solutions Architect Associate certification.",
+    "type": "certificate"
+  },
+  {
+    "date": "2024-02-15",
+    "title": "Data Catalog Development",
+    "description": "Implemented Data Catalog tool linking as-is data for engineers and modelers.",
+    "type": "project"
+  },
+  {
+    "date": "2024-11-03",
+    "title": "Hot Chocolate Run 5k - Chicago",
+    "description": "Ran the 5k hot chocolate run in Chicago!",
+    "type": "health"
   }
 ]
