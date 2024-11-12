@@ -1,26 +1,26 @@
 [
   {
-    "date": "2023-01-01",
-    "title": "New Year's Day",
-    "description": "Celebration of the new year.",
-    "type": "holiday"
-  },
-  {
-    "date": "2023-07-04",
-    "title": "Independence Day",
-    "description": "A day to celebrate independence.",
-    "type": "holiday"
-  },
-  {
-    "date": "2023-03-15",
-    "title": "Project A Completed",
-    "description": "Details about Project A.",
-    "type": "project"
-  },
-  {
-    "date": "2023-10-01",
-    "title": "Received Certificate",
-    "description": "Details about the certificate.",
+    "date": "2023-12-15",
+    "title": "Solutions Architect Associate",
+    "description": "Passed AWS Solutions Architect Associate",
     "type": "certificate"
+  },
+  {
+    "date": "2023-01-15",
+    "title": "CompTia Security+",
+    "description": "Passed",
+    "type": "certificate"
+  },
+  {
+    "date": "2022-11-15",
+    "title": "AWS Cloud Practitioner",
+    "description": "Passed",
+    "type": "certificate"
+  },
+  {
+    "date": "2023-10-30",
+    "title": "Cloud Resume Challenge",
+    "description": "Built the Cloud Resume Cloud Challenge",
+    "type": "project"
   }
 ]
