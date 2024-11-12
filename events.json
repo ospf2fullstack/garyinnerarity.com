@@ -1,6 +1,12 @@
 [
   {
     "date": "2023-12-15",
+    "title": "Hot Chocolate Run 5k - Chicago",
+    "description": "Ran the 5k hot chocolate run in Chicago!",
+    "type": "health"
+  },
+  {
+    "date": "2023-12-15",
     "title": "Solutions Architect Associate",
     "description": "Passed AWS Solutions Architect Associate",
     "type": "certificate"
