@@ -5,28 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Event Timeline</title>
   <style>
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5deb3; /* Tanish background */
+      padding: 20px;
     }
+
+    .timeline-container {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 20px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+    }
+
+    .timeline {
+      display: inline-flex;
+      gap: 20px;
+    }
+
     .event {
+      display: inline-block;
       position: relative;
       padding: 10px;
       border: 1px solid #ccc;
       background-color: #f9f9f9;
       cursor: pointer;
+      min-width: 150px;
+      text-align: center;
     }
+
     .event-details {
       display: none;
       position: absolute;
-      top: 30px;
-      left: 0;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
       padding: 10px;
       background: #fff;
       border: 1px solid #ccc;
       z-index: 1;
+      width: 200px;
     }
+
     .event:hover .event-details {
       display: block;
     }
@@ -34,7 +56,9 @@
 </head>
 <body>
   <p>Gary Innerarity, MBA</p>
-  <div class="timeline" id="timeline"></div>
+  <div class="timeline-container">
+    <div class="timeline" id="timeline"></div>
+  </div>
 
   <script>
     async function loadEvents() {
@@ -46,7 +70,7 @@
         const eventEl = document.createElement('div');
         eventEl.className = 'event';
         eventEl.innerHTML = `
-          <strong>${event.date}: ${event.title}</strong>
+          <strong>${event.date}</strong><br>${event.title}
           <div class="event-details">${event.description}</div>
         `;
         timeline.appendChild(eventEl);
