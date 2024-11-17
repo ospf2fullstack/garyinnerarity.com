@@ -1,6 +1,6 @@
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #1e1e2f;
+  background-color: rgb(44, 44, 44); /* Consistent dark background */
   margin: 0;
   padding: 0;
   display: flex;
@@ -8,7 +8,7 @@ body {
   align-items: center;
   height: 100vh;
   overflow: hidden;
-  color: #d1d1d1;
+  color: #d1d1d1; /* Light text for contrast */
 }
 
 p {
@@ -19,29 +19,35 @@ p {
   text-align: center;
   margin: 0;
   z-index: 2;
-  background-color: #1e1e2f;
+  background-color: rgb(30, 30, 30); /* Darker background for contrast */
   padding: 10px 20px;
   border-radius: 8px;
-  box-shadow: inset 3px 3px 8px #151521, inset -3px -3px 8px #252539;
+  box-shadow: inset 3px 3px 8px #111, inset -3px -3px 8px #2a2a2a;
   letter-spacing: 0.5px;
 }
 
 .graph-container {
   position: sticky;
-  top: 60px; /* Keeps it below the title */
+  top: 60px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #1e1e2f;
+  background-color: rgb(44, 44, 44); /* Match page background */
   z-index: 1;
-  padding: 10px 0;
+  padding: 20px 0;
 }
 
 #background-graph {
-  width: 90%; /* Graph width stays consistent */
+  width: 90%;
   height: 300px;
-  pointer-events: none; /* Allow interactions with timeline */
+  background: rgb(44, 44, 44); /* Consistent background */
+  /* border-radius: 20px; */
+  box-shadow: 
+      inset 4px 4px 10px #2e2e2e, /* Inner dark shadow */
+      inset -4px -4px 10px #292929, /* Inner light shadow */
+      8px 8px 15px #1e1e1e,         /* Outer dark shadow */
+      -8px -8px 15px #303030;       /* Outer light shadow */
 }
 
 .legend {
@@ -95,7 +101,7 @@ p {
 
 .timeline {
   display: flex;
-  gap: 30px;
+  gap: 20px; /* Compact spacing */
   position: relative;
   align-items: center;
 }
@@ -103,53 +109,69 @@ p {
 .event {
   display: inline-block;
   position: relative;
-  padding: 20px;
-  border-radius: 12px;
-  background-color: #2a2a3c;
-  box-shadow: 5px 5px 10px #151521, -5px -5px 10px #2e2e45;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #363636; /* Subtle contrast from timeline container */
+  box-shadow: 3px 3px 6px #2e2e2e, -3px -3px 6px #4e4e4e;
   cursor: pointer;
-  min-width: 200px;
+  min-width: 150px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 0.85rem;
 }
 
 .event:hover {
-  transform: translateY(-5px);
-  box-shadow: 2px 2px 6px #111116, -2px -2px 6px #3a3a55;
+  transform: translateY(-3px);
+  box-shadow: 2px 2px 5px #1a1a1a, -2px -2px 5px #5a5a5a;
 }
 
-/* Event type-specific borders */
 .event.project {
-  border-left: 5px solid #2979ff;
+  border-left: 3px solid #2979ff;
 }
 
 .event.certificate {
-  border-left: 5px solid #ffa726;
+  border-left: 3px solid #ffa726;
 }
 
 .event.training {
-  border-left: 5px solid #ab47bc;
+  border-left: 3px solid #ab47bc;
 }
 
 .event.health {
-  border-left: 5px solid #66bb6a;
+  border-left: 3px solid #66bb6a;
+}
+
+.event::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 30px;
+  height: 3px;
+  background-color: currentColor;
+  transform: translateY(-50%);
+}
+
+.event:last-child::after {
+  content: none;
 }
 
 .event-details {
   display: none;
   position: absolute;
-  top: 60px;
+  top: 50px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 15px;
-  background: #242435;
-  border-radius: 10px;
-  box-shadow: 3px 3px 8px #10101a, -3px -3px 8px #2a2a40;
-  width: 250px;
+  padding: 10px;
+  background: #2e2e2e; /* Matches neumorphic style */
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px #1a1a1a, -2px -2px 5px #4a4a4a;
+  width: 180px;
   z-index: 1;
   transition: opacity 0.3s ease, transform 0.3s ease;
   opacity: 0;
   visibility: hidden;
+  font-size: 0.8rem;
 }
 
 .event:hover .event-details {
@@ -157,4 +179,15 @@ p {
   opacity: 1;
   visibility: visible;
   transform: translate(-50%, 5px);
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background-color: #5a5a5a; /* Consistent with neumorphic design */
+  z-index: 0;
 }
