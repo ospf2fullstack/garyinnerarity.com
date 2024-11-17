@@ -238,5 +238,11 @@
     "title": "Hot Chocolate Run 5k - Chicago",
     "description": "Ran the 5k hot chocolate run in Chicago!",
     "type": "health"
+  },
+  {
+    "date": "2024-11-30",
+    "title": "Solutions Architect Projessional",
+    "description": "Attempting AWS Solutions Architect Professional certification.",
+    "type": "certificate"
   }
 ]

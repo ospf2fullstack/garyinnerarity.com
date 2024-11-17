@@ -2,19 +2,15 @@ async function loadEvents() {
     const response = await fetch('events.json'); // Load events
     const events = await response.json();
 
-    // Reverse events for display order, but keep original order for graph rendering
-    const reversedEvents = [...events].reverse();
-
     const timeline = document.getElementById('timeline');
     const graphCanvas = document.getElementById('background-graph');
     const ctx = graphCanvas.getContext('2d');
 
-    // Dynamically set canvas width to match scrollable timeline width
-    const totalWidth = Math.max(timeline.scrollWidth, window.innerWidth);
-    graphCanvas.style.width = `${totalWidth}px`;
+    // Set canvas dimensions (fixed area for the graph)
+    const totalWidth = graphCanvas.offsetWidth;
     graphCanvas.width = totalWidth;
-
     graphCanvas.height = 300;
+
     const devicePixelRatio = window.devicePixelRatio || 1;
     graphCanvas.width = totalWidth * devicePixelRatio;
     graphCanvas.height = 300 * devicePixelRatio;
@@ -29,7 +25,7 @@ async function loadEvents() {
 
     let eventCounter = 0;
 
-    // Process events in chronological order to build graph data
+    // Build graph data in chronological order
     events.forEach((event) => {
         const { type } = event;
 
@@ -39,7 +35,6 @@ async function loadEvents() {
             graphData[type].push({ x: eventCounter, y: lastPoint.y + 1 });
         }
 
-        // Ensure other lines stay flat for missing event types
         Object.keys(graphData).forEach((key) => {
             if (key !== type) {
                 const lastPoint = graphData[key][graphData[key].length - 1];
@@ -48,8 +43,14 @@ async function loadEvents() {
         });
     });
 
-    // Render reversed events in the timeline for UI
-    reversedEvents.forEach((event) => {
+    // Generate projection data for additional points
+    const projectionData = generateProjectionData(graphData, eventCounter, 3);
+
+    // Draw the graph (fit all lines within the canvas)
+    drawGraph(ctx, graphData, eventCounter + 3, totalWidth, projectionData);
+
+    // Display reversed timeline for UI
+    [...events].reverse().forEach((event) => {
         const { date, title, description, type } = event;
 
         const eventEl = document.createElement('div');
@@ -60,12 +61,6 @@ async function loadEvents() {
         `;
         timeline.appendChild(eventEl);
     });
-
-    // Generate projection data for the graph
-    const projectionData = generateProjectionData(graphData, eventCounter, 3);
-
-    // Draw graph with projection data
-    drawGraph(ctx, graphData, eventCounter + 3, totalWidth, projectionData);
 }
 
 function drawGraph(ctx, graphData, maxX, totalWidth, projectionData = null) {
@@ -74,25 +69,25 @@ function drawGraph(ctx, graphData, maxX, totalWidth, projectionData = null) {
         certificate: '#ffa726',
         project: '#2979ff',
         training: '#ab47bc',
-        projection: '#723131'
+        projection: '#ff8c8c' // Projection color
     };
 
-    const offsetX = 20; // Padding for the graph start
-    const offsetY = 200; // Baseline for the graph
-    const xSpacing = (totalWidth - offsetX * 2) / maxX; // Dynamic horizontal scaling
-    const yScaling = 20; // Vertical scaling for event counts
+    const offsetX = 0; // Padding from the left
+    const offsetY = 300; // Baseline for the graph
+    const xSpacing = (totalWidth - offsetX * 2) / (maxX - 1); // Dynamically fit all points
+    const yScaling = 10; // Vertical scaling factor
 
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 1;
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
 
-    // Draw the actual data lines
+    // Draw real data lines
     Object.keys(graphData).forEach((type) => {
         ctx.strokeStyle = colors[type];
         ctx.beginPath();
 
         graphData[type].forEach((point, index) => {
-            const x = offsetX + point.x * xSpacing;
+            const x = offsetX + index * xSpacing;
             const y = offsetY - point.y * yScaling;
 
             if (index === 0) {
@@ -106,15 +101,15 @@ function drawGraph(ctx, graphData, maxX, totalWidth, projectionData = null) {
         ctx.closePath();
     });
 
-    // Draw projection lines, if available
+    // Draw projection lines
     if (projectionData) {
         Object.keys(projectionData).forEach((type) => {
             ctx.strokeStyle = colors.projection;
-            ctx.setLineDash([10, 10]); // Dashed projection lines
+            ctx.setLineDash([10, 10]); // Dashed style for projections
             ctx.beginPath();
 
             projectionData[type].forEach((point, index) => {
-                const x = offsetX + point.x * xSpacing;
+                const x = offsetX + (point.x - 1) * xSpacing;
                 const y = offsetY - point.y * yScaling;
 
                 if (index === 0) {
@@ -126,7 +121,7 @@ function drawGraph(ctx, graphData, maxX, totalWidth, projectionData = null) {
 
             ctx.stroke();
             ctx.closePath();
-            ctx.setLineDash([]); // Reset dash style for future drawings
+            ctx.setLineDash([]); // Reset line dash
         });
     }
 }
@@ -140,8 +135,8 @@ function generateProjectionData(graphData, currentMaxX, numFuturePoints = 3) {
 
         for (let i = 1; i <= numFuturePoints; i++) {
             projectionData[type].push({
-                x: currentMaxX + i, // Increment x-axis
-                y: lastPoint.y + i * 0.5 // Small upward trend
+                x: currentMaxX + i,
+                y: lastPoint.y + i * 0.1 // Slight upward trend
             });
         }
     });
@@ -149,5 +144,5 @@ function generateProjectionData(graphData, currentMaxX, numFuturePoints = 3) {
     return projectionData;
 }
 
-// Load and render events with graph
+// Load and render graph and events
 loadEvents();
