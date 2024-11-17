@@ -7,7 +7,7 @@ async function loadEvents() {
     const graphCanvas = document.getElementById('background-graph');
     const ctx = graphCanvas.getContext('2d');
 
-    // Set canvas dimensions (fixed area for the graph)
+    // Set canvas dimensions
     const totalWidth = graphCanvas.offsetWidth;
     graphCanvas.width = totalWidth;
     graphCanvas.height = 300;
@@ -26,7 +26,7 @@ async function loadEvents() {
 
     let eventCounter = 0;
 
-    // Build graph data in chronological order for proper graph rendering
+    // Build graph data in chronological order
     events.forEach((event) => {
         const { type } = event;
 
@@ -64,33 +64,53 @@ async function loadEvents() {
         timeline.appendChild(eventEl);
     });
 
-    // Add hover interaction to the graph
-    addGraphHoverInteraction(graphCanvas, events, timeline, totalWidth, eventCounter + 3);
+    // Add interaction for graph hover and click
+    addGraphHoverClickInteraction(graphCanvas, events, timeline, totalWidth, eventCounter + 3);
 }
 
-function addGraphHoverInteraction(graphCanvas, events, timeline, totalWidth, maxEvents) {
+function addGraphHoverClickInteraction(graphCanvas, events, timeline, totalWidth, maxEvents) {
     const xSpacing = totalWidth / maxEvents; // Calculate spacing between events on the graph
 
+    // Handle mousemove for hover effect
     graphCanvas.addEventListener('mousemove', (event) => {
-        const rect = graphCanvas.getBoundingClientRect();
-        const mouseX = event.clientX - rect.left; // Get mouse X position relative to the canvas
-        const closestEventIndex = Math.floor(mouseX / xSpacing); // Determine the closest event
+        const closestEventIndex = getClosestEventIndex(event, graphCanvas, xSpacing, events.length);
+        if (closestEventIndex !== null) {
+            highlightEvent(closestEventIndex, timeline);
+        }
+    });
 
-        if (closestEventIndex >= 0 && closestEventIndex < events.length) {
-            const eventEl = timeline.children[events.length - closestEventIndex - 1];
-            scrollToEvent(eventEl, timeline);
+    // Handle click to scroll timeline
+    graphCanvas.addEventListener('click', (event) => {
+        const closestEventIndex = getClosestEventIndex(event, graphCanvas, xSpacing, events.length);
+        if (closestEventIndex !== null) {
+            scrollToEvent(timeline.children[events.length - closestEventIndex - 1], timeline);
         }
     });
 }
 
+function getClosestEventIndex(event, canvas, xSpacing, eventCount) {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left; // Mouse X relative to canvas
+    const closestEventIndex = Math.floor(mouseX / xSpacing);
+
+    return closestEventIndex >= 0 && closestEventIndex < eventCount ? closestEventIndex : null;
+}
+
+function highlightEvent(index, timeline) {
+    const events = Array.from(timeline.children);
+    events.forEach((el, i) => {
+        el.classList.toggle('highlight', i === events.length - index - 1);
+    });
+}
+
 function scrollToEvent(eventEl, timeline) {
-    const timelineRect = timeline.getBoundingClientRect();
     const eventRect = eventEl.getBoundingClientRect();
-    const scrollLeft = timeline.scrollLeft + (eventRect.left - timelineRect.left);
+    const timelineRect = timeline.getBoundingClientRect();
+    const scrollLeft = timeline.scrollLeft + (eventRect.left - timelineRect.left - timelineRect.width / 2 + eventRect.width / 2);
 
     timeline.scrollTo({
         left: scrollLeft,
-        behavior: 'smooth' // Smooth scrolling effect
+        behavior: 'smooth'
     });
 }
 
@@ -100,13 +120,13 @@ function drawGraph(ctx, graphData, maxX, totalWidth, projectionData = null) {
         certificate: '#ffa726',
         project: '#2979ff',
         training: '#ab47bc',
-        projection: '#ff8c8c' // Projection color
+        projection: '#ff8c8c'
     };
 
-    const offsetX = 0; // Padding from the left
-    const offsetY = 300; // Baseline for the graph
-    const xSpacing = (totalWidth - offsetX * 2) / (maxX - 1); // Dynamically fit all points
-    const yScaling = 10; // Vertical scaling factor
+    const offsetX = 0;
+    const offsetY = 300;
+    const xSpacing = (totalWidth - offsetX * 2) / (maxX - 1);
+    const yScaling = 10;
 
     ctx.lineWidth = 1;
     ctx.lineJoin = 'round';
@@ -134,7 +154,7 @@ function drawGraph(ctx, graphData, maxX, totalWidth, projectionData = null) {
     if (projectionData) {
         Object.keys(projectionData).forEach((type) => {
             ctx.strokeStyle = colors.projection;
-            ctx.setLineDash([10, 10]); // Dashed style for projections
+            ctx.setLineDash([10, 10]);
             ctx.beginPath();
 
             projectionData[type].forEach((point, index) => {
@@ -150,7 +170,7 @@ function drawGraph(ctx, graphData, maxX, totalWidth, projectionData = null) {
 
             ctx.stroke();
             ctx.closePath();
-            ctx.setLineDash([]); // Reset line dash
+            ctx.setLineDash([]);
         });
     }
 }
@@ -165,7 +185,7 @@ function generateProjectionData(graphData, currentMaxX, numFuturePoints = 3) {
         for (let i = 1; i <= numFuturePoints; i++) {
             projectionData[type].push({
                 x: currentMaxX + i,
-                y: lastPoint.y + i * 0.1 // Slight upward trend
+                y: lastPoint.y + i * 0.1
             });
         }
     });
@@ -173,5 +193,5 @@ function generateProjectionData(graphData, currentMaxX, numFuturePoints = 3) {
     return projectionData;
 }
 
-// Load and render graph and events
+// Load events and render graph
 loadEvents();
