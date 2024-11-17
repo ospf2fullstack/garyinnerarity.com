@@ -44,10 +44,7 @@ async function loadEvents() {
         });
     });
 
-    // Generate projection data for additional points
     const projectionData = generateProjectionData(graphData, eventCounter, 3);
-
-    // Draw the graph (fit all lines within the canvas)
     drawGraph(ctx, graphData, eventCounter + 3, totalWidth, projectionData);
 
     // Display timeline in reverse order for the most recent event first
@@ -65,6 +62,35 @@ async function loadEvents() {
             <div class="event-details">${description}</div>
         `;
         timeline.appendChild(eventEl);
+    });
+
+    // Add hover interaction to the graph
+    addGraphHoverInteraction(graphCanvas, events, timeline, totalWidth, eventCounter + 3);
+}
+
+function addGraphHoverInteraction(graphCanvas, events, timeline, totalWidth, maxEvents) {
+    const xSpacing = totalWidth / maxEvents; // Calculate spacing between events on the graph
+
+    graphCanvas.addEventListener('mousemove', (event) => {
+        const rect = graphCanvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left; // Get mouse X position relative to the canvas
+        const closestEventIndex = Math.floor(mouseX / xSpacing); // Determine the closest event
+
+        if (closestEventIndex >= 0 && closestEventIndex < events.length) {
+            const eventEl = timeline.children[events.length - closestEventIndex - 1];
+            scrollToEvent(eventEl, timeline);
+        }
+    });
+}
+
+function scrollToEvent(eventEl, timeline) {
+    const timelineRect = timeline.getBoundingClientRect();
+    const eventRect = eventEl.getBoundingClientRect();
+    const scrollLeft = timeline.scrollLeft + (eventRect.left - timelineRect.left);
+
+    timeline.scrollTo({
+        left: scrollLeft,
+        behavior: 'smooth' // Smooth scrolling effect
     });
 }
 
@@ -86,7 +112,6 @@ function drawGraph(ctx, graphData, maxX, totalWidth, projectionData = null) {
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
 
-    // Draw real data lines
     Object.keys(graphData).forEach((type) => {
         ctx.strokeStyle = colors[type];
         ctx.beginPath();
@@ -106,7 +131,6 @@ function drawGraph(ctx, graphData, maxX, totalWidth, projectionData = null) {
         ctx.closePath();
     });
 
-    // Draw projection lines
     if (projectionData) {
         Object.keys(projectionData).forEach((type) => {
             ctx.strokeStyle = colors.projection;

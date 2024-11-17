@@ -240,9 +240,15 @@
     "type": "health"
   },
   {
+    "date": "2024-10-30",
+    "title": "SAP Training",
+    "description": "Studying AWS Solutions Architect Professional certification.",
+    "type": "training"
+  },
+  {
     "date": "2024-11-30",
     "title": "Solutions Architect Projessional",
-    "description": "Attempting AWS Solutions Architect Professional certification.",
-    "type": "certificate"
+    "description": "Studying AWS Solutions Architect Professional certification.",
+    "type": "training"
   }
 ]
