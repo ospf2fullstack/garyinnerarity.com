@@ -150,6 +150,24 @@
     "type": "project"
   },
   {
+    "date": "2021-09-01",
+    "title": "Hypervisor Migration",
+    "description": "Migrated on-prem infrastructure to a Hyper-V and hybrid cloud model.",
+    "type": "project"
+  },
+  {
+    "date": "2022-05-01",
+    "title": "Strategic Budgeting",
+    "description": "Reduced Opex by 25% through strategic software migration and optimization.",
+    "type": "project"
+  },
+  {
+    "date": "2022-10-30",
+    "title": "Cloud Resume Challenge",
+    "description": "Built the Cloud Resume Challenge showcasing skills in cloud and development.",
+    "type": "project"
+  },
+  {
     "date": "2022-06-20",
     "title": "Docker Expertise",
     "description": "Gained expertise in Docker through KodeKloud training.",
@@ -201,24 +219,6 @@
     "date": "2023-07-10",
     "title": "CI/CD Pipeline Optimization",
     "description": "Enhanced CI/CD pipelines for Sev1Tech's NASA project.",
-    "type": "project"
-  },
-  {
-    "date": "2023-09-01",
-    "title": "Hypervisor Migration",
-    "description": "Migrated on-prem infrastructure to a Hyper-V and hybrid cloud model.",
-    "type": "project"
-  },
-  {
-    "date": "2023-10-30",
-    "title": "Cloud Resume Challenge",
-    "description": "Built the Cloud Resume Challenge showcasing skills in cloud and development.",
-    "type": "project"
-  },
-  {
-    "date": "2023-11-01",
-    "title": "Strategic Budgeting",
-    "description": "Reduced Opex by 25% through strategic software migration and optimization.",
     "type": "project"
   },
   {

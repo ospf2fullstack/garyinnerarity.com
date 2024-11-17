@@ -204,3 +204,38 @@ h2 {
   background-color: #5a5a5a; /* Consistent with neumorphic design */
   z-index: 0;
 }
+
+.event.in-progress {
+  border-left: 3px solid #ffeb3b; /* Yellow for ongoing event */
+  background-color: rgba(255, 235, 59, 0.2); /* Subtle yellow tint */
+  position: relative;
+  animation: pulse 2s infinite; /* Optional: Pulse animation for emphasis */
+}
+
+.event.in-progress::after {
+  content: "In Progress";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background-color: #ffeb3b;
+  color: #1e1e2f;
+  font-size: 0.7rem;
+  padding: 3px 6px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  height: auto;
+  width: 100px;
+}
+
+/* Optional Pulse Animation */
+@keyframes pulse {
+  0% {
+      box-shadow: 0 0 5px rgba(255, 235, 59, 0.6);
+  }
+  50% {
+      box-shadow: 0 0 15px rgba(255, 235, 59, 0.8);
+  }
+  100% {
+      box-shadow: 0 0 5px rgba(255, 235, 59, 0.6);
+  }
+}

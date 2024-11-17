@@ -1,6 +1,7 @@
 async function loadEvents() {
     const response = await fetch('events.json'); // Load events
     const events = await response.json();
+    const currentDate = new Date(); // Get the current date
 
     const timeline = document.getElementById('timeline');
     const graphCanvas = document.getElementById('background-graph');
@@ -25,7 +26,7 @@ async function loadEvents() {
 
     let eventCounter = 0;
 
-    // Build graph data in chronological order
+    // Build graph data in chronological order for proper graph rendering
     events.forEach((event) => {
         const { type } = event;
 
@@ -49,12 +50,16 @@ async function loadEvents() {
     // Draw the graph (fit all lines within the canvas)
     drawGraph(ctx, graphData, eventCounter + 3, totalWidth, projectionData);
 
-    // Display reversed timeline for UI
+    // Display timeline in reverse order for the most recent event first
     [...events].reverse().forEach((event) => {
         const { date, title, description, type } = event;
 
+        // Determine if the event is in-progress based on the date
+        const eventDate = new Date(date);
+        const isInProgress = eventDate > currentDate;
+
         const eventEl = document.createElement('div');
-        eventEl.className = `event ${type}`;
+        eventEl.className = `event ${isInProgress ? 'in-progress' : type}`;
         eventEl.innerHTML = `
             <strong>${date}</strong><br>${title}
             <div class="event-details">${description}</div>
