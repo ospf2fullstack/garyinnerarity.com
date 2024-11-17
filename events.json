@@ -1,5 +1,143 @@
 [
   {
+    "date": "2011-11-05",
+    "title": "AOP 5k",
+    "description": "Ran the Alpha Omicron Pi 5k in 30 minutes.",
+    "type": "health"
+  },
+  {
+    "date": "2013-09-30",
+    "title": "Custom Built PC",
+    "description": "Custom Built my first PC with a GTX 660.",
+    "type": "project"
+  },
+  {
+    "date": "2015-09-16",
+    "title": "Deadlift PR 315",
+    "description": "My first PR for reps at 315 lbs.",
+    "type": "health"
+  },
+  {
+    "date": "2015-06-15",
+    "title": "Cisco Sw and Network Rewiring",
+    "description": "20 buildings rewired with new Cisco switches and rewired.",
+    "type": "project"
+  },
+  {
+    "date": "2016-01-15",
+    "title": "B.S. in Psychology",
+    "description": "Bachelor of Science in Psychology",
+    "type": "training"
+  },
+  {
+    "date": "2016-01-15",
+    "title": "Deadlift PR 405",
+    "description": "My first PR for single rep at 405 lbs.",
+    "type": "health"
+  },
+  {
+    "date": "2016-06-02",
+    "title": "Data Center Rerack and Rewire",
+    "description": "Rewired and reracked 24 physical servers on a dual rack server room.",
+    "type": "project"
+  },
+  {
+    "date": "2016-06-15",
+    "title": "Meraki Wireless Deployment",
+    "description": "Meraki Wireless deployment in 20 buildings.",
+    "type": "project"
+  },
+  {
+    "date": "2016-06-15",
+    "title": "MDT Deployment - 100+ Devices",
+    "description": "Deployed Microsoft MDT to deploy 100+ device images at the same time.",
+    "type": "project"
+  },
+  {
+    "date": "2016-07-15",
+    "title": "CCENT",
+    "description": "Cisco Certified Network Entry Technician",
+    "type": "certificate"
+  },
+  {
+    "date": "2016-08-15",
+    "title": "CCNA",
+    "description": "Cisco Certified Network Associate",
+    "type": "certificate"
+  },
+  {
+    "date": "2017-12-28",
+    "title": "MBA in IT Management",
+    "description": "Masters of Business Administration in IT Management",
+    "type": "training"
+  },
+  {
+    "date": "2017-07-15",
+    "title": "GCP Fundamentals",
+    "description": "Google Cloud Platform Fundamentals",
+    "type": "certificate"
+  },
+  {
+    "date": "2018-07-15",
+    "title": "Cisco Core Switch Upgrade",
+    "description": "Upgraded 4507 to 9500 core switch.",
+    "type": "project"
+  },
+  {
+    "date": "2019-10-02",
+    "title": "Pi Cluster 3",
+    "description": "Raspberry Pi Cluster for testing and development.",
+    "type": "project"
+  },
+  {
+    "date": "2019-10-02",
+    "title": "Surveillance System Upgrade",
+    "description": "60 camera surveillance system upgrade.",
+    "type": "project"
+  },
+  {
+    "date": "2020-04-20",
+    "title": "Pi Cluster 4",
+    "description": "Raspberry Pi Cluster for home production",
+    "type": "project"
+  },
+  {
+    "date": "2020-06-20",
+    "title": "Campus Digital Signage",
+    "description": "Implemented Digital Signage in 20 buildings.",
+    "type": "project"
+  },
+  {
+    "date": "2021-06-20",
+    "title": "Cisco Meraki Network Operator Cert",
+    "description": "Obtained Cisco Meraki Network Operator certification.",
+    "type": "certificate"
+  },
+  {
+    "date": "2021-09-20",
+    "title": "Amplified IT Training",
+    "description": "practiced amplified IT content for Google Workspace.",
+    "type": "training"
+  },
+  {
+    "date": "2021-09-20",
+    "title": "AmplifiedIT Level I admin",
+    "description": "Obtained AmplifiedIT Level I admin certification.",
+    "type": "certificate"
+  },
+  {
+    "date": "2021-10-20",
+    "title": "AmplifiedIT Level II admin",
+    "description": "Obtained AmplifiedIT Level II admin certification.",
+    "type": "certificate"
+  },
+  {
+    "date": "2021-11-20",
+    "title": "AmplifiedIT Security admin",
+    "description": "Obtained AmplifiedIT Security admin certification.",
+    "type": "certificate"
+  },
+  {
     "date": "2021-06-15",
     "title": "KPI Dashboard Development",
     "description": "Developed KPI dashboard linked to custom CRM for tracking key metrics.",
@@ -16,6 +154,12 @@
     "title": "Docker Expertise",
     "description": "Gained expertise in Docker through KodeKloud training.",
     "type": "training"
+  },
+  {
+    "date": "2022-04-20",
+    "title": "Home k3s + k8s Cluster",
+    "description": "Built a home k3s and k8s cluster for testing and development.",
+    "type": "project"
   },
   {
     "date": "2022-08-20",
