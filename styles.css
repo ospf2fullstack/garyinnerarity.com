@@ -95,11 +95,11 @@ h2 {
 }
 
 .color-box.training {
-  background-color: #540961;
+  background-color: #910da8;
 }
 
 .color-box.health {
-  background-color: #29722c;
+  background-color: #17aa1c;
 }
 
 .timeline-container {
@@ -149,11 +149,11 @@ h2 {
 }
 
 .event.training {
-  border-left: 3px solid #540961;
+  border-left: 3px solid #910da8;
 }
 
 .event.health {
-  border-left: 3px solid #29722c;
+  border-left: 3px solid #17aa1c;
 }
 
 .event::after {
@@ -279,4 +279,24 @@ h2 {
   to {
     transform: translateX(-100%);
   }
+}
+
+
+/* Github Logo */
+.github-link {
+  position: fixed; /* Fixes the position on the screen */
+  top: 20px; /* Adjust distance from the top */
+  right: 20px; /* Adjust distance from the right */
+  z-index: 1000; /* Ensure it appears on top of other elements */
+}
+
+.github-logo {
+  width: 50px; /* Adjust size */
+  height: 50px;
+  transition: transform 0.3s ease, filter 0.3s ease; /* Adds hover effects */
+}
+
+.github-logo:hover {
+  transform: rotate(360deg); /* Rotate animation on hover */
+  filter: drop-shadow(0 0 5px #060061); /* Add a glow effect */
 }
