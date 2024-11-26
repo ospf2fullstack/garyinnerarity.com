@@ -1,6 +1,6 @@
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: rgb(44, 44, 44); /* Consistent dark background */
+  background-color: rgb(230, 230, 230); /* Consistent dark background */
   margin: 0;
   padding: 0;
   display: flex;
@@ -8,7 +8,7 @@ body {
   align-items: center;
   height: 100vh;
   overflow: hidden;
-  color: #d1d1d1; /* Light text for contrast */
+  color: #474747; /* Light text for contrast */
 }
 
 h2 {
@@ -20,23 +20,23 @@ h2 {
   text-align: center;
   margin: 0;
   z-index: 2;
-  background-color: rgb(44, 44, 44);
+  background-color: rgb(230, 230, 230);
   padding: 10px 20px;
   border-radius: 8px;
-  box-shadow: inset 3px 3px 8px #111, inset -3px -3px 8px #2a2a2a;
+  box-shadow: inset 3px 3px 8px #f0eeee, inset -3px -3px 8px #ebe9e9;
   letter-spacing: 0.5px;
-  color: #d1d1d1 !important;
+  color: #505050 !important;
 }
 
 .custom-link {
-  color: #d1d1d1;
+  color: #535353;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
 .custom-link:hover {
-  color: #a1a1a1;
+  color: #8b8b8b;
 }
 
 .graph-container {
@@ -46,23 +46,23 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: rgb(44, 44, 44);
+  background-color: rgb(230, 230, 230);
   padding: 10px 20px;
   border-radius: 8px;
   z-index: 1;
-  box-shadow: inset 8px 8px 8px #111, inset -3px -3px 8px #2a2a2a;
+  box-shadow: inset 8px 8px 8px #e0e0e0, inset -3px -3px 8px #e0e0e0;
 }
 
 #background-graph {
   width: 90%;
   height: 300px;
-  background: rgb(44, 44, 44); /* Consistent background */
+  background: rgb(230, 230, 230); /* Consistent background */
   /* border-radius: 20px; */
   box-shadow: 
-      inset 4px 4px 10px #2e2e2e, /* Inner dark shadow */
-      inset -4px -4px 10px #292929, /* Inner light shadow */
-      8px 8px 15px #1e1e1e,         /* Outer dark shadow */
-      -8px -8px 15px #303030;       /* Outer light shadow */
+      inset 4px 4px 10px #ececec, /* Inner dark shadow */
+      inset -4px -4px 10px #f8f8f8, /* Inner light shadow */
+      5px 5px 15px #b6b1b1,         /* Outer dark shadow */
+      -8px -8px 15px #e7e7e7;       /* Outer light shadow */
 }
 
 .legend {
@@ -87,19 +87,19 @@ h2 {
 }
 
 .color-box.project {
-  background-color: #2979ff;
+  background-color: #185bcec5;
 }
 
 .color-box.certificate {
-  background-color: #ffa726;
+  background-color: #e69a29c4;
 }
 
 .color-box.training {
-  background-color: #ab47bc;
+  background-color: #540961;
 }
 
 .color-box.health {
-  background-color: #66bb6a;
+  background-color: #29722c;
 }
 
 .timeline-container {
@@ -126,8 +126,8 @@ h2 {
   position: relative;
   padding: 10px;
   border-radius: 8px;
-  background-color: #363636; /* Subtle contrast from timeline container */
-  box-shadow: 3px 3px 6px #2e2e2e, -3px -3px 6px #4e4e4e;
+  background-color: #dbdbdb; /* Subtle contrast from timeline container */
+  box-shadow: 3px 3px 6px #bbbbbb, -3px -3px 6px #c5c5c5;
   cursor: pointer;
   min-width: 150px;
   text-align: center;
@@ -137,23 +137,23 @@ h2 {
 
 .event:hover {
   transform: translateY(-3px);
-  box-shadow: 2px 2px 5px #1a1a1a, -2px -2px 5px #5a5a5a;
+  box-shadow: 1px 1px 2px #c9c9c9, -1px -1px 2px #d1d1d1;
 }
 
 .event.project {
-  border-left: 3px solid #2979ff;
+  border-left: 3px solid #185bcec5;
 }
 
 .event.certificate {
-  border-left: 3px solid #ffa726;
+  border-left: 3px solid #e69a29c4;
 }
 
 .event.training {
-  border-left: 3px solid #ab47bc;
+  border-left: 3px solid #540961;
 }
 
 .event.health {
-  border-left: 3px solid #66bb6a;
+  border-left: 3px solid #29722c;
 }
 
 .event::after {
@@ -178,15 +178,16 @@ h2 {
   left: 50%;
   transform: translateX(-50%);
   padding: 10px;
-  background: #2e2e2e; /* Matches neumorphic style */
+  background: #d1d1d1; /* Matches neumorphic style */
   border-radius: 8px;
   box-shadow: 2px 2px 5px #1a1a1a, -2px -2px 5px #4a4a4a;
   width: 180px;
-  z-index: 1;
+  z-index: 2;
   transition: opacity 0.3s ease, transform 0.3s ease;
   opacity: 0;
   visibility: hidden;
   font-size: 0.8rem;
+  scroll-behavior: smooth;
 }
 
 .event:hover .event-details {
@@ -201,15 +202,16 @@ h2 {
   position: absolute;
   top: 50%;
   left: 0;
-  height: 3px;
+  height: 1px;
   width: 100%;
-  background-color: #5a5a5a; /* Consistent with neumorphic design */
+  background-color: rgba(255, 235, 59); /* Consistent with neumorphic design */
   z-index: 0;
+  /* display: none; */
 }
 
 .event.in-progress {
   border-left: 3px solid #ffeb3b; /* Yellow for ongoing event */
-  background-color: rgba(255, 235, 59, 0.2); /* Subtle yellow tint */
+  background-color: rgba(255, 235, 59, 0.452); /* Subtle yellow tint */
   position: relative;
   animation: pulse 2s infinite; /* Optional: Pulse animation for emphasis */
 }
@@ -220,7 +222,7 @@ h2 {
   top: -10px;
   left: -10px;
   background-color: #ffeb3b;
-  color: #1e1e2f;
+  color: #787880;
   font-size: 0.7rem;
   padding: 3px 6px;
   border-radius: 5px;
@@ -239,5 +241,42 @@ h2 {
   }
   100% {
       box-shadow: 0 0 5px rgba(255, 235, 59, 0.6);
+  }
+}
+
+
+/* Rotating Banner Container for Certificates*/
+.image-banner {
+  position: fixed; /* Keeps the banner fixed on the screen */
+  bottom: 0; /* Adjust to top: 0; if you want it at the top */
+  width: 100%;
+  height: 50px; /* Adjust as needed */
+  padding-top: 5px;
+  /* background-color: #f9f9f9; Banner background */
+  overflow: hidden; /* Ensures smooth scrolling without overflow */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow effect */
+  z-index: 9999;
+}
+
+/* Inner Container for Images */
+.image-container {
+  display: flex;
+  gap: 10px;
+  animation: scroll 25s linear infinite; /* Smooth scrolling */
+}
+
+.image-container img {
+  height: 40px; /* Fixed height */
+  width: auto; /* Adjusts width proportionally */
+  object-fit: contain; /* Keeps the aspect ratio intact */
+}
+
+/* Scrolling Animation */
+@keyframes scroll {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
   }
 }
