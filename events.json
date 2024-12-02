@@ -246,15 +246,15 @@
     "type": "health"
   },
   {
-    "date": "2024-10-30",
+    "date": "2024-11-30",
     "title": "SAP Training",
     "description": "ExamPro, Adrian Cantrill and Jon Bonso Practice Tests.",
     "type": "training"
   },
   {
-    "date": "2024-11-30",
-    "title": "Solutions Architect Projessional",
-    "description": "Studying AWS Solutions Architect Professional certification.",
+    "date": "2024-12-30",
+    "title": "Solutions Architect Projessional Certificate",
+    "description": "Studying AWS Solutions Architect Professional certification and plan to sit for the exam in December, 2024.",
     "type": "training"
   }
 ]
