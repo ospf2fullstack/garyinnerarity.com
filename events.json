@@ -256,5 +256,11 @@
     "title": "Solutions Architect Projessional Certificate",
     "description": "Studying AWS Solutions Architect Professional certification and plan to sit for the exam in December, 2024.",
     "type": "training"
+  },
+  {
+    "date": "2024-12-15",
+    "title": "MBSE Training",
+    "description": "MBSE deep dive with Capella MBSE with Carnige Mellon's course",
+    "type": "training"
   }
 ]
