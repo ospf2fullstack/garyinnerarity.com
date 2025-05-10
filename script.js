@@ -5,15 +5,12 @@ const outlinePane = document.getElementById("outline-pane");
 
 let allNotes = [];
 
-// Simulated file list (replace with real file discovery if served from a backend)
-const files = [
-  "welcome.md",
-  "projects.md",
-  "about.md"
-];
-
 // Load all notes at startup
 async function loadAllNotes() {
+  // Fetch the list of files dynamically
+  const res = await fetch(`${notesDir}file-list.json`);
+  const files = await res.json(); // Expecting a JSON array of file paths
+
   allNotes = await Promise.all(
     files.map(async (filename) => {
       const res = await fetch(`${notesDir}${filename}`);
@@ -77,14 +74,18 @@ function loadLinkedNote(linkName) {
 
 // Graph rendering
 function buildGraph() {
-  const nodes = allNotes.map(note => ({ id: note.filename, label: note.filename.replace(".md", "") }));
+  const nodes = allNotes.map(note => ({
+    id: note.filename,
+    label: note.filename.replace(/^.*[\\/]/, '').replace(".md", ""), // Extract filename without path
+    title: note.filename // Show full path on hover
+  }));
   const edges = [];
 
   allNotes.forEach(note => {
     const links = [...note.content.matchAll(/\[\[([^\]]+)\]\]/g)];
     links.forEach(link => {
-      const target = `${link[1]}.md`;
-      if (files.includes(target)) {
+      const target = files.find(f => f.endsWith(`${link[1]}.md`)); // Match nested paths
+      if (target) {
         edges.push({ from: note.filename, to: target });
       }
     });
