@@ -1,5 +1,3 @@
-# .github/workflows/deploy.yml
-
 name: Deploy static content to GitHub Pages
 
 on:
@@ -20,16 +18,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'  # Adjust if needed
+          path: '.'  # Set to your build output dir if different
 
   deploy:
     needs: build
@@ -40,4 +38,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deploy
-        uses: actions/deploy-pages@v3
+        uses: actions/deploy-pages@v4
