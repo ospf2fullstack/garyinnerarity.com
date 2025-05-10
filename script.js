@@ -81,7 +81,7 @@ function buildGraph(selectedNote = null) {
   const nodes = [];
   const edges = [];
 
-  if (selectedNote) {
+  if (selectedNote && selectedNote !== "welcome.md") {
     // Filter graph to show only the selected note and its linked nodes
     const selectedNode = allNotes.find(note => note.filename === selectedNote);
     if (selectedNode) {
@@ -130,7 +130,11 @@ function buildGraph(selectedNote = null) {
   };
   const options = {
     layout: { improvedLayout: true },
-    nodes: { shape: "dot", size: 12, font: { size: 16 } },
+    nodes: {
+      shape: "dot",
+      size: 12,
+      font: { size: 16, color: "#ffffff" }, // Darken node text color
+    },
     edges: { arrows: "to", smooth: true },
   };
   new vis.Network(container, data, options);
