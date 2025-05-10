@@ -1,63 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gary Innerarity, MBA</title>
-  <link rel="stylesheet" href="styles.css">
-  <meta 
-    name="description" 
-    content="Gary Innerarity, MBA - NASA NCAM Project Manager, Solutions Architect, DevSecOps Engineer, Developer"
-    >
-  <meta 
-    name="keywords" 
-    content="Gary Innerarity, MBA, NASA, NCAM, Project Manager, Solutions Architect, DevSecOps Engineer, Developer"
-    >
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;           
-      justify-content: center;
-      align-items: center;
-    }
-    
-    p {
-      text-align: center;
-      font-size: 2rem;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gary's Second Brain</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <p>Gary Innerarity, MBA</p>
-</body>
-<!-- <body>
-  <a href="https://github.com/ospf2fullstack" target="_blank" class="github-link" title="Visit My GitHub!">
-    <img src="/assets/github/github-mark-white.svg" alt="GitHub" class="github-logo">
-  </a>
-  
-  <h2><a href="https://www.linkedin.com/in/ginnerarity/" target="_blank" class="custom-link">Gary Innerarity, MBA</a></h2>
-  <p>Project Management, Solutions Architecture, DevSecOps</p>
+  <div class="layout">
+    <aside id="sidebar">
+      <h2>📁 Gary Innerarity, MBA</h2>
+      <ul id="note-list"></ul>
+    </aside>
 
-  <div class="graph-container">
-    <canvas id="background-graph"></canvas>
-    <div class="legend">
-      <span><span class="color-box project"></span> Project</span>
-      <span><span class="color-box certificate"></span> Certificate</span>
-      <span><span class="color-box training"></span> Training</span>
-      <span><span class="color-box health"></span> Health</span>
+    <main id="main-view">
+      <h1>Welcome</h1>
+      <p>Select a note from the sidebar to begin.</p>
+    </main>
+
+    <div id="right-pane">
+      <div id="graph-pane"></div>
+      <div id="outline-pane"></div>
     </div>
   </div>
 
-  <div class="timeline-container">
-    <div class="timeline" id="timeline"></div>
-  </div>
-
-  <div class="image-banner">
-    <div class="image-container" id="image-container">
-    </div>
-  </div>  
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.2/dist/vis-network.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/vis-network@9.1.2/styles/vis-network.min.css" rel="stylesheet">
   <script src="script.js"></script>
-  <script src="scripts/certificates.js"></script>
-</body> -->
+</body>
 </html>

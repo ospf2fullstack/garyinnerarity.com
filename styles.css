@@ -1,302 +1,71 @@
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: rgb(230, 230, 230); /* Consistent dark background */
   margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  font-family: Arial, sans-serif;
   height: 100vh;
-  overflow: hidden;
-  color: #474747; /* Light text for contrast */
+  display: grid;
+  grid-template-columns: 250px 1fr 350px;
+  grid-template-areas: "sidebar main right";
 }
 
-h2 {
-  text-decoration: none;
-  font-size: 1.7rem;
-  font-weight: 500;
-  position: sticky;
-  top: 10px;
-  text-align: center;
-  margin: 0;
-  z-index: 2;
-  background-color: rgb(230, 230, 230);
-  padding: 10px 20px;
-  border-radius: 8px;
-  box-shadow: inset 3px 3px 8px #f0eeee, inset -3px -3px 8px #ebe9e9;
-  letter-spacing: 0.5px;
-  color: #505050 !important;
+.layout {
+  display: contents;
 }
 
-.custom-link {
-  color: #535353;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s ease;
+#sidebar {
+  grid-area: sidebar;
+  background: #1e1e1e;
+  color: #f5f5f5;
+  padding: 1rem;
+  overflow-y: auto;
 }
 
-.custom-link:hover {
-  color: #8b8b8b;
+#sidebar h2 {
+  margin-top: 0;
+  font-size: 1rem;
 }
 
-.graph-container {
-  position: sticky;
-  top: 60px;
-  width: 100%;
+#note-list {
+  list-style: none;
+  padding: 0;
+}
+
+#note-list li {
+  cursor: pointer;
+  margin: 5px 0;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+#note-list li:hover {
+  background: #333;
+}
+
+#main-view {
+  grid-area: main;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+#right-pane {
+  grid-area: right;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: rgb(230, 230, 230);
-  padding: 10px 20px;
-  border-radius: 8px;
-  z-index: 1;
-  box-shadow: inset 8px 8px 8px #e0e0e0, inset -3px -3px 8px #e0e0e0;
+  height: 100vh;
+  border-left: 1px solid #ccc;
+  min-height: 0; /* 🔧 CRITICAL */
 }
 
-#background-graph {
-  width: 90%;
-  height: 300px;
-  background: rgb(230, 230, 230); /* Consistent background */
-  /* border-radius: 20px; */
-  box-shadow: 
-      inset 4px 4px 10px #ececec, /* Inner dark shadow */
-      inset -4px -4px 10px #f8f8f8, /* Inner light shadow */
-      5px 5px 15px #b6b1b1,         /* Outer dark shadow */
-      -8px -8px 15px #e7e7e7;       /* Outer light shadow */
-}
-
-.legend {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 10px;
-}
-
-.legend span {
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-}
-
-.color-box {
-  width: 15px;
-  height: 15px;
-  display: inline-block;
-  margin-right: 5px;
-  border-radius: 3px;
-}
-
-.color-box.project {
-  background-color: #185bcec5;
-}
-
-.color-box.certificate {
-  background-color: #e69a29c4;
-}
-
-.color-box.training {
-  background-color: #910da8;
-}
-
-.color-box.health {
-  background-color: #17aa1c;
-}
-
-.timeline-container {
-  width: 90%;
-  height: calc(100% - 400px); /* Below graph and header */
-  overflow-x: auto;
-  padding: 20px;
-  scrollbar-width: none; /* Firefox */
-}
-
-.timeline-container::-webkit-scrollbar {
-  display: none; /* Webkit browsers */
-}
-
-.timeline {
-  display: flex;
-  gap: 20px; /* Compact spacing */
-  position: relative;
-  align-items: center;
-}
-
-.event {
-  display: inline-block;
-  position: relative;
-  padding: 10px;
-  border-radius: 8px;
-  background-color: #dbdbdb; /* Subtle contrast from timeline container */
-  box-shadow: 3px 3px 6px #bbbbbb, -3px -3px 6px #c5c5c5;
-  cursor: pointer;
-  min-width: 150px;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  font-size: 0.85rem;
-}
-
-.event:hover {
-  transform: translateY(-3px);
-  box-shadow: 1px 1px 2px #c9c9c9, -1px -1px 2px #d1d1d1;
-}
-
-.event.project {
-  border-left: 3px solid #185bcec5;
-}
-
-.event.certificate {
-  border-left: 3px solid #e69a29c4;
-}
-
-.event.training {
-  border-left: 3px solid #910da8;
-}
-
-.event.health {
-  border-left: 3px solid #17aa1c;
-}
-
-.event::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  width: 30px;
-  height: 3px;
-  background-color: currentColor;
-  transform: translateY(-50%);
-}
-
-.event:last-child::after {
-  content: none;
-}
-
-.event-details {
-  display: none;
-  position: absolute;
-  top: 50px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px;
-  background: #d1d1d1; /* Matches neumorphic style */
-  border-radius: 8px;
-  box-shadow: 2px 2px 5px #1a1a1a, -2px -2px 5px #4a4a4a;
-  width: 180px;
-  z-index: 2;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  opacity: 0;
-  visibility: hidden;
-  font-size: 0.8rem;
-  scroll-behavior: smooth;
-}
-
-.event:hover .event-details {
-  display: block;
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 5px);
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  height: 1px;
-  width: 100%;
-  background-color: rgba(255, 235, 59); /* Consistent with neumorphic design */
-  z-index: 0;
-  /* display: none; */
-}
-
-.event.in-progress {
-  border-left: 3px solid #ffeb3b; /* Yellow for ongoing event */
-  background-color: rgba(255, 235, 59, 0.452); /* Subtle yellow tint */
-  position: relative;
-  animation: pulse 2s infinite; /* Optional: Pulse animation for emphasis */
-}
-
-.event.in-progress::after {
-  content: "In Progress";
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  background-color: #ffeb3b;
-  color: #787880;
-  font-size: 0.7rem;
-  padding: 3px 6px;
-  border-radius: 5px;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-  height: auto;
-  width: 100px;
-}
-
-/* Optional Pulse Animation */
-@keyframes pulse {
-  0% {
-      box-shadow: 0 0 5px rgba(255, 235, 59, 0.6);
-  }
-  50% {
-      box-shadow: 0 0 15px rgba(255, 235, 59, 0.8);
-  }
-  100% {
-      box-shadow: 0 0 5px rgba(255, 235, 59, 0.6);
-  }
+#graph-pane {
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+  min-height: 0; /* 🔧 Prevent overflow */
+  overflow: hidden; /* 🔧 Prevent scroll pushing layout */
 }
 
 
-/* Rotating Banner Container for Certificates*/
-.image-banner {
-  position: fixed; /* Keeps the banner fixed on the screen */
-  bottom: 0; /* Adjust to top: 0; if you want it at the top */
-  width: 100%;
-  height: 50px; /* Adjust as needed */
-  padding-top: 5px;
-  /* background-color: #f9f9f9; Banner background */
-  overflow: hidden; /* Ensures smooth scrolling without overflow */
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow effect */
-  z-index: 9999;
-}
-
-/* Inner Container for Images */
-.image-container {
-  display: flex;
-  gap: 10px;
-  animation: scroll 25s linear infinite; /* Smooth scrolling */
-}
-
-.image-container img {
-  height: 40px; /* Fixed height */
-  width: auto; /* Adjusts width proportionally */
-  object-fit: contain; /* Keeps the aspect ratio intact */
-}
-
-/* Scrolling Animation */
-@keyframes scroll {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-
-/* Github Logo */
-.github-link {
-  position: fixed; /* Fixes the position on the screen */
-  top: 20px; /* Adjust distance from the top */
-  right: 20px; /* Adjust distance from the right */
-  z-index: 1000; /* Ensure it appears on top of other elements */
-}
-
-.github-logo {
-  width: 50px; /* Adjust size */
-  height: 50px;
-  transition: transform 0.3s ease, filter 0.3s ease; /* Adds hover effects */
-}
-
-.github-logo:hover {
-  transform: rotate(360deg); /* Rotate animation on hover */
-  filter: drop-shadow(0 0 5px #060061); /* Add a glow effect */
+#outline-pane {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+  background: #f7f7f7;
 }
