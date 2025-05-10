@@ -4,12 +4,13 @@ const mainView = document.getElementById("main-view");
 const outlinePane = document.getElementById("outline-pane");
 
 let allNotes = [];
+let files = []; // Declare files globally to store the dynamically fetched file list
 
 // Load all notes at startup
 async function loadAllNotes() {
   // Fetch the list of files dynamically
   const res = await fetch(`${notesDir}file-list.json`);
-  const files = await res.json(); // Expecting a JSON array of file paths
+  files = await res.json(); // Store the fetched file paths globally
 
   allNotes = await Promise.all(
     files.map(async (filename) => {
@@ -19,7 +20,7 @@ async function loadAllNotes() {
     })
   );
   renderNoteList();
-  buildGraph();
+  buildGraph(); // Use the global files array
 }
 
 // Populate the sidebar
@@ -29,7 +30,7 @@ function renderNoteList() {
     const li = document.createElement("li");
     li.textContent = note.filename.replace(".md", "");
     li.onclick = () => {
-      renderMarkdown(note.content);
+      renderMarkdown(note.content, note.filename);
       renderOutline(note.content);
     };
     noteList.appendChild(li);
@@ -37,7 +38,7 @@ function renderNoteList() {
 }
 
 // Markdown → HTML
-function renderMarkdown(md) {
+function renderMarkdown(md, filename) {
   const html = marked.parse(md);
   mainView.innerHTML = html;
   // Handle internal [[wikilinks]]
@@ -46,6 +47,9 @@ function renderMarkdown(md) {
       return `<a href="#" onclick="loadLinkedNote('${link}')">${link}</a>`;
     });
   });
+
+  // Update the graph for the selected note
+  buildGraph(filename);
 }
 
 // Outline from headings
@@ -65,7 +69,7 @@ function renderOutline(content) {
 function loadLinkedNote(linkName) {
   const found = allNotes.find(n => n.filename === `${linkName}.md`);
   if (found) {
-    renderMarkdown(found.content);
+    renderMarkdown(found.content, found.filename);
     renderOutline(found.content);
   } else {
     mainView.innerHTML = `<p>🔍 Note not found: ${linkName}.md</p>`;
@@ -73,23 +77,51 @@ function loadLinkedNote(linkName) {
 }
 
 // Graph rendering
-function buildGraph() {
-  const nodes = allNotes.map(note => ({
-    id: note.filename,
-    label: note.filename.replace(/^.*[\\/]/, '').replace(".md", ""), // Extract filename without path
-    title: note.filename // Show full path on hover
-  }));
+function buildGraph(selectedNote = null) {
+  const nodes = [];
   const edges = [];
 
-  allNotes.forEach(note => {
-    const links = [...note.content.matchAll(/\[\[([^\]]+)\]\]/g)];
-    links.forEach(link => {
-      const target = files.find(f => f.endsWith(`${link[1]}.md`)); // Match nested paths
-      if (target) {
-        edges.push({ from: note.filename, to: target });
-      }
+  if (selectedNote) {
+    // Filter graph to show only the selected note and its linked nodes
+    const selectedNode = allNotes.find(note => note.filename === selectedNote);
+    if (selectedNode) {
+      nodes.push({
+        id: selectedNode.filename,
+        label: selectedNode.filename.replace(/^.*[\\/]/, '').replace(".md", ""),
+        title: selectedNode.filename
+      });
+
+      const links = [...selectedNode.content.matchAll(/\[\[([^\]]+)\]\]/g)];
+      links.forEach(link => {
+        const target = files.find(f => f.endsWith(`${link[1]}.md`));
+        if (target) {
+          nodes.push({
+            id: target,
+            label: target.replace(/^.*[\\/]/, '').replace(".md", ""),
+            title: target
+          });
+          edges.push({ from: selectedNode.filename, to: target });
+        }
+      });
+    }
+  } else {
+    // Show the full graph
+    allNotes.forEach(note => {
+      nodes.push({
+        id: note.filename,
+        label: note.filename.replace(/^.*[\\/]/, '').replace(".md", ""),
+        title: note.filename
+      });
+
+      const links = [...note.content.matchAll(/\[\[([^\]]+)\]\]/g)];
+      links.forEach(link => {
+        const target = files.find(f => f.endsWith(`${link[1]}.md`));
+        if (target) {
+          edges.push({ from: note.filename, to: target });
+        }
+      });
     });
-  });
+  }
 
   const container = document.getElementById("graph-pane");
   const data = {
