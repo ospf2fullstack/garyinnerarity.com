@@ -1,5 +1,7 @@
 [
   "Welcome.md",
+  "about.md",
   "projects.md",
-  "technicals/aws.md"
+  "technicals/aws.md",
+  "technicals/gcp.md"
 ]

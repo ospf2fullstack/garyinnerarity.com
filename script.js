@@ -23,33 +23,58 @@ async function loadAllNotes() {
   buildGraph(); // Use the global files array
 }
 
-// Populate the sidebar
+// Populate the sidebar with intelligent grouping
 function renderNoteList() {
   noteList.innerHTML = "";
+  // Group notes by folder (e.g., technicals/)
+  const groups = {};
   allNotes.forEach((note) => {
-    const li = document.createElement("li");
-    li.textContent = note.filename.replace(".md", "");
-    li.onclick = () => {
-      renderMarkdown(note.content, note.filename);
-      renderOutline(note.content);
+    const parts = note.filename.split("/");
+    const group = parts.length > 1 ? parts[0] : "General";
+    if (!groups[group]) groups[group] = [];
+    groups[group].push(note);
+  });
+
+  // Render groups
+  Object.keys(groups).sort().forEach((group) => {
+    const groupHeader = document.createElement("li");
+    groupHeader.textContent = group.charAt(0).toUpperCase() + group.slice(1);
+    groupHeader.classList.add("folder", "collapsed");
+    groupHeader.onclick = () => {
+      groupHeader.classList.toggle("collapsed");
+      groupHeader.classList.toggle("expanded");
     };
-    noteList.appendChild(li);
+    noteList.appendChild(groupHeader);
+
+    const groupList = document.createElement("ul");
+    groups[group].forEach((note) => {
+      const li = document.createElement("li");
+      li.textContent = note.filename.replace(/^.*\//, "").replace(".md", "");
+      li.classList.add("note");
+      li.onclick = () => {
+        renderMarkdown(note.content, note.filename);
+        renderOutline(note.content);
+        if (window.innerWidth <= 600) closeSidebar();
+      };
+      groupList.appendChild(li);
+    });
+    noteList.appendChild(groupList);
   });
 }
 
 // Markdown → HTML
 function renderMarkdown(md, filename) {
   const html = marked.parse(md);
-  mainView.innerHTML = html;
+  // Only render note content (no graph above note)
+  const noteDiv = `<div id="note-content">${html}</div>`;
+  mainView.innerHTML = noteDiv;
   // Handle internal [[wikilinks]]
-  mainView.querySelectorAll("p").forEach((el) => {
+  mainView.querySelectorAll("#note-content p").forEach((el) => {
     el.innerHTML = el.innerHTML.replace(/\[\[([^\]]+)\]\]/g, (_, link) => {
       return `<a href="#" onclick="loadLinkedNote('${link}')">${link}</a>`;
     });
   });
-
-  // Update the graph for the selected note
-  buildGraph(filename);
+  // No buildGraph here; graph is handled in right pane
 }
 
 // Outline from headings
@@ -123,22 +148,89 @@ function buildGraph(selectedNote = null) {
     });
   }
 
+  // Always render in the right pane's graph-pane
   const container = document.getElementById("graph-pane");
-  const data = {
-    nodes: new vis.DataSet(nodes),
-    edges: new vis.DataSet(edges)
-  };
+  if (!container) return;
+
+  // On mobile, use a mini graph style
+  const isMobile = window.innerWidth <= 600;
   const options = {
     layout: { improvedLayout: true },
     nodes: {
       shape: "dot",
-      size: 12,
-      font: { size: 16, color: "#ffffff" }, // Darken node text color
+      size: isMobile ? 8 : 12,
+      font: { size: isMobile ? 10 : 16, color: "#ffffff" },
     },
     edges: { arrows: "to", smooth: true },
+    height: isMobile ? "120px" : "100%",
+    width: isMobile ? "100vw" : "100%"
   };
-  new vis.Network(container, data, options);
+  container.innerHTML = "";
+  new vis.Network(container, { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) }, options);
 }
+
+// Add a mobile sidebar toggle button if not present
+function ensureSidebarToggle() {
+  if (!document.getElementById("sidebar-toggle")) {
+    const btn = document.createElement("button");
+    btn.id = "sidebar-toggle";
+    btn.innerHTML = "☰ Menu";
+    btn.setAttribute("aria-label", "Open menu");
+    document.body.appendChild(btn);
+    btn.onclick = () => {
+      sidebar.style.display = "flex";
+      sidebarVisible = true;
+      btn.style.display = "none";
+      // Add overlay to close sidebar
+      if (!document.getElementById("sidebar-overlay")) {
+        const overlay = document.createElement("div");
+        overlay.id = "sidebar-overlay";
+        overlay.style.position = "fixed";
+        overlay.style.top = 0;
+        overlay.style.left = 0;
+        overlay.style.width = "100vw";
+        overlay.style.height = "100vh";
+        overlay.style.background = "rgba(0,0,0,0.3)";
+        overlay.style.zIndex = 199;
+        overlay.onclick = closeSidebar;
+        document.body.appendChild(overlay);
+      }
+    };
+  }
+}
+
+function closeSidebar() {
+  sidebar.style.display = "none";
+  sidebarVisible = false;
+  const btn = document.getElementById("sidebar-toggle");
+  if (btn) btn.style.display = "block";
+  const overlay = document.getElementById("sidebar-overlay");
+  if (overlay) overlay.remove();
+}
+
+// Show/hide sidebar and toggle button on resize
+function handleResize() {
+  if (window.innerWidth <= 600) {
+    sidebar.style.display = sidebarVisible ? "flex" : "none";
+    const btn = document.getElementById("sidebar-toggle");
+    if (btn) btn.style.display = sidebarVisible ? "none" : "block";
+  } else {
+    sidebar.style.display = "flex";
+    const btn = document.getElementById("sidebar-toggle");
+    if (btn) btn.style.display = "none";
+    const overlay = document.getElementById("sidebar-overlay");
+    if (overlay) overlay.remove();
+  }
+}
+
+window.addEventListener("resize", () => {
+  handleResize();
+  buildGraph();
+});
+document.addEventListener("DOMContentLoaded", () => {
+  ensureSidebarToggle();
+  handleResize();
+});
 
 // Initialize
 loadAllNotes();

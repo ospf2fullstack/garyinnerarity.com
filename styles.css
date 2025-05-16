@@ -56,7 +56,7 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   border-right: 1px solid #3a3d45; /* Subtle divider */
 }
 
@@ -70,7 +70,64 @@ body {
 #note-list {
   list-style: none;
   padding: 0;
+  margin: 0;
+}
+
+#note-list .folder {
+  font-weight: bold;
+  cursor: pointer;
+  margin: 8px 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #2c2f36; /* Slightly lighter background for folders */
+  transition: background 0.3s ease;
+}
+
+#note-list .folder:hover {
+  background: #3a3d45; /* Highlighted background */
+}
+
+#note-list .note {
+  margin: 4px 0;
+  padding: 4px 12px;
+  border-radius: 6px;
+  background: #1b1d23; /* Darker background for notes */
+  color: #e0e0e0;
+  transition: background 0.3s ease;
+  margin-left: 20px; /* Indent child notes */
+}
+
+#note-list .note:hover {
+  background: #2c2f36; /* Highlighted background for notes */
+}
+
+/* Collapsible Folder Styles */
+#note-list .folder.collapsed + ul {
+  display: none;
+}
+
+#note-list .folder::before {
+  content: "➕"; /* Default collapsed icon */
+  margin-right: 8px;
+}
+
+#note-list .folder.expanded::before {
+  content: "➖"; /* Expanded icon */
+}
+
+/* Add smooth transitions */
+#note-list ul {
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+}
+
+#note-list {
+  list-style: none;
+  padding: 0;
   margin: 1rem 0 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 #note-list li {
@@ -89,7 +146,8 @@ body {
 }
 
 #sidebar-footer {
-  margin-top: auto;
+  flex-shrink: 0;
+  margin-top: 0;
   font-size: 0.8rem;
   text-align: center;
   color: #a0a0a0; /* Subtle footer text */
@@ -179,32 +237,129 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Sidebar Toggle Button */
+#sidebar-toggle {
+  display: none;
+  background: #0078d4;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  z-index: 200;
+}
+
+#sidebar-toggle:active {
+  background: #005a9e;
+}
+
+@media (max-width: 600px) {
   body {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
       "header"
-      "sidebar"
       "main"
-      "right";
+      "footer";
+    min-height: 100vh;
   }
+  #sidebar {
+    display: none !important;
+  }
+  #main-view {
+    padding: 1rem 0.75rem;
+    grid-area: main;
+  }
+  #right-pane {
+    display: block;
+    width: 100vw;
+    min-width: 0;
+    max-width: 100vw;
+    height: auto;
+    border: none;
+    background: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    grid-area: main;
+  }
+  #graph-pane {
+    width: 100vw;
+    min-width: 0;
+    max-width: 100vw;
+    height: 120px;
+    min-height: 120px;
+    max-height: 120px;
+    background: #1b1d23;
+    border-bottom: 1px solid #3a3d45;
+    border-top: none;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  #outline-pane {
+    display: none !important;
+  }
+  #sidebar-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    background: #1b1d23;
+    border-top: 1px solid #3a3d45;
+    z-index: 100;
+    margin: 0;
+    padding: 0.5rem 0;
+  }
+  #sidebar-toggle {
+    display: block !important;
+  }
+}
 
+@media (min-width: 601px) and (max-width: 1024px) {
+  body {
+    grid-template-columns: 180px 1fr 220px;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "header header header"
+      "sidebar main right";
+  }
   #sidebar {
     padding: 1rem;
+    min-width: 140px;
+    max-width: 200px;
   }
-
   #main-view {
-    padding: 1.5rem;
+    padding: 1.2rem;
   }
-
   #right-pane {
-    flex-direction: column;
-    height: auto;
+    min-width: 160px;
+    max-width: 240px;
   }
-
   #main-header {
-    font-size: 1.2rem;
-    padding: 1rem;
+    font-size: 1.1rem;
+    padding: 1rem 1.2rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  body {
+    grid-template-columns: 250px 1fr 350px;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "header header header"
+      "sidebar main right";
+  }
+  #sidebar {
+    min-width: 200px;
+    max-width: 300px;
+  }
+  #main-view {
+    padding: 2rem;
+  }
+  #right-pane {
+    min-width: 250px;
+    max-width: 400px;
   }
 }
