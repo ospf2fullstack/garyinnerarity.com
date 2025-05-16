@@ -220,7 +220,19 @@ function buildGraph(selectedNote = null) {
     width: isMobile ? "100vw" : "100%"
   };
   container.innerHTML = "";
-  new vis.Network(container, { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) }, options);
+  const network = new vis.Network(container, { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) }, options);
+
+  // Add click event listener to open the corresponding note
+  network.on("click", function (params) {
+    if (params.nodes.length > 0) {
+      const clickedNodeId = params.nodes[0];
+      const clickedNote = allNotes.find(note => note.filename === clickedNodeId);
+      if (clickedNote) {
+        renderMarkdown(clickedNote.content, clickedNote.filename);
+        renderOutline(clickedNote.content);
+      }
+    }
+  });
 }
 
 // Add a mobile sidebar toggle button if not present
