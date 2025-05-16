@@ -263,7 +263,7 @@ a:hover {
 
 /* Style for code blocks */
 pre {
-  background-color: #2d2d2d; /* Dark background */
+  background-color: #b8b7b7; /* Dark background */
   color: #f8f8f2; /* Light text */
   padding: 10px;
   border-radius: 5px;
@@ -277,7 +277,7 @@ code {
 
 /* Mermaid Diagram Styling */
 .mermaid {
-  background-color: #2b2d3a; /* Slightly lighter than the page background */
+  background-color: #dddddf; /* Slightly lighter than the page background */
   color: #ffffff; /* White text for contrast */
   border: 1px solid #44475a; /* Subtle border for separation */
   border-radius: 8px; /* Rounded corners for a modern look */
@@ -285,7 +285,7 @@ code {
 }
 
 .mermaid .node rect {
-  fill: #44475a; /* Node background color */
+  fill: #061db1; /* Node background color */
   stroke: #6272a4; /* Node border color */
 }
 
@@ -301,6 +301,18 @@ code {
 .mermaid .edgeLabel {
   fill: #f8f8f2; /* Edge label text color */
   font-size: 12px; /* Font size for readability */
+}
+
+.mermaid path {
+  fill: none; /* No fill for paths */
+  stroke: #50fa7b; /* Path color */
+  stroke-width: 2px; /* Path thickness */
+}
+
+.mermaid p {
+  color: #f8f8f2; /* Text color for paragraphs */
+  background-color: none;
+  font-size: 14px; /* Font size for readability */
 }
 
 @media (max-width: 600px) {
