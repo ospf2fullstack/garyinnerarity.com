@@ -51,10 +51,17 @@ function renderNoteList() {
       const li = document.createElement("li");
       li.textContent = note.filename.replace(/^.*\//, "").replace(".md", "");
       li.classList.add("note");
+      // Ensure note selection works by checking if `note.content` exists
       li.onclick = () => {
-        renderMarkdown(note.content, note.filename);
-        renderOutline(note.content);
-        if (window.innerWidth <= 600) closeSidebar();
+        if (note.content) {
+          renderMarkdown(note.content, note.filename);
+          renderOutline(note.content);
+          // Debugging: Log note content to verify
+          console.log(`Rendering note: ${note.filename}`, note.content);
+          if (window.innerWidth <= 600) closeSidebar();
+        } else {
+          console.error(`Content for note ${note.filename} is missing.`);
+        }
       };
       groupList.appendChild(li);
     });
@@ -62,19 +69,66 @@ function renderNoteList() {
   });
 }
 
+// Ensure `marked` is correctly accessed
+const markedFn = marked.marked || marked;
+if (typeof markedFn !== 'function') {
+  console.error('The `marked` library is not loaded correctly or is not a function.');
+  console.log('Debugging `marked`:', marked);
+}
+
 // Markdown → HTML
+// Add Mermaid and Highlight.js support
+// Add debugging logs to verify
 function renderMarkdown(md, filename) {
-  const html = marked.parse(md);
-  // Only render note content (no graph above note)
+  console.log(`Rendering Markdown for file: ${filename}`);
+  console.log(`Markdown content:`, md);
+
+  const renderer = new markedFn.Renderer();
+
+  // Custom renderer for Mermaid blocks
+  renderer.code = (code, language) => {
+    // Use the `lang` property if available
+    language = language || (typeof code === "object" && code.lang) || "plaintext";
+    console.log(`Processing code block with language: ${language}`);
+    console.log(`Raw code parameter:`, code);
+
+    // Extract the actual code content if `code` is an object
+    const codeContent = typeof code === "object" && code.text ? code.text : String(code);
+
+    if (language === "mermaid") {
+      console.log(`Mermaid code:`, codeContent);
+      return `<div class="mermaid">${codeContent}</div>`;
+    }
+    return `<pre><code class="language-${language}">${codeContent}</code></pre>`;
+  };
+
+  // Parse Markdown with custom renderer
+  const html = markedFn(md, { renderer });
+  console.log(`Generated HTML:`, html);
+
   const noteDiv = `<div id="note-content">${html}</div>`;
   mainView.innerHTML = noteDiv;
+
   // Handle internal [[wikilinks]]
   mainView.querySelectorAll("#note-content p").forEach((el) => {
     el.innerHTML = el.innerHTML.replace(/\[\[([^\]]+)\]\]/g, (_, link) => {
       return `<a href="#" onclick="loadLinkedNote('${link}')">${link}</a>`;
     });
   });
-  // No buildGraph here; graph is handled in right pane
+
+  // Initialize Mermaid
+  if (window.mermaid) {
+    console.log(`Initializing Mermaid diagrams...`);
+    mermaid.init(undefined, mainView.querySelectorAll(".mermaid"));
+  }
+
+  // Initialize Highlight.js
+  if (window.hljs) {
+    console.log(`Initializing syntax highlighting...`);
+    mainView.querySelectorAll("pre code").forEach((block) => {
+      hljs.highlightElement(block);
+    });
+  }
 }
 
 // Outline from headings

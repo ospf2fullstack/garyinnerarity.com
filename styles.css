@@ -240,19 +240,67 @@ a:hover {
 /* Sidebar Toggle Button */
 #sidebar-toggle {
   display: none;
-  background: #0078d4;
-  color: #fff;
-  border: none;
+  background: #2c2f36; /* Match sidebar background */
+  color: #e0e0e0; /* Match sidebar text color */
+  border: 1px solid #3a3d45; /* Subtle border */
   padding: 10px 18px;
   border-radius: 4px;
   font-size: 1.1rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
   cursor: pointer;
   z-index: 200;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#sidebar-toggle:hover {
+  background: #3a3d45; /* Highlighted background */
+  transform: scale(1.05);
 }
 
 #sidebar-toggle:active {
-  background: #005a9e;
+  background: #1b1d23; /* Darker background for active state */
+}
+
+/* Style for code blocks */
+pre {
+  background-color: #2d2d2d; /* Dark background */
+  color: #f8f8f2; /* Light text */
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto; /* Horizontal scrolling for long code */
+}
+
+code {
+  font-family: 'Courier New', Courier, monospace; /* Monospace font */
+  font-size: 14px;
+}
+
+/* Mermaid Diagram Styling */
+.mermaid {
+  background-color: #2b2d3a; /* Slightly lighter than the page background */
+  color: #ffffff; /* White text for contrast */
+  border: 1px solid #44475a; /* Subtle border for separation */
+  border-radius: 8px; /* Rounded corners for a modern look */
+  padding: 16px; /* Add some padding for better spacing */
+}
+
+.mermaid .node rect {
+  fill: #44475a; /* Node background color */
+  stroke: #6272a4; /* Node border color */
+}
+
+.mermaid .node text {
+  fill: #f8f8f2; /* Node text color */
+}
+
+.mermaid .edgePath path {
+  stroke: #8be9fd; /* Lighter edge color for better visibility */
+  stroke-width: 2px; /* Edge thickness */
+}
+
+.mermaid .edgeLabel {
+  fill: #f8f8f2; /* Edge label text color */
+  font-size: 12px; /* Font size for readability */
 }
 
 @media (max-width: 600px) {
