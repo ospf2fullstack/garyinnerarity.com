@@ -333,21 +333,24 @@ function updateActiveNode(nodeId) {
 
   if (visNetworkInstance) {
     const nodes = visNetworkInstance.body.data.nodes;
-    nodes.update({ id: nodeId, color: { background: "#FFD700" } }); // Highlight active node
 
+    // Highlight the active node
+    nodes.update({ id: nodeId, color: { background: "#FFD700", border: "#FFD700" } });
+
+    // Reset color for other nodes
     nodes.forEach(node => {
-      if (node.id !== nodeId) {
-        nodes.update({ id: node.id, color: { background: null } });
-      }
+        if (node.id !== nodeId) {
+            nodes.update({ id: node.id, color: { background: "#97C2FC", border: "#2B7CE9" } });
+        }
     });
 
     // Recenter the graph on the active node
     visNetworkInstance.focus(nodeId, {
-      scale: 1.5, // Zoom level
-      animation: {
-        duration: 500, // Animation duration in ms
-        easingFunction: "easeInOutQuad" // Smooth animation
-      }
+        scale: 1.5, // Zoom level
+        animation: {
+            duration: 500, // Animation duration in ms
+            easingFunction: "easeInOutQuad" // Smooth animation
+        }
     });
   }
 }
