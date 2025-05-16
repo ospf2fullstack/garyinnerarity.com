@@ -160,6 +160,10 @@ function buildGraph(selectedNote = null) {
   const nodes = [];
   const edges = [];
 
+  const folderColors = {};
+  const colorPalette = ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5"];
+  let colorIndex = 0;
+
   if (selectedNote && selectedNote !== "welcome.md") {
     // Filter graph to show only the selected note and its linked nodes
     const selectedNode = allNotes.find(note => note.filename === selectedNote);
@@ -186,10 +190,17 @@ function buildGraph(selectedNote = null) {
   } else {
     // Show the full graph
     allNotes.forEach(note => {
+      const folder = note.filename.includes("/") ? note.filename.split("/")[0] : "General";
+      if (!folderColors[folder]) {
+        folderColors[folder] = colorPalette[colorIndex % colorPalette.length];
+        colorIndex++;
+      }
+
       nodes.push({
         id: note.filename,
         label: note.filename.replace(/^.*[\\/]/, '').replace(".md", ""),
-        title: note.filename
+        title: note.filename,
+        group: folder
       });
 
       const links = [...note.content.matchAll(/\[\[([^\]]+)\]\]/g)];
@@ -216,6 +227,9 @@ function buildGraph(selectedNote = null) {
       font: { size: isMobile ? 10 : 16, color: "#ffffff" },
     },
     edges: { arrows: "to", smooth: true },
+    groups: Object.fromEntries(
+      Object.entries(folderColors).map(([folder, color]) => [folder, { color: { background: color } }])
+    ),
     height: isMobile ? "120px" : "100%",
     width: isMobile ? "100vw" : "100%"
   };
