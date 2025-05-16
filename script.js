@@ -5,6 +5,8 @@ const outlinePane = document.getElementById("outline-pane");
 
 let allNotes = [];
 let files = []; // Declare files globally to store the dynamically fetched file list
+let activeNodeId = null; // Track the active node globally
+let visNetworkInstance = null; // Store the vis.js network instance globally
 
 // Load all notes at startup
 async function loadAllNotes() {
@@ -58,6 +60,14 @@ function renderNoteList() {
           renderOutline(note.content);
           // Debugging: Log note content to verify
           console.log(`Rendering note: ${note.filename}`, note.content);
+          // Update the active node in the graph when a note is opened from the sidebar
+          updateActiveNode(note.filename);
+          // Ensure the graph instance is updated when a note is clicked in the sidebar
+          if (visNetworkInstance) {
+            updateActiveNode(note.filename);
+          } else {
+            console.error("Graph instance is not initialized.");
+          }
           if (window.innerWidth <= 600) closeSidebar();
         } else {
           console.error(`Content for note ${note.filename} is missing.`);
@@ -129,6 +139,9 @@ function renderMarkdown(md, filename) {
       hljs.highlightElement(block);
     });
   }
+
+  // Update the active node in the graph
+  updateActiveNode(filename);
 }
 
 // Outline from headings
@@ -217,7 +230,6 @@ function buildGraph(selectedNote = null) {
   const container = document.getElementById("graph-pane");
   if (!container) return;
 
-  // On mobile, use a mini graph style
   const isMobile = window.innerWidth <= 600;
   const options = {
     layout: { improvedLayout: true },
@@ -234,10 +246,9 @@ function buildGraph(selectedNote = null) {
     width: isMobile ? "100vw" : "100%"
   };
   container.innerHTML = "";
-  const network = new vis.Network(container, { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) }, options);
+  visNetworkInstance = new vis.Network(container, { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) }, options);
 
-  // Add click event listener to open the corresponding note
-  network.on("click", function (params) {
+  visNetworkInstance.on("click", function (params) {
     if (params.nodes.length > 0) {
       const clickedNodeId = params.nodes[0];
       const clickedNote = allNotes.find(note => note.filename === clickedNodeId);
@@ -314,3 +325,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Initialize
 loadAllNotes();
+
+function updateActiveNode(nodeId) {
+  if (activeNodeId === nodeId) return; // No change if the same node is clicked
+
+  activeNodeId = nodeId;
+
+  if (visNetworkInstance) {
+    const nodes = visNetworkInstance.body.data.nodes;
+    nodes.update({ id: nodeId, color: { background: "#FFD700" } }); // Highlight active node
+
+    nodes.forEach(node => {
+      if (node.id !== nodeId) {
+        nodes.update({ id: node.id, color: { background: null } });
+      }
+    });
+
+    // Recenter the graph on the active node
+    visNetworkInstance.focus(nodeId, {
+      scale: 1.5, // Zoom level
+      animation: {
+        duration: 500, // Animation duration in ms
+        easingFunction: "easeInOutQuad" // Smooth animation
+      }
+    });
+  }
+}
