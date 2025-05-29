@@ -8,4 +8,4 @@ Hi, I'm Gary Innerarity, a project manager, automation enthusiast, and digital t
 - **Automation:** Designing frameworks and tools to streamline workflows and enhance productivity.
 - **Digital Twins:** Developing simulations and models to optimize real-world systems.
 
-Feel free to explore my [projects](projects.md) and certifications to learn more about my work.
+Feel free to explore my [[projects]] and certifications to learn more about my work.

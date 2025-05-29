@@ -176,6 +176,7 @@ function buildGraph(selectedNote = null) {
   const folderColors = {};
   const colorPalette = ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5"];
   let colorIndex = 0;
+  let edgeId = 0; // Add edge id counter
 
   if (selectedNote && selectedNote !== "welcome.md") {
     // Filter graph to show only the selected note and its linked nodes
@@ -196,7 +197,7 @@ function buildGraph(selectedNote = null) {
             label: target.replace(/^.*[\\/]/, '').replace(".md", ""),
             title: target
           });
-          edges.push({ from: selectedNode.filename, to: target });
+          edges.push({ id: `e${edgeId++}`, from: selectedNode.filename, to: target, color: { color: '#8be9fd' } });
         }
       });
     }
@@ -216,11 +217,13 @@ function buildGraph(selectedNote = null) {
         group: folder
       });
 
+      // Debug: Log links found in this note
       const links = [...note.content.matchAll(/\[\[([^\]]+)\]\]/g)];
+      console.log(`Links found in ${note.filename}:`, links);
       links.forEach(link => {
         const target = files.find(f => f.endsWith(`${link[1]}.md`));
         if (target) {
-          edges.push({ from: note.filename, to: target });
+          edges.push({ id: `e${edgeId++}`, from: note.filename, to: target, color: { color: '#8be9fd' } });
         }
       });
     });
@@ -230,6 +233,10 @@ function buildGraph(selectedNote = null) {
   const container = document.getElementById("graph-pane");
   if (!container) return;
 
+  // Debug: Log nodes and edges to verify matching ids
+  console.log("vis.js nodes:", nodes);
+  console.log("vis.js edges:", edges);
+
   const isMobile = window.innerWidth <= 600;
   const options = {
     layout: { improvedLayout: true },
@@ -238,7 +245,7 @@ function buildGraph(selectedNote = null) {
       size: isMobile ? 8 : 12,
       font: { size: isMobile ? 10 : 16, color: "#ffffff" },
     },
-    edges: { arrows: "to", smooth: true },
+    edges: { arrows: "to", smooth: true, color: { color: '#8be9fd' } },
     groups: Object.fromEntries(
       Object.entries(folderColors).map(([folder, color]) => [folder, { color: { background: color } }])
     ),

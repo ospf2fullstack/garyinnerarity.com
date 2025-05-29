@@ -4,8 +4,8 @@ This is Gary's digital garden, a curated space for exploring insights, projects,
 
 ## Explore
 
-- **[About](about.md):** Learn more about my background, skills, and professional journey.
-- **[Projects](projects.md):** Dive into my featured projects, including automation frameworks and digital twin simulations.
-- **[Certifications](../assets/certs/):** Discover the certifications I've earned in AWS, GCP, and other technical domains.
+- **[[About]]:** Learn more about my background, skills, and professional journey.
+- **[[Projects]]:** Dive into my featured projects, including automation frameworks and digital twin simulations.
+- **[[Certifications]]:** Discover the certifications I've earned in AWS, GCP, and other technical domains.
 
 Feel free to explore and grow with me in this ever-evolving knowledge base.

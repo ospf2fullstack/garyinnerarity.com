@@ -199,6 +199,15 @@ body {
   background: #1b1d23; /* Match main view background */
 }
 
+#graph-pane canvas {
+  z-index: 1000 !important;
+}
+
+#graph-pane {
+  position: relative;
+  z-index: 1000;
+}
+
 #outline-pane {
   flex: 1;
   overflow-y: auto;
