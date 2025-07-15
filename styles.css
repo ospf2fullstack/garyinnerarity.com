@@ -1,16 +1,16 @@
 /* General Reset */
 body {
   margin: 0;
-  font-family: 'Inter', Arial, sans-serif; /* Modern font */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   height: 100vh;
   display: grid;
   grid-template-columns: 250px 1fr 350px;
-  grid-template-rows: auto 1fr; /* Add a row for the header */
+  grid-template-rows: auto 1fr;
   grid-template-areas:
     "header header header"
     "sidebar main right";
-  background-color: #1b1d23; /* Dark background for contrast */
-  color: #e0e0e0; /* Light text for readability */
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  color: #e4e4e7;
 }
 
 .layout {
@@ -20,19 +20,22 @@ body {
 /* Header */
 #main-header {
   grid-area: header;
-  background: linear-gradient(90deg, #2c2f36, #1b1d23); /* Subtle gradient */
+  background: linear-gradient(145deg, #1e1e1e, #0a0a0a);
   color: #ffffff;
-  padding: 1rem 2rem;
+  padding: 1.5rem 2rem;
   text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid #3a3d45; /* Subtle divider */
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 #main-header h1 {
   margin: 0;
   font-size: 1.8rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #f1f5f9; /* Softer white */
 }
 
 #main-header p {
@@ -40,24 +43,27 @@ body {
   font-size: 1rem;
   font-weight: 400;
   opacity: 0.9;
-  color: #a0a0a0; /* Subtle secondary text */
+  color: #cbd5e1; /* Softer secondary text */
 }
 
 /* Sidebar */
 #sidebar {
   grid-area: sidebar;
-  background: #1b1d23; /* Darker sidebar background */
-  color: #e0e0e0;
+  background: linear-gradient(145deg, #171717, #0d0d0d);
+  color: #e4e4e7;
   padding: 1.5rem;
   overflow-y: auto;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset -1px 0 0 rgba(0, 0, 0, 0.5),
+    8px 0 32px rgba(0, 0, 0, 0.2);
   position: sticky;
   top: 0;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  border-right: 1px solid #3a3d45; /* Subtle divider */
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 #sidebar h2 {
@@ -73,32 +79,60 @@ body {
   margin: 0;
 }
 
+#note-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#note-list li {
+  list-style: none;
+}
+
 #note-list .folder {
   font-weight: bold;
   cursor: pointer;
   margin: 8px 0;
-  padding: 8px 12px;
-  border-radius: 6px;
-  background: #2c2f36; /* Slightly lighter background for folders */
-  transition: background 0.3s ease;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #1e1e1e, #0f0f0f);
+  box-shadow: 
+    4px 4px 12px rgba(0, 0, 0, 0.4),
+    -2px -2px 8px rgba(255, 255, 255, 0.02),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 #note-list .folder:hover {
-  background: #3a3d45; /* Highlighted background */
+  background: linear-gradient(145deg, #252525, #141414);
+  box-shadow: 
+    6px 6px 16px rgba(0, 0, 0, 0.5),
+    -3px -3px 10px rgba(255, 255, 255, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
 }
 
 #note-list .note {
   margin: 4px 0;
-  padding: 4px 12px;
-  border-radius: 6px;
-  background: #1b1d23; /* Darker background for notes */
-  color: #e0e0e0;
-  transition: background 0.3s ease;
-  margin-left: 20px; /* Indent child notes */
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #141414, #0a0a0a);
+  color: #e4e4e7;
+  transition: all 0.3s ease;
+  margin-left: 20px;
+  box-shadow: 
+    2px 2px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.02);
 }
 
 #note-list .note:hover {
-  background: #2c2f36; /* Highlighted background for notes */
+  background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+  box-shadow: 
+    3px 3px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transform: translateX(3px);
 }
 
 /* Collapsible Folder Styles */
@@ -107,18 +141,24 @@ body {
 }
 
 #note-list .folder::before {
-  content: "➕"; /* Default collapsed icon */
+  content: "▶"; /* Default collapsed icon - cleaner arrow */
   margin-right: 8px;
+  transition: transform 0.3s ease;
+  display: inline-block;
 }
 
 #note-list .folder.expanded::before {
-  content: "➖"; /* Expanded icon */
+  content: "▶"; /* Same icon but rotated */
+  transform: rotate(90deg);
 }
 
 /* Add smooth transitions */
 #note-list ul {
   transition: max-height 0.3s ease;
   overflow: hidden;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 #note-list {
@@ -130,19 +170,35 @@ body {
   min-height: 0;
 }
 
+/* Ensure all nested lists have no bullets */
+#sidebar ul,
+#sidebar li {
+  list-style: none !important;
+  list-style-type: none !important;
+}
+
 #note-list li {
   cursor: pointer;
   margin: 8px 0;
-  padding: 8px 12px;
-  border-radius: 6px;
-  background: #2c2f36; /* Slightly lighter background for list items */
-  transition: background 0.3s ease, transform 0.2s ease;
-  color: #e0e0e0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #1e1e1e, #0f0f0f);
+  transition: all 0.3s ease;
+  color: #e4e4e7;
+  box-shadow: 
+    4px 4px 12px rgba(0, 0, 0, 0.4),
+    -2px -2px 8px rgba(255, 255, 255, 0.02),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 #note-list li:hover {
-  background: #3a3d45; /* Highlighted background */
-  transform: translateX(5px); /* Subtle movement */
+  background: linear-gradient(145deg, #252525, #141414);
+  box-shadow: 
+    6px 6px 16px rgba(0, 0, 0, 0.5),
+    -3px -3px 10px rgba(255, 255, 255, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translateX(3px) translateY(-1px);
 }
 
 #sidebar-footer {
@@ -160,24 +216,26 @@ body {
   grid-area: main;
   padding: 2rem;
   overflow-y: auto;
-  background: #2c2f36; /* Lighter content background */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* Subtle shadow */
-  border: none;
-  border-radius: 0; /* Remove border radius for a sharper look */
-  color: #e0e0e0;
+  background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+  box-shadow: 
+    inset 8px 8px 24px rgba(0, 0, 0, 0.3),
+    inset -8px -8px 24px rgba(255, 255, 255, 0.02),
+    0 0 32px rgba(0, 0, 0, 0.2);
+  color: #e4e4e7;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 #main-view h1 {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  color: #ffffff;
+  color: #f1f5f9; /* Softer white for main headings */
 }
 
 #main-view p {
   font-size: 1rem;
   line-height: 1.6;
-  color: #c0c0c0; /* Subtle text color */
+  color: #cbd5e1; /* Softer text color */
 }
 
 /* Right Pane */
@@ -187,16 +245,23 @@ body {
   flex-direction: column;
   height: 100vh;
   min-height: 0;
-  background: #2c2f36; /* Match main view background */
-  border-left: none;
+  background: linear-gradient(145deg, #171717, #0d0d0d);
+  box-shadow: 
+    inset 1px 0 0 rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02),
+    -8px 0 32px rgba(0, 0, 0, 0.2);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 #graph-pane {
   flex: 1;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   min-height: 0;
   overflow: hidden;
-  background: #1b1d23; /* Match main view background */
+  background: linear-gradient(145deg, #141414, #0a0a0a);
+  box-shadow: 
+    inset 4px 4px 12px rgba(0, 0, 0, 0.3),
+    inset -2px -2px 8px rgba(255, 255, 255, 0.02);
 }
 
 #graph-pane canvas {
@@ -212,38 +277,58 @@ body {
   flex: 1;
   overflow-y: auto;
   padding: 1rem;
-  background: #1b1d23; /* Match main view background */
-  border-top: 1px solid #ddd;
+  background: linear-gradient(145deg, #141414, #0a0a0a);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 
+    inset 4px 4px 12px rgba(0, 0, 0, 0.3),
+    inset -2px -2px 8px rgba(255, 255, 255, 0.02);
 }
 
 /* Buttons and Interactions */
 button {
-  background: #0078d4; /* Vibrant blue for primary actions */
+  background: linear-gradient(145deg, #2563eb, #1d4ed8);
   color: #ffffff;
   border: none;
-  padding: 10px 15px;
-  border-radius: 4px;
+  padding: 12px 24px;
+  border-radius: 12px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 
+    4px 4px 12px rgba(0, 0, 0, 0.4),
+    -2px -2px 8px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 button:hover {
-  background: #005a9e; /* Darker blue for hover state */
-  transform: scale(1.05);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(145deg, #3b82f6, #2563eb);
+  box-shadow: 
+    6px 6px 16px rgba(0, 0, 0, 0.5),
+    -3px -3px 10px rgba(255, 255, 255, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 
+    2px 2px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 /* Links */
 a {
-  color: #0078d4; /* Vibrant blue for links */
+  color: #60a5fa;
   text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 a:hover {
-  color: #005a9e; /* Darker blue for hover state */
+  color: #93c5fd;
   text-decoration: underline;
+  text-shadow: 0 0 8px rgba(96, 165, 250, 0.3);
 }
 
 /* Sidebar Toggle Button */
@@ -272,56 +357,71 @@ a:hover {
 
 /* Style for code blocks */
 pre {
-  background-color: #b8b7b7; /* Dark background */
-  color: #f8f8f2; /* Light text */
-  padding: 10px;
-  border-radius: 5px;
-  overflow-x: auto; /* Horizontal scrolling for long code */
+  background: linear-gradient(145deg, #0a0a0a, #171717);
+  color: #f8fafc;
+  padding: 16px 20px;
+  border-radius: 12px;
+  overflow-x: auto;
+  box-shadow: 
+    inset 4px 4px 12px rgba(0, 0, 0, 0.4),
+    inset -2px -2px 8px rgba(255, 255, 255, 0.02),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
 }
 
 code {
-  font-family: 'Courier New', Courier, monospace; /* Monospace font */
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   font-size: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
 /* Mermaid Diagram Styling */
 .mermaid {
-  background-color: #dddddf; /* Slightly lighter than the page background */
-  color: #ffffff; /* White text for contrast */
-  border: 1px solid #44475a; /* Subtle border for separation */
-  border-radius: 8px; /* Rounded corners for a modern look */
-  padding: 16px; /* Add some padding for better spacing */
+  background: linear-gradient(145deg, #1a1a1a, #0d0d0d); /* Match dark theme */
+  color: #f1f5f9; /* Softer white text */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+  border-radius: 12px; /* Modern rounded corners */
+  padding: 20px; /* Better spacing */
+  box-shadow: 
+    inset 4px 4px 12px rgba(0, 0, 0, 0.3),
+    inset -2px -2px 8px rgba(255, 255, 255, 0.02);
 }
 
 .mermaid .node rect {
-  fill: #061db1; /* Node background color */
-  stroke: #6272a4; /* Node border color */
+  fill: #475569; /* Soft slate blue-gray for nodes */
+  stroke: #64748b; /* Softer border color */
+  stroke-width: 1.5px;
 }
 
 .mermaid .node text {
-  fill: #f8f8f2; /* Node text color */
+  fill: #f1f5f9; /* Soft white text */
+  font-weight: 500;
 }
 
 .mermaid .edgePath path {
-  stroke: #8be9fd; /* Lighter edge color for better visibility */
-  stroke-width: 2px; /* Edge thickness */
+  stroke: #94a3b8; /* Soft gray for edges */
+  stroke-width: 2px; /* Clean edge thickness */
 }
 
 .mermaid .edgeLabel {
-  fill: #f8f8f2; /* Edge label text color */
-  font-size: 12px; /* Font size for readability */
+  fill: #e2e8f0; /* Soft edge label text */
+  font-size: 12px;
+  font-weight: 400;
 }
 
 .mermaid path {
-  fill: none; /* No fill for paths */
-  stroke: #50fa7b; /* Path color */
-  stroke-width: 2px; /* Path thickness */
+  fill: none;
+  stroke: #94a3b8; /* Consistent soft gray */
+  stroke-width: 2px;
 }
 
 .mermaid p {
-  color: #f8f8f2; /* Text color for paragraphs */
-  background-color: none;
-  font-size: 14px; /* Font size for readability */
+  color: #e2e8f0; /* Soft text for paragraphs */
+  background-color: transparent;
+  font-size: 14px;
 }
 
 @media (max-width: 600px) {

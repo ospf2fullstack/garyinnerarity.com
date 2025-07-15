@@ -174,7 +174,7 @@ function buildGraph(selectedNote = null) {
   const edges = [];
 
   const folderColors = {};
-  const colorPalette = ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#A133FF", "#33FFF5"];
+  const colorPalette = ["#774315ff", "#5b9ca5ff", "#369468ff", "#6b4091ff", "#853861ff", "#36658dff"]; // Soft, muted, opaque versions of different hues
   let colorIndex = 0;
   let edgeId = 0; // Add edge id counter
 
@@ -197,7 +197,7 @@ function buildGraph(selectedNote = null) {
             label: target.replace(/^.*[\\/]/, '').replace(".md", ""),
             title: target
           });
-          edges.push({ id: `e${edgeId++}`, from: selectedNode.filename, to: target, color: { color: '#8be9fd' } });
+          edges.push({ id: `e${edgeId++}`, from: selectedNode.filename, to: target, color: { color: '#94a3b8' } });
         }
       });
     }
@@ -223,7 +223,7 @@ function buildGraph(selectedNote = null) {
       links.forEach(link => {
         const target = files.find(f => f.endsWith(`${link[1]}.md`));
         if (target) {
-          edges.push({ id: `e${edgeId++}`, from: note.filename, to: target, color: { color: '#8be9fd' } });
+          edges.push({ id: `e${edgeId++}`, from: note.filename, to: target, color: { color: '#94a3b8' } });
         }
       });
     });
@@ -245,7 +245,7 @@ function buildGraph(selectedNote = null) {
       size: isMobile ? 8 : 12,
       font: { size: isMobile ? 10 : 16, color: "#ffffff" },
     },
-    edges: { arrows: "to", smooth: true, color: { color: '#8be9fd' } },
+    edges: { arrows: "to", smooth: true, color: { color: '#94a3b8' } },
     groups: Object.fromEntries(
       Object.entries(folderColors).map(([folder, color]) => [folder, { color: { background: color } }])
     ),
@@ -342,12 +342,12 @@ function updateActiveNode(nodeId) {
     const nodes = visNetworkInstance.body.data.nodes;
 
     // Highlight the active node
-    nodes.update({ id: nodeId, color: { background: "#FFD700", border: "#FFD700" } });
+    nodes.update({ id: nodeId, color: { background: "#cbd5e1", border: "#94a3b8" } });
 
     // Reset color for other nodes
     nodes.forEach(node => {
         if (node.id !== nodeId) {
-            nodes.update({ id: node.id, color: { background: "#97C2FC", border: "#2B7CE9" } });
+            nodes.update({ id: node.id, color: { background: "#64748b", border: "#475569" } });
         }
     });
 
