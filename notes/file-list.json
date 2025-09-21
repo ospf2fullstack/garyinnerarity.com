@@ -1,7 +1,12 @@
 [
   "Welcome.md",
   "about.md",
+  "architecture/basics.md",
   "projects.md",
-  "technicals/aws.md",
-  "technicals/gcp.md"
+  "providers/aws.md",
+  "providers/gcp.md",
+  "providers/onprem.md",
+  "technicals/k3s.md",
+  "technicals/k8s.md",
+  "technicals/proxmox.md"
 ]
