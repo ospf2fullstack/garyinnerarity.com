@@ -2,6 +2,7 @@
   "Welcome.md",
   "about.md",
   "architecture/basics.md",
+  "architecture/enterprise.md",
   "projects.md",
   "providers/aws.md",
   "providers/gcp.md",
