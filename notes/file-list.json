@@ -1,8 +1,8 @@
 [
   "Welcome.md",
   "about.md",
-  "architecture and core-ops/basics.md",
-  "architecture and core-ops/enterprise.md",
+  "architecture and ops/basics.md",
+  "architecture and ops/enterprise.md",
   "hosting-models/aws.md",
   "hosting-models/cloud-providers.md",
   "hosting-models/gcp.md",
