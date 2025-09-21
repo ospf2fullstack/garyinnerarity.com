@@ -8,7 +8,7 @@ Clearly, you wanted to see them:
 ![CCENT certificate](/assets/certs/ccent.png)
 ![CMNO certificate](/assets/certs/cmno.png)
 ![CompTia Sec certificate](/assets/certs/comptia_sec.png)
-![Databricks GenAi certificate](/assets/certs/databricksGenAi.png)
+![Databricks GenAi certificate](/assets/certs/databricksGenAI.png)
 ![GCP Fundamentals certificate](/assets/certs/GCP_Fundamentals.png)
 ![MTA certificate](/assets/certs/mta-badge.png)
 ![AMP Admin I certificate](/assets/certs/AMPAdminI.png)
