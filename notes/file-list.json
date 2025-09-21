@@ -5,8 +5,11 @@
   "architecture/enterprise.md",
   "projects.md",
   "providers/aws.md",
+  "providers/cloud-providers.md",
   "providers/gcp.md",
+  "providers/hybrid-providers.md",
   "providers/onprem.md",
+  "technicals/helm.md",
   "technicals/k3s.md",
   "technicals/k8s.md",
   "technicals/proxmox.md"
