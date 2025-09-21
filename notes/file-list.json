@@ -13,5 +13,6 @@
   "platform and orchestration/k3s.md",
   "platform and orchestration/k8s.md",
   "platform and orchestration/proxmox.md",
-  "projects.md"
+  "projects.md",
+  "projects/home-lab.md"
 ]
