@@ -16,3 +16,7 @@ Clearly, you wanted to see them:
 ![AMP Admin Sec certificate](/assets/certs/AMPAdminSec.png)
 ![AWS Partner Accreditation certificate](/assets/certs/AWSPartnerAccreditation_Technical.png)
 ![AWS Partner Security Best Practices certificate](/assets/certs/AWSPartnerSecurityBestPractices_Technical.png)
+
+---
+
+**Keep Reading:** [[projects]].
