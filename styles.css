@@ -36,7 +36,23 @@
   --grad-outline: linear-gradient(140deg,#ffffff 0%,#f4f6f9 60%,#eef1f5 100%);
 }
 
-body { margin:0; font-family:-apple-system, "SF Pro Display", "SF Pro Text", system-ui, BlinkMacSystemFont, "Segoe UI", sans-serif; height:100vh; display:grid; grid-template-columns:280px 1fr 380px; grid-template-rows:auto 1fr; grid-template-areas:"header header header" "sidebar main right"; background:var(--grad-body); color:var(--text-primary); overflow:hidden; font-feature-settings:"kern" 1,"liga" 1,"calt" 1,"ss01" 1,"ss02" 1; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility; font-variant-numeric:tabular-nums; font-optical-sizing:auto; color-scheme:light; }
+body { 
+  margin:0; 
+  font-family:-apple-system, "SF Pro Display", "SF Pro Text", system-ui, BlinkMacSystemFont, "Segoe UI", sans-serif; 
+  height:100vh; 
+  display:grid; 
+  grid-template-columns:280px 1fr 380px; 
+  grid-template-rows:auto 1fr; 
+  grid-template-areas:"header header header" "sidebar main right"; 
+  background:var(--grad-body); color:var(--text-primary); 
+  overflow:hidden; 
+  font-feature-settings:"kern" 1,"liga" 1,"calt" 1,"ss01" 1,"ss02" 1; 
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; 
+  text-rendering:optimizeLegibility; 
+  font-variant-numeric:tabular-nums; 
+  font-optical-sizing:auto; 
+  color-scheme:light; 
+}
 
 .layout {
   display: contents;
