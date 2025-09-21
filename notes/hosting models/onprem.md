@@ -47,3 +47,7 @@ When acting as the provider of on-premises hosting, you’re not just giving cus
 ## 6. Provider Bottom Line
 
 As the provider, you’re not just selling “metal” — you’re selling **trust, control, and continuity**. Customers choose on-prem hosting because they need **governance, compliance, or performance guarantees** beyond commodity cloud. Delivering that means you own both the physical and digital stack.
+
+---
+
+**Keep Reading:** [[proxmox]] - this is one of my favorite hyper-visors for on-prem hosting for SOHO and SMB.

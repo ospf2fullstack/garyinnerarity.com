@@ -8,3 +8,7 @@ An open-source container orchestration platform built to automate deployment, sc
   - Horizontal scaling, self-healing, and rolling upgrades.  
   - Extensible ecosystem with operators and service meshes.  
 - **Use case**: Enterprise-scale workloads, cloud-native apps, multi-service systems.
+
+---
+
+**Keep Reading:** If you need a light weight version, checkout [[k3s]].

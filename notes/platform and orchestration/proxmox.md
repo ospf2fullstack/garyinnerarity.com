@@ -9,3 +9,7 @@ An open-source virtualization and hyperconverged platform that combines KVM, LXC
   - Web-based UI and REST API for management.  
   - Built-in clustering, HA, and Ceph integration for storage.  
 - **Use case**: Consolidating workloads into VMs/containers, building private clouds, or running hyperconverged clusters on commodity hardware.
+
+---
+
+**Keep Reading:** [[k8s]] and [[k3s]] are both great deployment systems to run ontop of a ha proxmox cluster.
