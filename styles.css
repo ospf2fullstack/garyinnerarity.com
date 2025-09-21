@@ -3,26 +3,21 @@
   box-sizing: border-box;
 }
 
-/* --------------------------------------------------
-   Soft Light Mode Theme Variables
-   (Introduced to provide a near-light aesthetic that still nods to the prior dark styling.)
-   Adjust these variables to quickly retune the palette.
---------------------------------------------------- */
 :root {
-  --bg-base: #eef1f5; /* soft light neutral */
+  --bg-base: #eef1f5;
   --bg-alt: #e7ebf1; /* slightly deeper panel */
   --bg-alt-2: #dde2e9; /* secondary contrast */
   --bg-accent-faint: #d4dae3;
   --border-soft: #cfd6de;
   --border-subtle: #d9dfe6;
-  --shadow-color: 32 41 52; /* rgb components for shadow */
+  --shadow-color: 32 41 52;
   --text-primary: #242a31;
   --text-secondary: #586270;
   --text-tertiary: #7a8694;
   --accent: #4b6fb4;
   --accent-soft: #6d8fc8;
   --accent-hover: #375fa5;
-  --code-bg: #f4f6f9;
+  --code-bg: linear-gradient(145deg,#d8ecff 0%,#f2f5f8 60%,#faeeeb 100%);
   --code-border: #d0d6dd;
   --radius-sm: 5px;
   --radius-md: 8px;
@@ -37,7 +32,7 @@
   --grad-panel: linear-gradient(145deg,#ffffff 0%,#f5f7fa 55%, var(--bg-base) 100%);
   --grad-button: linear-gradient(140deg,#ffffff 0%,#f0f4f9 60%,#e5eaf0 100%);
   --grad-button-hover: linear-gradient(140deg,#ffffff 0%,#f6f9fc 60%,#ecf1f6 100%);
-  --grad-graph: linear-gradient(145deg,#ffffff 0%,#f2f5f8 60%,#e9edf2 100%);
+  --grad-graph: linear-gradient(145deg,#d8ecff 0%,#f2f5f8 60%,#faeeeb 100%);
   --grad-outline: linear-gradient(140deg,#ffffff 0%,#f4f6f9 60%,#eef1f5 100%);
 }
 
@@ -501,7 +496,14 @@ body { margin:0; font-family:-apple-system, "SF Pro Display", "SF Pro Text", sys
   pointer-events: none;
 }
 
-#graph-pane { flex:1; border-bottom:1px solid var(--border-soft); min-height:0; overflow:hidden; background:var(--grad-graph); box-shadow:inset 0 0 0 1px rgba(255,255,255,0.85),0 2px 4px -2px rgba(var(--shadow-color)/0.08); position:relative; }
+#graph-pane { flex:1; 
+  border-bottom:1px solid var(--border-soft); 
+  min-height:0; 
+  overflow:hidden; 
+  background:var(--grad-graph); 
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.85),0 2px 4px -2px rgba(var(--shadow-color)/0.08); 
+  position:relative; 
+}
 
 #graph-pane::before {
   content: '';
@@ -643,7 +645,9 @@ code { font-family:'JetBrains Mono','Fira Code','Courier New',monospace;
     inset 1px 1px 2px rgba(0, 0, 0, 0.1); }
 
 /* Mermaid Diagram Styling */
- .mermaid { background:linear-gradient(145deg,#ffffff,#f2f5f8)!important; color:var(--text-primary); border:1px solid var(--border-soft);
+ .mermaid { 
+  background: linear-gradient(145deg,#d8ecff 0%,#f2f5f8 60%,#faeeeb 100%); 
+  color:var(--text-primary); border:1px solid var(--border-soft);
   border-radius: 5px;
   padding: 28px;
   box-shadow:
