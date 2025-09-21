@@ -41,3 +41,10 @@ When hosting a web application, success isn’t just about spinning up a server 
 ---
 
 **Bottom line:** Hosting a web app is like running a small city - you need governance (logging), census data (reporting), power grids (HA), fire escapes (redirects), and laws (security). Skimp on any of these, and things burn down faster than you can say “outage.”
+
+---
+
+**Continue Reading:**
+
+- [[cloud-providers]]
+- [[onprem]]
