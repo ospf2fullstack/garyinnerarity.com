@@ -86,6 +86,50 @@ if (typeof markedFn !== 'function') {
   console.log('Debugging `marked`:', marked);
 }
 
+// Wikilink extension for [[Note Name]] style links across all inline contexts
+try {
+  marked.use({
+    extensions: [{
+      name: 'wikilink',
+      level: 'inline',
+      start(src) { return src.indexOf('[['); }, // hint for performance
+      tokenizer(src) {
+        const rule = /^\[\[([^\]]+)\]\]/; // [[...]]
+        const match = rule.exec(src);
+        if (match) {
+          return {
+            type: 'wikilink',
+            raw: match[0],
+            text: match[1].trim(),
+          };
+        }
+      },
+      renderer(token) {
+        const link = token.text;
+        // Use data attribute for delegation
+        return `<a href="#" data-wikilink="${link}">${link}</a>`;
+      }
+    }]
+  });
+} catch (e) {
+  console.warn('Failed to register wikilink extension:', e);
+}
+
+// Helper to resolve a wikilink (base name without .md, possibly in subfolders) to stored filename
+function resolveNoteFilename(linkBase) {
+  if (!files || !files.length) return null;
+  // direct exact (root) match first
+  let candidate = files.find(f => f === `${linkBase}.md`);
+  if (candidate) return candidate;
+  // search by basename ignoring folder
+  candidate = files.find(f => f.split('/').pop() === `${linkBase}.md`);
+  if (candidate) return candidate;
+  // case-insensitive fallback
+  const lower = linkBase.toLowerCase();
+  candidate = files.find(f => f.split('/').pop().toLowerCase() === `${lower}.md`);
+  return candidate || null;
+}
+
 // Markdown → HTML
 // Add Mermaid and Highlight.js support
 // Add debugging logs to verify
@@ -119,12 +163,7 @@ function renderMarkdown(md, filename) {
   const noteDiv = `<div id="note-content">${html}</div>`;
   mainView.innerHTML = noteDiv;
 
-  // Handle internal [[wikilinks]]
-  mainView.querySelectorAll("#note-content p").forEach((el) => {
-    el.innerHTML = el.innerHTML.replace(/\[\[([^\]]+)\]\]/g, (_, link) => {
-      return `<a href="#" onclick="loadLinkedNote('${link}')">${link}</a>`;
-    });
-  });
+  // (Wikilinks now handled by marked extension.)
 
   // Initialize Mermaid
   if (window.mermaid) {
@@ -159,13 +198,16 @@ function renderOutline(content) {
 
 // Follow [[wikilink]]
 function loadLinkedNote(linkName) {
-  const found = allNotes.find(n => n.filename === `${linkName}.md`);
-  if (found) {
-    renderMarkdown(found.content, found.filename);
-    renderOutline(found.content);
-  } else {
-    mainView.innerHTML = `<p>🔍 Note not found: ${linkName}.md</p>`;
+  const resolved = resolveNoteFilename(linkName);
+  if (resolved) {
+    const found = allNotes.find(n => n.filename === resolved);
+    if (found) {
+      renderMarkdown(found.content, found.filename);
+      renderOutline(found.content);
+      return;
+    }
   }
+  mainView.innerHTML = `<p>🔍 Note not found: ${linkName}.md</p>`;
 }
 
 // Graph rendering
@@ -328,6 +370,16 @@ window.addEventListener("resize", () => {
 document.addEventListener("DOMContentLoaded", () => {
   ensureSidebarToggle();
   handleResize();
+});
+
+// Delegate clicks for wikilinks rendered via extension
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a[data-wikilink]');
+  if (a) {
+    e.preventDefault();
+    const link = a.getAttribute('data-wikilink');
+    loadLinkedNote(link);
+  }
 });
 
 // Initialize
