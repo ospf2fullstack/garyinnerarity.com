@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gary's Second Brain</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Customize Mermaid graph line color */
+    .mermaid .edgePath path {
+      stroke: #555555 !important; /* Darker gray for edges in dark mode */
+    }
+  </style>
+  <link rel="icon" href="favicon.ico" />
+</head>
+<body>
+  <header id="main-header">
+    <h1>📁 Gary Innerarity, MBA</h1>
+    <p>...busy building</p>
+  </header>
+
+  <div class="layout">
+    <aside id="sidebar">
+      <ul id="note-list"></ul>
+      <footer id="sidebar-footer">
+        <img src="/assets/globals/me.jpg" alt="Gary Innerarity Photo" style="width:70px; height:auto; border-radius: 50px;">
+        <p>&copy; 1992-2025 Gary Innerarity. All rights reserved.</p>
+        <p>Opinions expressed are my own.
+          <img src="/assets/globals/oops.jpg" alt="America - Freedom of Speech" style="width:16px; height:auto; margin-left:4px;">
+        </p>
+      </footer>
+    </aside>
+
+    <main id="main-view">
+      <h1>Welcome</h1>
+      <p>Select a note from the sidebar to begin.</p>
+    </main>
+
+    <div id="right-pane">
+      <div id="graph-pane"></div>
+      <div id="outline-pane"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js/lib/common.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+  <script>
+    // Initialize Mermaid globally
+    mermaid.initialize({ startOnLoad: false });
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
