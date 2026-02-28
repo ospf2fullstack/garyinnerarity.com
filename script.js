@@ -1,415 +1,280 @@
-const notesDir = "notes/";
-const noteList = document.getElementById("note-list");
-const mainView = document.getElementById("main-view");
-const outlinePane = document.getElementById("outline-pane");
+﻿/* ═══════════════════════════════════════════════════════════════
+   GARY INNERARITY — PORTFOLIO SCRIPT
+   Components:
+     1. Nav — active section tracking
+     2. Notes viewer — sidebar + markdown content + outline
+     3. Timeline — loaded from events.json with filtering
+   ═══════════════════════════════════════════════════════════════ */
+
+// ── 1. NAV: ACTIVE SECTION TRACKING ───────────────────────────
+(function initNav() {
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('main > section[id]');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navLinks.forEach((link) => {
+            link.classList.toggle(
+              'active',
+              link.getAttribute('href') === `#${entry.target.id}`
+            );
+          });
+        }
+      });
+    },
+    { rootMargin: `-${60}px 0px -60% 0px`, threshold: 0 }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+})();
+
+// ── 2. NOTES VIEWER ───────────────────────────────────────────
+const notesDir = 'notes/';
+const noteList = document.getElementById('note-list');
+const mainView = document.getElementById('main-view');
+const outlinePane = document.getElementById('outline-pane');
 
 let allNotes = [];
-let files = []; // Declare files globally to store the dynamically fetched file list
-let activeNodeId = null; // Track the active node globally
-let visNetworkInstance = null; // Store the vis.js network instance globally
+let files = [];
 
-// Load all notes at startup
-async function loadAllNotes() {
-  // Fetch the list of files dynamically
-  const res = await fetch(`${notesDir}file-list.json`);
-  files = await res.json(); // Store the fetched file paths globally
+// ── Marked setup ──────────────────────────────────────────────
+const markedFn = (typeof marked !== 'undefined')
+  ? (marked.marked || marked)
+  : null;
 
-  allNotes = await Promise.all(
-    files.map(async (filename) => {
-      const res = await fetch(`${notesDir}${filename}`);
-      const content = await res.text();
-      return { filename, content };
-    })
-  );
-  renderNoteList();
-  buildGraph(); // Use the global files array
+if (markedFn) {
+  // Wikilink extension [[Note Name]]
+  try {
+    marked.use({
+      extensions: [{
+        name: 'wikilink',
+        level: 'inline',
+        start(src) { return src.indexOf('[['); },
+        tokenizer(src) {
+          const match = /^\[\[([^\]]+)\]\]/.exec(src);
+          if (match) return { type: 'wikilink', raw: match[0], text: match[1].trim() };
+        },
+        renderer(token) {
+          return `<a href="#" data-wikilink="${token.text}">${token.text}</a>`;
+        }
+      }]
+    });
+  } catch (e) {
+    console.warn('wikilink extension failed:', e);
+  }
 }
 
-// Populate the sidebar with intelligent grouping
+// ── Load notes ────────────────────────────────────────────────
+async function loadAllNotes() {
+  try {
+    const res = await fetch(`${notesDir}file-list.json`);
+    files = await res.json();
+
+    allNotes = await Promise.all(
+      files.map(async (filename) => {
+        const r = await fetch(`${notesDir}${filename}`);
+        const content = await r.text();
+        return { filename, content };
+      })
+    );
+
+    renderNoteList();
+  } catch (err) {
+    console.error('Failed to load notes:', err);
+  }
+}
+
+// ── Render sidebar note list ───────────────────────────────────
 function renderNoteList() {
-  noteList.innerHTML = "";
-  // Group notes by folder (e.g., technicals/)
+  noteList.innerHTML = '';
+
   const groups = {};
   allNotes.forEach((note) => {
-    const parts = note.filename.split("/");
-    const group = parts.length > 1 ? parts[0] : "General";
+    const parts = note.filename.split('/');
+    const group = parts.length > 1 ? parts[0] : 'General';
     if (!groups[group]) groups[group] = [];
     groups[group].push(note);
   });
 
-  // Render groups
   Object.keys(groups).sort().forEach((group) => {
-    const groupHeader = document.createElement("li");
-    groupHeader.textContent = group.charAt(0).toUpperCase() + group.slice(1);
-    groupHeader.classList.add("folder", "collapsed");
-    groupHeader.onclick = () => {
-      groupHeader.classList.toggle("collapsed");
-      groupHeader.classList.toggle("expanded");
+    const folderLi = document.createElement('li');
+    folderLi.textContent = group.charAt(0).toUpperCase() + group.slice(1).replace(/-/g, ' ');
+    folderLi.classList.add('folder');
+    noteList.appendChild(folderLi);
+
+    const ul = document.createElement('ul');
+    folderLi.onclick = () => {
+      folderLi.classList.toggle('expanded');
+      ul.classList.toggle('expanded');
     };
-    noteList.appendChild(groupHeader);
 
-    const groupList = document.createElement("ul");
     groups[group].forEach((note) => {
-      const li = document.createElement("li");
-      li.textContent = note.filename.replace(/^.*\//, "").replace(".md", "");
-      li.classList.add("note");
-      // Ensure note selection works by checking if `note.content` exists
-      li.onclick = () => {
-        if (note.content) {
-          renderMarkdown(note.content, note.filename);
-          renderOutline(note.content);
-          // Debugging: Log note content to verify
-          console.log(`Rendering note: ${note.filename}`, note.content);
-          // Update the active node in the graph when a note is opened from the sidebar
-          updateActiveNode(note.filename);
-          // Ensure the graph instance is updated when a note is clicked in the sidebar
-          if (visNetworkInstance) {
-            updateActiveNode(note.filename);
-          } else {
-            console.error("Graph instance is not initialized.");
-          }
-          if (window.innerWidth <= 600) closeSidebar();
-        } else {
-          console.error(`Content for note ${note.filename} is missing.`);
-        }
-      };
-      groupList.appendChild(li);
+      const li = document.createElement('li');
+      li.textContent = note.filename.replace(/^.*\//, '').replace('.md', '');
+      li.classList.add('note');
+      li.dataset.filename = note.filename;
+      li.onclick = () => openNote(note);
+      ul.appendChild(li);
     });
-    noteList.appendChild(groupList);
+
+    noteList.appendChild(ul);
   });
 }
 
-// Ensure `marked` is correctly accessed
-const markedFn = marked.marked || marked;
-if (typeof markedFn !== 'function') {
-  console.error('The `marked` library is not loaded correctly or is not a function.');
-  console.log('Debugging `marked`:', marked);
-}
-
-// Wikilink extension for [[Note Name]] style links across all inline contexts
-try {
-  marked.use({
-    extensions: [{
-      name: 'wikilink',
-      level: 'inline',
-      start(src) { return src.indexOf('[['); }, // hint for performance
-      tokenizer(src) {
-        const rule = /^\[\[([^\]]+)\]\]/; // [[...]]
-        const match = rule.exec(src);
-        if (match) {
-          return {
-            type: 'wikilink',
-            raw: match[0],
-            text: match[1].trim(),
-          };
-        }
-      },
-      renderer(token) {
-        const link = token.text;
-        // Use data attribute for delegation
-        return `<a href="#" data-wikilink="${link}">${link}</a>`;
-      }
-    }]
+// ── Open / render a note ───────────────────────────────────────
+function openNote(note) {
+  // Mark active
+  document.querySelectorAll('#note-list .note').forEach((el) => {
+    el.classList.toggle('active', el.dataset.filename === note.filename);
   });
-} catch (e) {
-  console.warn('Failed to register wikilink extension:', e);
+
+  renderMarkdown(note.content, note.filename);
+  renderOutline(note.content);
 }
 
-// Helper to resolve a wikilink (base name without .md, possibly in subfolders) to stored filename
-function resolveNoteFilename(linkBase) {
-  if (!files || !files.length) return null;
-  // direct exact (root) match first
-  let candidate = files.find(f => f === `${linkBase}.md`);
-  if (candidate) return candidate;
-  // search by basename ignoring folder
-  candidate = files.find(f => f.split('/').pop() === `${linkBase}.md`);
-  if (candidate) return candidate;
-  // case-insensitive fallback
-  const lower = linkBase.toLowerCase();
-  candidate = files.find(f => f.split('/').pop().toLowerCase() === `${lower}.md`);
-  return candidate || null;
-}
-
-// Markdown → HTML
-// Add Mermaid and Highlight.js support
-// Add debugging logs to verify
 function renderMarkdown(md, filename) {
-  console.log(`Rendering Markdown for file: ${filename}`);
-  console.log(`Markdown content:`, md);
+  if (!markedFn) {
+    mainView.innerHTML = `<div id="note-content"><pre>${md}</pre></div>`;
+    return;
+  }
 
   const renderer = new markedFn.Renderer();
 
-  // Custom renderer for Mermaid blocks
   renderer.code = (code, language) => {
-    // Use the `lang` property if available
-    language = language || (typeof code === "object" && code.lang) || "plaintext";
-    console.log(`Processing code block with language: ${language}`);
-    console.log(`Raw code parameter:`, code);
-
-    // Extract the actual code content if `code` is an object
-    const codeContent = typeof code === "object" && code.text ? code.text : String(code);
-
-    if (language === "mermaid") {
-      console.log(`Mermaid code:`, codeContent);
-      return `<div class="mermaid">${codeContent}</div>`;
+    language = language || (typeof code === 'object' && code.lang) || 'plaintext';
+    const content = typeof code === 'object' && code.text ? code.text : String(code);
+    if (language === 'mermaid') {
+      return `<div class="mermaid">${content}</div>`;
     }
-    return `<pre><code class="language-${language}">${codeContent}</code></pre>`;
+    return `<pre><code class="language-${language}">${content}</code></pre>`;
   };
 
-  // Parse Markdown with custom renderer
   const html = markedFn(md, { renderer });
-  console.log(`Generated HTML:`, html);
+  mainView.innerHTML = `<div id="note-content">${html}</div>`;
 
-  const noteDiv = `<div id="note-content">${html}</div>`;
-  mainView.innerHTML = noteDiv;
-
-  // (Wikilinks now handled by marked extension.)
-
-  // Initialize Mermaid
+  // Mermaid
   if (window.mermaid) {
-    console.log(`Initializing Mermaid diagrams...`);
-    mermaid.init(undefined, mainView.querySelectorAll(".mermaid"));
+    try {
+      mermaid.init(undefined, mainView.querySelectorAll('.mermaid'));
+    } catch (e) { /* */ }
   }
 
-  // Initialize Highlight.js
+  // Highlight.js
   if (window.hljs) {
-    console.log(`Initializing syntax highlighting...`);
-    mainView.querySelectorAll("pre code").forEach((block) => {
+    mainView.querySelectorAll('pre code').forEach((block) => {
       hljs.highlightElement(block);
     });
   }
-
-  // Update the active node in the graph
-  updateActiveNode(filename);
 }
 
-// Outline from headings
 function renderOutline(content) {
   const headings = content.match(/^#{1,6} .+/gm) || [];
-  const html = headings
-    .map((h) => {
-      const level = h.match(/^#+/)[0].length;
-      const text = h.replace(/^#+ /, '');
-      return `<div style="margin-left:${(level - 1) * 10}px;">${text}</div>`;
-    })
-    .join("");
-  outlinePane.innerHTML = `<h3>🧭 Outline</h3>${html}`;
-}
-
-// Follow [[wikilink]]
-function loadLinkedNote(linkName) {
-  const resolved = resolveNoteFilename(linkName);
-  if (resolved) {
-    const found = allNotes.find(n => n.filename === resolved);
-    if (found) {
-      renderMarkdown(found.content, found.filename);
-      renderOutline(found.content);
-      return;
-    }
-  }
-  mainView.innerHTML = `<p>🔍 Note not found: ${linkName}.md</p>`;
-}
-
-// Graph rendering
-function buildGraph(selectedNote = null) {
-  const nodes = [];
-  const edges = [];
-
-  const folderColors = {};
-  const colorPalette = ["#774315ff", "#5b9ca5ff", "#369468ff", "#6b4091ff", "#853861ff", "#36658dff"]; // Soft, muted, opaque versions of different hues
-  let colorIndex = 0;
-  let edgeId = 0; // Add edge id counter
-
-  if (selectedNote && selectedNote !== "welcome.md") {
-    // Filter graph to show only the selected note and its linked nodes
-    const selectedNode = allNotes.find(note => note.filename === selectedNote);
-    if (selectedNode) {
-      nodes.push({
-        id: selectedNode.filename,
-        label: selectedNode.filename.replace(/^.*[\\/]/, '').replace(".md", ""),
-        title: selectedNode.filename
-      });
-
-      const links = [...selectedNode.content.matchAll(/\[\[([^\]]+)\]\]/g)];
-      links.forEach(link => {
-        const target = files.find(f => f.endsWith(`${link[1]}.md`));
-        if (target) {
-          nodes.push({
-            id: target,
-            label: target.replace(/^.*[\\/]/, '').replace(".md", ""),
-            title: target
-          });
-          edges.push({ id: `e${edgeId++}`, from: selectedNode.filename, to: target, color: { color: '#94a3b8' } });
-        }
-      });
-    }
-  } else {
-    // Show the full graph
-    allNotes.forEach(note => {
-      const folder = note.filename.includes("/") ? note.filename.split("/")[0] : "General";
-      if (!folderColors[folder]) {
-        folderColors[folder] = colorPalette[colorIndex % colorPalette.length];
-        colorIndex++;
-      }
-
-      nodes.push({
-        id: note.filename,
-        label: note.filename.replace(/^.*[\\/]/, '').replace(".md", ""),
-        title: note.filename,
-        group: folder
-      });
-
-      // Debug: Log links found in this note
-      const links = [...note.content.matchAll(/\[\[([^\]]+)\]\]/g)];
-      console.log(`Links found in ${note.filename}:`, links);
-      links.forEach(link => {
-        const target = files.find(f => f.endsWith(`${link[1]}.md`));
-        if (target) {
-          edges.push({ id: `e${edgeId++}`, from: note.filename, to: target, color: { color: '#94a3b8' } });
-        }
-      });
-    });
+  if (!headings.length) {
+    outlinePane.innerHTML = '';
+    return;
   }
 
-  // Always render in the right pane's graph-pane
-  const container = document.getElementById("graph-pane");
-  if (!container) return;
+  const heading = document.createElement('h3');
+  heading.textContent = 'Outline';
+  outlinePane.innerHTML = '';
+  outlinePane.appendChild(heading);
 
-  // Debug: Log nodes and edges to verify matching ids
-  console.log("vis.js nodes:", nodes);
-  console.log("vis.js edges:", edges);
-
-  const isMobile = window.innerWidth <= 600;
-  const options = {
-    layout: { improvedLayout: true },
-    nodes: {
-      shape: "dot",
-      size: isMobile ? 8 : 12,
-      font: { size: isMobile ? 10 : 16, color: "#ffffff" },
-    },
-    edges: { arrows: "to", smooth: true, color: { color: '#94a3b8' } },
-    groups: Object.fromEntries(
-      Object.entries(folderColors).map(([folder, color]) => [folder, { color: { background: color } }])
-    ),
-    height: isMobile ? "120px" : "100%",
-    width: isMobile ? "100vw" : "100%"
-  };
-  container.innerHTML = "";
-  visNetworkInstance = new vis.Network(container, { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) }, options);
-
-  visNetworkInstance.on("click", function (params) {
-    if (params.nodes.length > 0) {
-      const clickedNodeId = params.nodes[0];
-      const clickedNote = allNotes.find(note => note.filename === clickedNodeId);
-      if (clickedNote) {
-        renderMarkdown(clickedNote.content, clickedNote.filename);
-        renderOutline(clickedNote.content);
-      }
-    }
+  headings.forEach((h) => {
+    const level = h.match(/^#+/)[0].length;
+    const text = h.replace(/^#+ /, '');
+    const div = document.createElement('div');
+    div.textContent = text;
+    div.style.paddingLeft = `${(level - 1) * 12}px`;
+    outlinePane.appendChild(div);
   });
 }
 
-// Add a mobile sidebar toggle button if not present
-function ensureSidebarToggle() {
-  if (!document.getElementById("sidebar-toggle")) {
-    const btn = document.createElement("button");
-    btn.id = "sidebar-toggle";
-    btn.innerHTML = "☰ Menu";
-    btn.setAttribute("aria-label", "Open menu");
-    document.body.appendChild(btn);
-    btn.onclick = () => {
-      sidebar.style.display = "flex";
-      sidebarVisible = true;
-      btn.style.display = "none";
-      // Add overlay to close sidebar
-      if (!document.getElementById("sidebar-overlay")) {
-        const overlay = document.createElement("div");
-        overlay.id = "sidebar-overlay";
-        overlay.style.position = "fixed";
-        overlay.style.top = 0;
-        overlay.style.left = 0;
-        overlay.style.width = "100vw";
-        overlay.style.height = "100vh";
-        overlay.style.background = "rgba(0,0,0,0.3)";
-        overlay.style.zIndex = 199;
-        overlay.onclick = closeSidebar;
-        document.body.appendChild(overlay);
-      }
-    };
-  }
-}
-
-function closeSidebar() {
-  sidebar.style.display = "none";
-  sidebarVisible = false;
-  const btn = document.getElementById("sidebar-toggle");
-  if (btn) btn.style.display = "block";
-  const overlay = document.getElementById("sidebar-overlay");
-  if (overlay) overlay.remove();
-}
-
-// Show/hide sidebar and toggle button on resize
-function handleResize() {
-  if (window.innerWidth <= 600) {
-    sidebar.style.display = sidebarVisible ? "flex" : "none";
-    const btn = document.getElementById("sidebar-toggle");
-    if (btn) btn.style.display = sidebarVisible ? "none" : "block";
-  } else {
-    sidebar.style.display = "flex";
-    const btn = document.getElementById("sidebar-toggle");
-    if (btn) btn.style.display = "none";
-    const overlay = document.getElementById("sidebar-overlay");
-    if (overlay) overlay.remove();
-  }
-}
-
-window.addEventListener("resize", () => {
-  handleResize();
-  buildGraph();
-});
-document.addEventListener("DOMContentLoaded", () => {
-  ensureSidebarToggle();
-  handleResize();
-});
-
-// Delegate clicks for wikilinks rendered via extension
+// ── Wikilink click delegation ──────────────────────────────────
 document.addEventListener('click', (e) => {
   const a = e.target.closest('a[data-wikilink]');
-  if (a) {
-    e.preventDefault();
-    const link = a.getAttribute('data-wikilink');
-    loadLinkedNote(link);
+  if (!a) return;
+  e.preventDefault();
+  const linkBase = a.getAttribute('data-wikilink');
+  const resolved = resolveNoteFilename(linkBase);
+  if (resolved) {
+    const note = allNotes.find((n) => n.filename === resolved);
+    if (note) openNote(note);
+  } else {
+    mainView.innerHTML = `<div id="note-content"><p style="color:var(--text-faint);font-family:var(--mono);font-size:.875rem;">Note not found: ${linkBase}</p></div>`;
   }
 });
 
-// Initialize
-loadAllNotes();
+function resolveNoteFilename(linkBase) {
+  if (!files.length) return null;
+  let candidate = files.find((f) => f === `${linkBase}.md`);
+  if (candidate) return candidate;
+  candidate = files.find((f) => f.split('/').pop() === `${linkBase}.md`);
+  if (candidate) return candidate;
+  const lower = linkBase.toLowerCase();
+  return files.find((f) => f.split('/').pop().toLowerCase() === `${lower}.md`) || null;
+}
 
-function updateActiveNode(nodeId) {
-  if (activeNodeId === nodeId) return; // No change if the same node is clicked
+// ── 3. TIMELINE ────────────────────────────────────────────────
+async function loadTimeline() {
+  const list = document.getElementById('timeline-list');
+  if (!list) return;
 
-  activeNodeId = nodeId;
+  try {
+    const res = await fetch('events.json');
+    const events = await res.json();
 
-  if (visNetworkInstance) {
-    const nodes = visNetworkInstance.body.data.nodes;
+    // Sort newest first
+    events.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    // Highlight the active node
-    nodes.update({ id: nodeId, color: { background: "#cbd5e1", border: "#94a3b8" } });
+    events.forEach((event) => {
+      const li = document.createElement('li');
+      li.classList.add('timeline-entry');
+      li.dataset.type = event.type;
 
-    // Reset color for other nodes
-    nodes.forEach(node => {
-        if (node.id !== nodeId) {
-            nodes.update({ id: node.id, color: { background: "#64748b", border: "#475569" } });
-        }
+      const date = new Date(event.date + 'T12:00:00');
+      const formatted = date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short'
+      });
+
+      li.innerHTML = `
+        <div class="timeline-date">${formatted}</div>
+        <span class="timeline-type timeline-type--${event.type}">${event.type}</span>
+        <div class="timeline-title">${event.title}</div>
+        <div class="timeline-desc">${event.description}</div>
+      `;
+
+      list.appendChild(li);
     });
-
-    // Recenter the graph on the active node
-    visNetworkInstance.focus(nodeId, {
-        scale: 1.5, // Zoom level
-        animation: {
-            duration: 500, // Animation duration in ms
-            easingFunction: "easeInOutQuad" // Smooth animation
-        }
-    });
+  } catch (err) {
+    console.error('Failed to load timeline:', err);
   }
 }
+
+// ── Timeline filters ───────────────────────────────────────────
+(function initTimelineFilters() {
+  const container = document.querySelector('.timeline-filters');
+  if (!container) return;
+
+  container.addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+
+    // Update active button
+    container.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('filter-btn--active'));
+    btn.classList.add('filter-btn--active');
+
+    const filter = btn.dataset.filter;
+
+    document.querySelectorAll('.timeline-entry').forEach((entry) => {
+      const show = filter === 'all' || entry.dataset.type === filter;
+      entry.classList.toggle('hidden', !show);
+    });
+  });
+})();
+
+// ── Init ───────────────────────────────────────────────────────
+loadAllNotes();
+loadTimeline();

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-const fs = require('fs');
+const fs   = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const notesDir = __dirname; // Correctly point to the current directory
 const outputFile = path.join(notesDir, 'file-list.json');
@@ -35,3 +36,9 @@ function generateFileList() {
 }
 
 generateFileList();
+
+// Auto-regenerate sitemap whenever the file list changes
+const sitemapScript = path.join(__dirname, '..', 'generate-sitemap.js');
+if (fs.existsSync(sitemapScript)) {
+  execSync(`node "${sitemapScript}"`, { stdio: 'inherit' });
+}
