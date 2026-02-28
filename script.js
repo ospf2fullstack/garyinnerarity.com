@@ -278,3 +278,167 @@ async function loadTimeline() {
 // ── Init ───────────────────────────────────────────────────────
 loadAllNotes();
 loadTimeline();
+
+// ── 4. SKILLS VIEWER ──────────────────────────────────────────
+const skillsDir      = 'skills/';
+const skillNoteList  = document.getElementById('skills-note-list');
+const skillsView     = document.getElementById('skills-main-view');
+const skillsOutline  = document.getElementById('skills-outline-pane');
+
+let allSkills = [];
+let skillFiles = [];
+let currentSkillRaw = '';
+
+async function loadAllSkills() {
+  try {
+    const res = await fetch(`${skillsDir}file-list.json`);
+    skillFiles = await res.json();
+
+    allSkills = await Promise.all(
+      skillFiles.map(async (filename) => {
+        const r = await fetch(`${skillsDir}${filename}`);
+        const content = await r.text();
+        return { filename, content };
+      })
+    );
+
+    renderSkillList();
+  } catch (err) {
+    console.error('Failed to load skills:', err);
+  }
+}
+
+function renderSkillList() {
+  if (!skillNoteList) return;
+  skillNoteList.innerHTML = '';
+
+  const groups = {};
+  allSkills.forEach((skill) => {
+    const parts = skill.filename.split('/');
+    const group = parts.length > 1 ? parts[0] : 'General';
+    if (!groups[group]) groups[group] = [];
+    groups[group].push(skill);
+  });
+
+  Object.keys(groups).sort().forEach((group) => {
+    const folderLi = document.createElement('li');
+    folderLi.textContent = group.charAt(0).toUpperCase() + group.slice(1).replace(/-/g, ' ');
+    folderLi.classList.add('folder');
+    skillNoteList.appendChild(folderLi);
+
+    const ul = document.createElement('ul');
+    folderLi.onclick = () => {
+      folderLi.classList.toggle('expanded');
+      ul.classList.toggle('expanded');
+    };
+
+    groups[group].forEach((skill) => {
+      const li = document.createElement('li');
+      li.textContent = skill.filename.replace(/^.*\//, '').replace('.md', '');
+      li.classList.add('note');
+      li.dataset.filename = skill.filename;
+      li.onclick = () => openSkill(skill);
+      ul.appendChild(li);
+    });
+
+    skillNoteList.appendChild(ul);
+  });
+
+  // Auto-expand first group if only one
+  const folders = skillNoteList.querySelectorAll('li.folder');
+  if (folders.length === 1) folders[0].click();
+}
+
+function openSkill(skill) {
+  currentSkillRaw = skill.content;
+
+  document.querySelectorAll('#skills-note-list .note').forEach((el) => {
+    el.classList.toggle('active', el.dataset.filename === skill.filename);
+  });
+
+  renderSkillContent(skill.content);
+  renderSkillOutline(skill.content);
+}
+
+function renderSkillContent(md) {
+  if (!markedFn) {
+    skillsView.innerHTML = `
+      <div class="skills-toolbar">
+        <button class="copy-btn" id="skills-copy-btn">Copy</button>
+      </div>
+      <div id="note-content"><pre>${md}</pre></div>`;
+    return;
+  }
+
+  const renderer = new markedFn.Renderer();
+  renderer.code = (code, language) => {
+    language = language || (typeof code === 'object' && code.lang) || 'plaintext';
+    const content = typeof code === 'object' && code.text ? code.text : String(code);
+    if (language === 'mermaid') return `<div class="mermaid">${content}</div>`;
+    return `<pre><code class="language-${language}">${content}</code></pre>`;
+  };
+
+  const html = markedFn(md, { renderer });
+  skillsView.innerHTML = `
+    <div class="skills-toolbar">
+      <button class="copy-btn" id="skills-copy-btn">Copy</button>
+    </div>
+    <div id="note-content">${html}</div>`;
+
+  if (window.mermaid) {
+    try { mermaid.init(undefined, skillsView.querySelectorAll('.mermaid')); } catch (e) { /* */ }
+  }
+  if (window.hljs) {
+    skillsView.querySelectorAll('pre code').forEach((block) => hljs.highlightElement(block));
+  }
+}
+
+function renderSkillOutline(content) {
+  if (!skillsOutline) return;
+  const headings = content.match(/^#{1,6} .+/gm) || [];
+  if (!headings.length) { skillsOutline.innerHTML = ''; return; }
+
+  const heading = document.createElement('h3');
+  heading.textContent = 'Outline';
+  skillsOutline.innerHTML = '';
+  skillsOutline.appendChild(heading);
+
+  headings.forEach((h) => {
+    const level = h.match(/^#+/)[0].length;
+    const text  = h.replace(/^#+ /, '');
+    const div   = document.createElement('div');
+    div.textContent = text;
+    div.style.paddingLeft = `${(level - 1) * 12}px`;
+    skillsOutline.appendChild(div);
+  });
+}
+
+// ── Copy button ────────────────────────────────────────────────
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('#skills-copy-btn');
+  if (!btn || !currentSkillRaw) return;
+
+  navigator.clipboard.writeText(currentSkillRaw).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = currentSkillRaw;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+});
+
+loadAllSkills();

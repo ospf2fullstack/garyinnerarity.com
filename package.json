@@ -4,8 +4,9 @@
   "description": "Portfolio site for Gary Innerarity — Solutions Architect",
   "private": true,
   "scripts": {
-    "build": "node notes/generate-file-list.js && node generate-sitemap.js",
+    "build": "node notes/generate-file-list.js && node skills/generate-file-list.js && node generate-sitemap.js",
     "filelist": "node notes/generate-file-list.js",
+    "skillslist": "node skills/generate-file-list.js",
     "sitemap": "node generate-sitemap.js"
   }
 }
