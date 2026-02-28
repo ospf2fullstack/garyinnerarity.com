@@ -24,6 +24,7 @@ const staticUrls = [
   { path: '/#stack',       changefreq: 'monthly', priority: '0.8' },
   { path: '/#credentials', changefreq: 'yearly',  priority: '0.8' },
   { path: '/#notes',       changefreq: 'weekly',  priority: '0.7' },
+  { path: '/#skills',      changefreq: 'weekly',  priority: '0.7' },
   { path: '/#timeline',    changefreq: 'monthly', priority: '0.6' },
 ];
 
@@ -35,9 +36,6 @@ function getNoteUrls() {
   }
   const files = JSON.parse(fs.readFileSync(FILE_LIST, 'utf8'));
   return files.map((file) => ({
-    // e.g. notes/architecture and ops/basics.md → /#notes (anchor + encoded path in fragment)
-    // Crawlers can't fetch JS-rendered content directly, so we point at the notes section.
-    // The note path is included as a comment so it's visible in the sitemap source.
     path: `/#notes`,
     note: file,
     changefreq: 'weekly',
@@ -45,8 +43,25 @@ function getNoteUrls() {
   }));
 }
 
+// ── Skill files ────────────────────────────────────────────────
+const SKILLS_FILE_LIST = path.join(__dirname, 'skills', 'file-list.json');
+
+function getSkillUrls() {
+  if (!fs.existsSync(SKILLS_FILE_LIST)) {
+    console.warn(`⚠  ${SKILLS_FILE_LIST} not found — run: node skills/generate-file-list.js`);
+    return [];
+  }
+  const files = JSON.parse(fs.readFileSync(SKILLS_FILE_LIST, 'utf8'));
+  return files.map((file) => ({
+    path: `/#skills`,
+    note: file,
+    changefreq: 'weekly',
+    priority: '0.6',
+  }));
+}
+
 // ── Build XML ──────────────────────────────────────────────────
-function buildSitemap(staticUrls, noteUrls) {
+function buildSitemap(staticUrls, noteUrls, skillUrls) {
   const urlTags = [];
 
   staticUrls.forEach(({ path: p, changefreq, priority }) => {
@@ -73,6 +88,20 @@ function buildSitemap(staticUrls, noteUrls) {
     });
   }
 
+  if (skillUrls && skillUrls.length > 0) {
+    urlTags.push(`
+  <!-- Skills library — ${skillUrls.length} files -->`);
+    skillUrls.forEach(({ path: p, note, changefreq, priority }) => {
+      urlTags.push(`
+  <url><!-- skill: ${note} -->
+    <loc>${BASE_URL}${p}</loc>
+    <lastmod>${TODAY}</lastmod>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`);
+    });
+  }
+
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
@@ -83,8 +112,9 @@ ${urlTags.join('')}
 }
 
 // ── Run ────────────────────────────────────────────────────────
-const noteUrls = getNoteUrls();
-const xml      = buildSitemap(staticUrls, noteUrls);
+const noteUrls  = getNoteUrls();
+const skillUrls = getSkillUrls();
+const xml       = buildSitemap(staticUrls, noteUrls, skillUrls);
 
 fs.writeFileSync(OUTPUT_FILE, xml, 'utf8');
-console.log(`✓ sitemap.xml written — ${staticUrls.length} static + ${noteUrls.length} notes (${TODAY})`);
+console.log(`✓ sitemap.xml written — ${staticUrls.length} static + ${noteUrls.length} notes + ${skillUrls.length} skills (${TODAY})`);
