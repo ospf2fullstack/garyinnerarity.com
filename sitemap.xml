@@ -33,6 +33,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://garyinnerarity.com/#skills</loc>
+    <lastmod>2026-02-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://garyinnerarity.com/#timeline</loc>
     <lastmod>2026-02-28</lastmod>
     <changefreq>monthly</changefreq>
@@ -134,6 +140,31 @@
     <lastmod>2026-02-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <!-- Skills library — 4 files -->
+  <url><!-- skill: agentic-loop.md -->
+    <loc>https://garyinnerarity.com/#skills</loc>
+    <lastmod>2026-02-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url><!-- skill: mcp-server.md -->
+    <loc>https://garyinnerarity.com/#skills</loc>
+    <lastmod>2026-02-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url><!-- skill: rag-pipeline.md -->
+    <loc>https://garyinnerarity.com/#skills</loc>
+    <lastmod>2026-02-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url><!-- skill: structured-output.md -->
+    <loc>https://garyinnerarity.com/#skills</loc>
+    <lastmod>2026-02-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
   </url>
 
 </urlset>
