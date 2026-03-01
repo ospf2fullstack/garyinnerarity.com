@@ -1,0 +1,102 @@
+# Gary Innerarity — Solutions Engineer, MBA
+# https://garyinnerarity.com/
+# Last updated: 2026-03-01
+
+> Gary Innerarity is a Solutions Engineer and MBA based in the United States.
+> He specializes in enterprise agentic AI systems, LLM orchestration, digital thread
+> platforms, digital twin simulations, cloud infrastructure, and platform engineering.
+
+## Identity
+
+- Full name: Gary Innerarity
+- Credentials suffix: MBA
+- Job title: Solutions Engineer
+- Location: United States
+- LinkedIn: https://www.linkedin.com/in/garyinnerarity/
+- GitHub: https://github.com/garyinnerarity
+- Website: https://garyinnerarity.com/
+
+## Expertise
+
+- Agentic AI workflows: production-grade multi-step LLM pipelines orchestrating specialized agents with custom tools across live enterprise systems
+- LLM orchestration: multi-agent system design, tool calling, function calling, Model Context Protocol (MCP) server development
+- RAG pipelines: retrieval-augmented generation for enterprise knowledge bases
+- Digital thread: full-stack platform design connecting metadata, artifacts, and cross-system relationships for end-to-end engineering lifecycle traceability
+- Digital twin simulations: virtual replicas of physical systems feeding real-time operational data into enterprise decision loops for predictive analysis and scenario modeling
+- Cloud architecture: AWS, GCP, Azure — multi-cloud IaC with Terraform, Ansible, CloudFormation
+- Platform engineering: Kubernetes, K3s, Helm, Docker, Proxmox
+- Automated cyber compliance: policy-as-code pipelines through real-time audit dashboards
+- Monte Carlo simulation: probabilistic risk analysis tooling for engineering and cost estimation
+- Networking: Cisco, Meraki, VPC design, SD-WAN
+
+## Certifications (14+)
+
+- AWS Certified Solutions Architect – Associate (Amazon Web Services)
+- AWS Certified Cloud Practitioner (Amazon Web Services)
+- AWS Partner Accreditation – Technical (Amazon Web Services)
+- AWS Partner Security Best Practices – Technical (Amazon Web Services)
+- Cisco CCNA (Cisco)
+- Cisco CCENT (Cisco)
+- Cisco Meraki Network Operator (Cisco)
+- CompTIA Security+ (CompTIA)
+- Databricks Generative AI Fundamentals (Databricks)
+- Google Cloud Platform Fundamentals (Google)
+- Microsoft Technology Associate (Microsoft)
+- AMP Admin I
+- AMP Admin II
+- AMP Admin Security
+
+## Enterprise Projects
+
+### Agentic Coder
+Multi-tenant, multi-provider agentic coding assistant integrating with enterprise SKILLS repositories. Enables engineers to write, review, and optimize code across languages and frameworks using LLM orchestration.
+
+### Enterprise AI Workflows
+Designed and built production-grade agentic systems orchestrating multi-step LLM workflows, custom tools, and specialized agents operating across live enterprise systems.
+
+### Agents, Skills & Tools
+Developed composable building blocks for agentic systems — purpose-built agents with defined roles, reusable skills extending agent capabilities, and custom tools giving agents verifiable access to APIs, data, and enterprise services. Includes MCP server development.
+
+### Digital Thread Platform
+Designed and built a full-stack platform connecting metadata, artifacts, and cross-system relationships into a continuous data thread — enabling end-to-end traceability across the engineering lifecycle for enterprise decision-making.
+
+### Digital Twin Simulations
+Built virtual replicas of physical systems that feed real-time operational data into enterprise decision loops — enabling predictive analysis, scenario modeling, and outcome simulation before committing real-world resources.
+
+### Automated Cyber Compliance
+Full-stack design and development of continuous automated compliance pipelines — from policy-as-code through real-time audit dashboards — integrated into the Vertasyn platform.
+
+### Terraform Module Library
+Engineered a reusable Terraform module library for multi-cloud deployments (AWS, GCP) standardizing IaC patterns across teams to eliminate configuration drift and accelerate provisioning velocity.
+
+### Monte Carlo Simulator
+Developed probabilistic risk analysis tooling using Monte Carlo simulation supporting decision-making for complex engineering and cost estimation scenarios.
+
+### Digital Catalog
+Built a digital asset management component ingesting raw BIM, Reality Capture, and 3D modeling outputs and converting them into a structured, queryable catalog.
+
+## Personal Projects
+
+- Learners of Tomorrow, LLC (https://www.learnersoftomorrow.com/) — free EdTech training platform built and maintained for community access
+- Silence Broken, Inc. (https://silencebrokennow.org/) — nonprofit supporting survivors of childhood sexual abuse; Gary serves as Board Member and Treasurer providing financial oversight and strategic guidance
+- Bluebird Professionals, LLC (https://www.bluebirdprofessionals.com/) — small consulting practice for bookkeeping and small business growth services for local businesses and nonprofits
+- La Maestra Loca (https://www.lamaestraloca.com/) — cloud-hosted WordPress site maintained continuously for approximately 10 years; example of sustainable, low-maintenance architecture
+- Cigar Inventory App — private full-stack application with CRUD functionality, user authentication, FastAPI backend, and MongoDB data persistence
+
+## Technical Stack
+
+Languages: Python, JavaScript, Bash, SQL, PowerShell
+Cloud: AWS, GCP, Azure
+Platform: Kubernetes, K3s, Helm, Docker, Proxmox
+IaC: Terraform, Ansible, CloudFormation
+AI/ML: Agentic workflows, LLM orchestration, RAG, MCP, multi-agent systems, Databricks, Generative AI
+Networking: Cisco, Meraki, VPC design, SD-WAN
+Security: CompTIA Security+, policy-as-code, compliance automation, zero-trust patterns
+Practices: GitOps, CI/CD, FinOps, SRE, platform engineering
+
+## Key Pages
+
+- Homepage / Portfolio: https://garyinnerarity.com/
+- Notes (architecture patterns, platform deep-dives, operational runbooks): https://garyinnerarity.com/#notes
+- Skills (reusable AI skill patterns in markdown): https://garyinnerarity.com/#skills
+- Sitemap: https://garyinnerarity.com/sitemap.xml
