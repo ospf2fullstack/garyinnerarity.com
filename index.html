@@ -206,12 +206,20 @@
 </head>
 <body>
 
+  <!-- Skip to main content (accessibility) -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- ═══════════════════════════════════════════
        NAV - fixed, minimal, all links visible
   ═══════════════════════════════════════════ -->
   <nav id="site-nav" aria-label="Site navigation">
     <a href="#hero" class="nav-name">Gary Innerarity, MBA</a>
-    <ul class="nav-links" role="list">
+    <button class="nav-hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-list">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+    <ul class="nav-links" id="nav-links-list" role="list">
       <li><a href="#work">Work</a></li>
       <li><a href="#stack">Stack</a></li>
       <li><a href="#credentials">Credentials</a></li>
@@ -748,7 +756,7 @@
         </p>
         <div id="notes-app" role="region" aria-label="Notes viewer">
           <aside id="notes-sidebar" aria-label="Note list">
-            <ul id="note-list" role="tree" aria-label="Notes"></ul>
+            <ul id="note-list" role="list" aria-label="Notes"></ul>
           </aside>
           <article id="main-view" aria-label="Note content" aria-live="polite">
             <div class="notes-placeholder">
@@ -772,7 +780,7 @@
         </p>
         <div id="skills-app" role="region" aria-label="Skills viewer">
           <aside id="skills-sidebar" aria-label="Skill list">
-            <ul id="skills-note-list" role="tree" aria-label="Skills"></ul>
+            <ul id="skills-note-list" role="list" aria-label="Skills"></ul>
           </aside>
           <div id="skills-main-view" aria-label="Skill content" aria-live="polite">
             <div class="notes-placeholder">
@@ -824,7 +832,7 @@
        AI CONTEXT - machine-readable summary for LLM crawlers
        Visually hidden; semantically present for AI indexing systems.
   ═══════════════════════════════════════════════════════════════ -->
-  <section aria-hidden="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;" id="ai-context">
+  <section style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;" id="ai-context">
     <h2>About Gary Innerarity</h2>
     <p>
       Gary Innerarity is a Solutions Engineer holding an MBA, based in the United States. He specializes in

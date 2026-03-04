@@ -7,9 +7,52 @@
    ═══════════════════════════════════════════════════════════════ */
 
 // ── 1. NAV: ACTIVE SECTION TRACKING ───────────────────────────
+
+// ── Accessibility: live region announcer ──────────────────────
+function announceToScreenReader(message) {
+  let region = document.getElementById('a11y-live-region');
+  if (!region) {
+    region = document.createElement('div');
+    region.id = 'a11y-live-region';
+    region.setAttribute('role', 'status');
+    region.setAttribute('aria-live', 'polite');
+    region.setAttribute('aria-atomic', 'true');
+    region.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;';
+    document.body.appendChild(region);
+  }
+  region.textContent = '';
+  requestAnimationFrame(() => { region.textContent = message; });
+}
+
 (function initNav() {
   const navLinks = document.querySelectorAll('.nav-links a');
   const sections = document.querySelectorAll('main > section[id]');
+
+  // Hamburger toggle for mobile
+  const hamburger = document.querySelector('.nav-hamburger');
+  const navList = document.getElementById('nav-links-list');
+  if (hamburger && navList) {
+    hamburger.addEventListener('click', () => {
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', String(!expanded));
+      navList.classList.toggle('nav-open');
+    });
+    // Close menu when a link is clicked
+    navList.addEventListener('click', (e) => {
+      if (e.target.matches('a')) {
+        hamburger.setAttribute('aria-expanded', 'false');
+        navList.classList.remove('nav-open');
+      }
+    });
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navList.classList.contains('nav-open')) {
+        hamburger.setAttribute('aria-expanded', 'false');
+        navList.classList.remove('nav-open');
+        hamburger.focus();
+      }
+    });
+  }
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -102,20 +145,33 @@ function renderNoteList() {
     const folderLi = document.createElement('li');
     folderLi.textContent = group.charAt(0).toUpperCase() + group.slice(1).replace(/-/g, ' ');
     folderLi.classList.add('folder');
+    folderLi.setAttribute('tabindex', '0');
+    folderLi.setAttribute('role', 'button');
+    folderLi.setAttribute('aria-expanded', 'false');
     noteList.appendChild(folderLi);
 
     const ul = document.createElement('ul');
-    folderLi.onclick = () => {
-      folderLi.classList.toggle('expanded');
+    const toggleFolder = () => {
+      const isExpanded = folderLi.classList.toggle('expanded');
       ul.classList.toggle('expanded');
+      folderLi.setAttribute('aria-expanded', String(isExpanded));
+    };
+    folderLi.onclick = toggleFolder;
+    folderLi.onkeydown = (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFolder(); }
     };
 
     groups[group].forEach((note) => {
       const li = document.createElement('li');
       li.textContent = note.filename.replace(/^.*\//, '').replace('.md', '');
       li.classList.add('note');
+      li.setAttribute('tabindex', '0');
+      li.setAttribute('role', 'button');
       li.dataset.filename = note.filename;
       li.onclick = () => openNote(note);
+      li.onkeydown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openNote(note); }
+      };
       ul.appendChild(li);
     });
 
@@ -263,8 +319,12 @@ async function loadTimeline() {
     if (!btn) return;
 
     // Update active button
-    container.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('filter-btn--active'));
+    container.querySelectorAll('.filter-btn').forEach((b) => {
+      b.classList.remove('filter-btn--active');
+      b.setAttribute('aria-pressed', 'false');
+    });
     btn.classList.add('filter-btn--active');
+    btn.setAttribute('aria-pressed', 'true');
 
     const filter = btn.dataset.filter;
 
@@ -276,6 +336,13 @@ async function loadTimeline() {
 })();
 
 // ── Init ───────────────────────────────────────────────────────
+// Set initial aria-pressed on timeline filter buttons
+(function initFilterAria() {
+  document.querySelectorAll('.filter-btn').forEach((btn) => {
+    btn.setAttribute('aria-pressed', btn.classList.contains('filter-btn--active') ? 'true' : 'false');
+  });
+})();
+
 loadAllNotes();
 loadTimeline();
 
@@ -324,20 +391,33 @@ function renderSkillList() {
     const folderLi = document.createElement('li');
     folderLi.textContent = group.charAt(0).toUpperCase() + group.slice(1).replace(/-/g, ' ');
     folderLi.classList.add('folder');
+    folderLi.setAttribute('tabindex', '0');
+    folderLi.setAttribute('role', 'button');
+    folderLi.setAttribute('aria-expanded', 'false');
     skillNoteList.appendChild(folderLi);
 
     const ul = document.createElement('ul');
-    folderLi.onclick = () => {
-      folderLi.classList.toggle('expanded');
+    const toggleSkillFolder = () => {
+      const isExpanded = folderLi.classList.toggle('expanded');
       ul.classList.toggle('expanded');
+      folderLi.setAttribute('aria-expanded', String(isExpanded));
+    };
+    folderLi.onclick = toggleSkillFolder;
+    folderLi.onkeydown = (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleSkillFolder(); }
     };
 
     groups[group].forEach((skill) => {
       const li = document.createElement('li');
       li.textContent = skill.filename.replace(/^.*\//, '').replace('.md', '');
       li.classList.add('note');
+      li.setAttribute('tabindex', '0');
+      li.setAttribute('role', 'button');
       li.dataset.filename = skill.filename;
       li.onclick = () => openSkill(skill);
+      li.onkeydown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSkill(skill); }
+      };
       ul.appendChild(li);
     });
 
@@ -421,6 +501,7 @@ document.addEventListener('click', (e) => {
   navigator.clipboard.writeText(currentSkillRaw).then(() => {
     btn.textContent = 'Copied!';
     btn.classList.add('copied');
+    announceToScreenReader('Skill markdown copied to clipboard');
     setTimeout(() => {
       btn.textContent = 'Copy';
       btn.classList.remove('copied');
@@ -437,6 +518,7 @@ document.addEventListener('click', (e) => {
     document.body.removeChild(ta);
     btn.textContent = 'Copied!';
     btn.classList.add('copied');
+    announceToScreenReader('Skill markdown copied to clipboard');
     setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
   });
 });
