@@ -232,6 +232,16 @@
       animation: pulse-bar 1.5s ease-in-out infinite;
     }
 
+    .region-item.dimmed {
+      opacity: 0.3;
+      filter: grayscale(0.8);
+    }
+
+    .region-item.dimmed .region-dot {
+      box-shadow: none;
+      opacity: 0.4;
+    }
+
     @keyframes pulse-bar {
       0%, 100% { opacity: 0.6; }
       50% { opacity: 1; box-shadow: 0 0 12px currentColor; }
@@ -1082,34 +1092,64 @@
     }
 
     function activateBrainForCase(cs) {
-      // Reset all
-      regionMeshes.forEach(mesh => { mesh.material.opacity = 0.1; });
-      connectionLines.forEach(line => { line.material.opacity = 0.05; line.material.color.setHex(0x2a2a4a); });
+      // Dim ALL regions (inactive start at very low visibility)
+      regionMeshes.forEach(mesh => {
+        mesh.material.opacity = 0.04;
+        if (mesh.userData.isGlow) mesh.material.opacity = 0.02;
+        mesh.material.color.setHex(0x333333);
+      });
 
-      // Activate regions with intensity
+      // Dim ALL connections
+      connectionLines.forEach(line => {
+        line.material.opacity = 0.02;
+        line.material.color.setHex(0x1a1a2e);
+      });
+
+      // Activate case regions with intensity
       const allActive = [...cs.activation.primary, ...cs.activation.secondary];
       allActive.forEach(regionKey => {
         const isPrimary = cs.activation.primary.includes(regionKey);
-        const intensity = isPrimary ? 0.9 : 0.5;
+        const intensity = isPrimary ? 0.85 : 0.45;
+        const glowIntensity = isPrimary ? 0.35 : 0.18;
         const color = brainRegions[regionKey].color;
 
         regionMeshes.forEach(mesh => {
           if (mesh.userData.region === regionKey) {
-            mesh.material.opacity = intensity;
-            if (mesh.userData.isGlow) mesh.material.opacity = intensity * 0.4;
+            mesh.material.opacity = mesh.userData.isGlow ? glowIntensity : intensity;
+            mesh.material.color.setHex(color);
           }
         });
 
         // Update legend
         const legendItem = document.querySelector(`.region-item[data-region="${regionKey}"]`);
-        if (legendItem) legendItem.classList.add('activated');
+        if (legendItem) {
+          legendItem.classList.add('activated');
+          legendItem.classList.remove('dimmed');
+        }
       });
 
-      // Activate connections between active regions
+      // Dim legend items not in this case
+      document.querySelectorAll('.region-item').forEach(item => {
+        if (!allActive.includes(item.dataset.region)) {
+          item.classList.add('dimmed');
+        }
+      });
+
+      // Activate connections between active regions (stronger)
       connectionLines.forEach(line => {
         if (allActive.includes(line.userData.startRegion) && allActive.includes(line.userData.endRegion)) {
           line.material.opacity = 0.6;
           line.material.color.setHex(0x00d4ff);
+        }
+      });
+
+      // Weakly highlight connections from active to inactive
+      connectionLines.forEach(line => {
+        const startActive = allActive.includes(line.userData.startRegion);
+        const endActive = allActive.includes(line.userData.endRegion);
+        if ((startActive && !endActive) || (!startActive && endActive)) {
+          line.material.opacity = 0.15;
+          line.material.color.setHex(0x3a3a4a);
         }
       });
 
@@ -1193,12 +1233,45 @@
       selectedRegion = regionKey;
       controls.autoRotate = false;
       closeCasePanel();
+      activeCase = null;
 
+      // Clear activation states
       document.querySelectorAll('.region-item').forEach(item => {
+        item.classList.remove('activated');
         item.classList.toggle('activated', item.dataset.region === regionKey);
+        item.classList.toggle('dimmed', item.dataset.region !== regionKey);
       });
 
-      highlightRegion(regionKey, true);
+      // Dim all regions first
+      regionMeshes.forEach(mesh => {
+        if (mesh.userData.region && mesh.userData.region !== regionKey) {
+          mesh.material.opacity = 0.05;
+          if (mesh.userData.isGlow) mesh.material.opacity = 0.02;
+          mesh.material.color.setHex(0x444444);
+        }
+      });
+
+      // Dim all connection lines
+      connectionLines.forEach(line => {
+        line.material.opacity = 0.03;
+        line.material.color.setHex(0x1a1a2a);
+      });
+
+      // Highlight selected region brightly
+      regionMeshes.forEach(mesh => {
+        if (mesh.userData.region === regionKey) {
+          mesh.material.opacity = mesh.userData.isGlow ? 0.5 : 0.95;
+          mesh.material.color.setHex(brainRegions[regionKey].color);
+        }
+      });
+
+      // Highlight connections to/from selected region
+      connectionLines.forEach(line => {
+        if (line.userData.startRegion === regionKey || line.userData.endRegion === regionKey) {
+          line.material.opacity = 0.5;
+          line.material.color.setHex(0x00d4ff);
+        }
+      });
 
       const region = brainRegions[regionKey];
       const panel = document.getElementById('detailPanel');
@@ -1247,10 +1320,19 @@
     function highlightRegion(regionKey, isHighlighted) {
       if (activeCase || selectedRegion) return;
       const intensity = isHighlighted ? 0.7 : 0.3;
+      const glowIntensity = isHighlighted ? 0.25 : 0.1;
       const lineOpacity = isHighlighted ? 0.4 : 0.2;
+
       regionMeshes.forEach(mesh => {
-        if (mesh.userData.region === regionKey) mesh.material.opacity = intensity;
+        if (mesh.userData.region === regionKey) {
+          if (mesh.userData.isGlow) {
+            mesh.material.opacity = glowIntensity;
+          } else {
+            mesh.material.opacity = intensity;
+          }
+        }
       });
+
       connectionLines.forEach(line => {
         if (line.userData.startRegion === regionKey || line.userData.endRegion === regionKey) {
           line.material.opacity = lineOpacity;
@@ -1273,11 +1355,19 @@
     }
 
     function resetBrain() {
-      regionMeshes.forEach(mesh => { mesh.material.opacity = mesh.userData.originalOpacity; });
+      regionMeshes.forEach(mesh => {
+        mesh.material.opacity = mesh.userData.originalOpacity;
+        if (mesh.userData.region) {
+          mesh.material.color.setHex(brainRegions[mesh.userData.region].color);
+        }
+      });
       connectionLines.forEach(line => { line.material.opacity = line.userData.originalOpacity; line.material.color.setHex(0x2a2a4a); });
-      document.querySelectorAll('.region-item').forEach(item => item.classList.remove('activated'));
+      document.querySelectorAll('.region-item').forEach(item => {
+        item.classList.remove('activated', 'dimmed');
+      });
       document.querySelectorAll('.case-item').forEach(item => item.classList.remove('active'));
       activeCase = null;
+      selectedRegion = null;
       document.getElementById('nodeCount').textContent = '47';
       document.getElementById('connectionCount').textContent = '156';
     }
