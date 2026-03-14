@@ -1,4 +1,4 @@
-﻿/* ═══════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════
    GARY INNERARITY — PORTFOLIO SCRIPT
    Components:
      1. Nav — active section tracking
@@ -524,3 +524,58 @@ document.addEventListener('click', (e) => {
 });
 
 loadAllSkills();
+
+// ── 5. SYSTEM LIFECYCLE INTERACTION ─────────────────────────────
+(function initLifecycle() {
+  const phaseButtons = document.querySelectorAll('.phase-node');
+  const phaseContents = document.querySelectorAll('.phase-content');
+
+  if (!phaseButtons.length) return;
+
+  phaseButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const phase = btn.dataset.phase;
+
+      // Update button states
+      phaseButtons.forEach((b) => {
+        const isActive = b.dataset.phase === phase;
+        b.classList.toggle('active', isActive);
+        b.setAttribute('aria-selected', String(isActive));
+      });
+
+      // Show corresponding content
+      phaseContents.forEach((content) => {
+        const isTarget = content.dataset.phase === phase;
+        if (isTarget) {
+          content.hidden = false;
+          content.classList.add('active');
+        } else {
+          content.hidden = true;
+          content.classList.remove('active');
+        }
+      });
+
+      // Announce to screen readers
+      announceToScreenReader(`Viewing ${phase} phase`);
+    });
+
+    // Keyboard navigation
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        const next = btn.nextElementSibling?.classList?.contains('phase-node')
+          ? btn.nextElementSibling
+          : phaseButtons[0];
+        next?.focus();
+        next?.click();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prev = btn.previousElementSibling?.classList?.contains('phase-node')
+          ? btn.previousElementSibling
+          : phaseButtons[phaseButtons.length - 1];
+        prev?.focus();
+        prev?.click();
+      }
+    });
+  });
+})();

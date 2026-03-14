@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gary Innerarity — MBSE Portfolio (Digital Thread)</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-panel: #111118;
+      --bg-hover: #1a1a24;
+      --accent: #00d4ff;
+      --accent-alt: #ff6b35;
+      --success: #00c853;
+      --text: #e8e8ed;
+      --text-muted: #6b6b7b;
+      --border: #2a2a35;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+    }
+    .thread-container { position: relative; width: 100%; height: 100vh; }
+    .hud-top {
+      position: absolute;
+      top: 20px; left: 20px; right: 20px;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      z-index: 100; pointer-events: none;
+    }
+    .hud-top > * { pointer-events: auto; }
+    .thread-brand {
+      background: rgba(17, 17, 24, 0.9);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+    }
+    .thread-brand h1 {
+      font-size: 0.875rem; font-weight: 600; letter-spacing: 0.05em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 4px;
+    }
+    .thread-brand p { font-size: 0.75rem; color: var(--text-muted); }
+    .view-controls {
+      display: flex; gap: 8px;
+      background: rgba(17, 17, 24, 0.9);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .view-btn {
+      padding: 10px 16px; font-size: 0.6875rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      background: transparent; border: 1px solid transparent;
+      border-radius: 6px; color: var(--text-muted);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .view-btn:hover { background: var(--bg-hover); color: var(--text); }
+    .view-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+    .graph-canvas { width: 100%; height: 100%; position: relative; overflow: hidden; }
+    .graph-svg { width: 100%; height: 100%; }
+    .graph-node { cursor: pointer; transition: all 0.3s ease; }
+    .graph-node:hover { filter: brightness(1.2); }
+    .node-circle { stroke-width: 2; transition: all 0.3s ease; }
+    .node-glow { filter: blur(8px); opacity: 0.5; }
+    .node-label { font-size: 11px; font-weight: 500; fill: var(--text); text-anchor: middle; pointer-events: none; }
+    .node-type { font-size: 9px; fill: var(--text-muted); text-anchor: middle; text-transform: uppercase; letter-spacing: 0.08em; pointer-events: none; }
+    .graph-edge { stroke: var(--border); stroke-width: 1.5; fill: none; transition: all 0.3s ease; }
+    .graph-edge.active { stroke: var(--accent); stroke-width: 2; }
+    .selection-ring { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 4 4; animation: dash 20s linear infinite; }
+    @keyframes dash { to { stroke-dashoffset: -100; } }
+    .detail-panel {
+      position: absolute; top: 100px; right: 20px; width: 340px;
+      background: rgba(17, 17, 24, 0.95); backdrop-filter: blur(16px);
+      border: 1px solid var(--border); border-radius: 12px;
+      z-index: 100; transform: translateX(400px); transition: transform 0.3s ease;
+    }
+    .detail-panel.active { transform: translateX(0); }
+    .panel-header { padding: 20px; border-bottom: 1px solid var(--border); }
+    .panel-type { font-size: 0.625rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .panel-title { font-size: 1.125rem; font-weight: 600; line-height: 1.3; }
+    .panel-id { font-size: 0.6875rem; color: var(--text-muted); margin-top: 4px; }
+    .panel-content { padding: 20px; }
+    .panel-section { margin-bottom: 20px; }
+    .panel-section h4 {
+      font-size: 0.625rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .panel-desc { font-size: 0.8125rem; line-height: 1.6; color: var(--text-muted); }
+    .connection-list { list-style: none; }
+    .connection-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px; background: var(--bg-hover);
+      border: 1px solid var(--border); border-radius: 6px;
+      margin-bottom: 8px; cursor: pointer; transition: all 0.12s;
+    }
+    .connection-item:hover { border-color: var(--accent); }
+    .connection-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .connection-info { flex: 1; }
+    .connection-name { font-size: 0.75rem; font-weight: 500; }
+    .connection-rel { font-size: 0.625rem; color: var(--text-muted); text-transform: uppercase; }
+    .connection-arrow { font-size: 1rem; color: var(--accent); }
+    .legend-hud {
+      position: absolute; bottom: 20px; left: 20px;
+      background: rgba(17, 17, 24, 0.9); backdrop-filter: blur(12px);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 16px; z-index: 100;
+    }
+    .legend-title { font-size: 0.625rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; }
+    .legend-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.75rem; }
+    .legend-color { width: 12px; height: 12px; border-radius: 50%; }
+    .legend-color.need { background: var(--accent-alt); }
+    .legend-color.function { background: var(--accent); }
+    .legend-color.logical { background: #7c4dff; }
+    .legend-color.physical { background: var(--success); }
+    .stats-hud { position: absolute; bottom: 20px; right: 20px; display: flex; gap: 16px; z-index: 100; }
+    .stat-card {
+      background: rgba(17, 17, 24, 0.9); backdrop-filter: blur(12px);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 12px 20px; text-align: center; min-width: 80px;
+    }
+    .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: 0.625rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
+    .panel-close {
+      position: absolute; top: 16px; right: 16px; width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg-hover); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--text-muted);
+      cursor: pointer; transition: all 0.12s;
+    }
+    .panel-close:hover { background: var(--border); color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="thread-container">
+    <div class="hud-top">
+      <div class="thread-brand">
+        <a href="index.html" style="text-decoration: none; color: inherit;"><h1>← Back to Portfolio</h1></a>
+        <p>Trace connections across the system lifecycle</p>
+      </div>
+      <div class="view-controls">
+        <button class="view-btn active">All</button>
+        <button class="view-btn">Needs</button>
+        <button class="view-btn">Functions</button>
+        <button class="view-btn">Realizations</button>
+      </div>
+    </div>
+
+    <div class="graph-canvas">
+      <svg class="graph-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="28" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L9,3 z" fill="#2a2a35"/>
+          </marker>
+        </defs>
+
+        <g class="edges">
+          <path class="graph-edge" d="M400,200 Q500,280 600,350" marker-end="url(#arrow)"/>
+          <path class="graph-edge" d="M400,200 Q500,250 600,280" marker-end="url(#arrow)"/>
+          <path class="graph-edge" d="M800,200 Q700,280 600,350" marker-end="url(#arrow)"/>
+          <path class="graph-edge" d="M600,380 Q500,460 400,550" marker-end="url(#arrow)"/>
+          <path class="graph-edge" d="M600,380 Q600,460 600,550" marker-end="url(#arrow)"/>
+          <path class="graph-edge" d="M600,380 Q700,460 800,550" marker-end="url(#arrow)"/>
+          <path class="graph-edge" d="M400,580 Q500,650 600,700" marker-end="url(#arrow)"/>
+          <path class="graph-edge" d="M600,580 Q550,650 600,700" marker-end="url(#arrow)"/>
+          <path class="graph-edge" d="M800,580 Q700,650 600,700" marker-end="url(#arrow)"/>
+        </g>
+
+        <g class="nodes">
+          <g class="graph-node" data-id="need-1" transform="translate(400,200)">
+            <circle class="node-glow" r="28" fill="#ff6b35"/>
+            <circle class="node-circle" r="22" fill="#111118" stroke="#ff6b35"/>
+            <text class="node-type" y="-32">Need</text>
+            <text class="node-label" y="4">AI Integration</text>
+          </g>
+          <g class="graph-node" data-id="need-2" transform="translate(800,200)">
+            <circle class="node-glow" r="28" fill="#ff6b35"/>
+            <circle class="node-circle" r="22" fill="#111118" stroke="#ff6b35"/>
+            <text class="node-type" y="-32">Need</text>
+            <text class="node-label" y="4">Compliance</text>
+          </g>
+          <g class="graph-node" data-id="func-1" transform="translate(600,350)">
+            <circle class="node-glow" r="32" fill="#00d4ff"/>
+            <circle class="node-circle" r="26" fill="#111118" stroke="#00d4ff"/>
+            <text class="node-type" y="-36">Function</text>
+            <text class="node-label" y="4">Orchestration</text>
+          </g>
+          <g class="graph-node" data-id="func-2" transform="translate(600,280)">
+            <circle class="node-glow" r="28" fill="#00d4ff"/>
+            <circle class="node-circle" r="22" fill="#111118" stroke="#00d4ff"/>
+            <text class="node-type" y="-32">Function</text>
+            <text class="node-label" y="4">Retrieval</text>
+          </g>
+          <g class="graph-node" data-id="log-1" transform="translate(400,550)">
+            <circle class="node-glow" r="26" fill="#7c4dff"/>
+            <circle class="node-circle" r="20" fill="#111118" stroke="#7c4dff"/>
+            <text class="node-type" y="-30">Logical</text>
+            <text class="node-label" y="4">Cloud Stack</text>
+          </g>
+          <g class="graph-node" data-id="log-2" transform="translate(600,550)">
+            <circle class="node-glow" r="26" fill="#7c4dff"/>
+            <circle class="node-circle" r="20" fill="#111118" stroke="#7c4dff"/>
+            <text class="node-type" y="-30">Logical</text>
+            <text class="node-label" y="4">AI Pipeline</text>
+          </g>
+          <g class="graph-node" data-id="log-3" transform="translate(800,550)">
+            <circle class="node-glow" r="26" fill="#7c4dff"/>
+            <circle class="node-circle" r="20" fill="#111118" stroke="#7c4dff"/>
+            <text class="node-type" y="-30">Logical</text>
+            <text class="node-label" y="4">Platform</text>
+          </g>
+          <g class="graph-node active" data-id="phys-1" transform="translate(600,700)">
+            <circle class="selection-ring" r="32"/>
+            <circle class="node-glow" r="28" fill="#00c853"/>
+            <circle class="node-circle" r="22" fill="#111118" stroke="#00c853"/>
+            <text class="node-type" y="-32">Realized</text>
+            <text class="node-label" y="4">Agentic Coder</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="detail-panel active" id="detailPanel">
+      <button class="panel-close">x</button>
+      <div class="panel-header">
+        <div class="panel-type">Realized Artifact</div>
+        <div class="panel-title">Agentic Coder</div>
+        <div class="panel-id">ART-001 | Digital Thread Project</div>
+      </div>
+      <div class="panel-content">
+        <div class="panel-section">
+          <h4>Description</h4>
+          <p class="panel-desc">Multi-tenant, multi-provider AI coding assistant integrating with enterprise SKILLS repositories.</p>
+        </div>
+        <div class="panel-section">
+          <h4>Upstream Connections</h4>
+          <ul class="connection-list">
+            <li class="connection-item">
+              <div class="connection-dot" style="background: #00d4ff;"></div>
+              <div class="connection-info">
+                <div class="connection-name">Workflow Orchestration</div>
+                <div class="connection-rel">realizes function</div>
+              </div>
+              <span class="connection-arrow">-&gt;</span>
+            </li>
+            <li class="connection-item">
+              <div class="connection-dot" style="background: #7c4dff;"></div>
+              <div class="connection-info">
+                <div class="connection-name">AI Pipeline Architecture</div>
+                <div class="connection-rel">implements logical</div>
+              </div>
+              <span class="connection-arrow">-&gt;</span>
+            </li>
+            <li class="connection-item">
+              <div class="connection-dot" style="background: #ff6b35;"></div>
+              <div class="connection-info">
+                <div class="connection-name">Enterprise AI Integration</div>
+                <div class="connection-rel">satisfies need</div>
+              </div>
+              <span class="connection-arrow">-&gt;</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend-hud">
+      <div class="legend-title">Artifact Types</div>
+      <div class="legend-item"><div class="legend-color need"></div><span>Stakeholder Needs</span></div>
+      <div class="legend-item"><div class="legend-color function"></div><span>System Functions</span></div>
+      <div class="legend-item"><div class="legend-color logical"></div><span>Logical Components</span></div>
+      <div class="legend-item"><div class="legend-color physical"></div><span>Realized Artifacts</span></div>
+    </div>
+
+    <div class="stats-hud">
+      <div class="stat-card"><div class="stat-value">12</div><div class="stat-label">Needs</div></div>
+      <div class="stat-card"><div class="stat-value">24</div><div class="stat-label">Functions</div></div>
+      <div class="stat-card"><div class="stat-value">8</div><div class="stat-label">Delivered</div></div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.graph-node').forEach(node => {
+      node.addEventListener('click', () => {
+        document.querySelectorAll('.graph-node').forEach(n => {
+          n.classList.remove('active');
+          const ring = n.querySelector('.selection-ring');
+          if (ring) ring.remove();
+        });
+        node.classList.add('active');
+        const svgNS = "http://www.w3.org/2000/svg";
+        const ring = document.createElementNS(svgNS, "circle");
+        ring.setAttribute("class", "selection-ring");
+        ring.setAttribute("r", "32");
+        node.insertBefore(ring, node.firstChild);
+        document.getElementById('detailPanel').classList.add('active');
+      });
+    });
+    document.querySelector('.panel-close').addEventListener('click', () => {
+      document.getElementById('detailPanel').classList.remove('active');
+    });
+    document.querySelectorAll('.view-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

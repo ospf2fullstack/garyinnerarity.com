@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gary Innerarity — Cognitive Architecture</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <style>
+    :root {
+      --bg: #050508;
+      --bg-panel: rgba(10, 10, 16, 0.92);
+      --text: #e8e8ed;
+      --text-muted: #6b6b7b;
+      --accent: #00d4ff;
+      --accent-warm: #ff6b35;
+      --success: #00c853;
+      --warning: #ffc107;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .vignette {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 0%, rgba(5,5,8,0.4) 70%, rgba(5,5,8,0.9) 100%);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .ui-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .ui-element { pointer-events: auto; }
+
+    .brain-header {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      max-width: 400px;
+    }
+
+    .brain-header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-warm) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brain-header p {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    /* Case Study Selector */
+    .case-study-panel {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 320px;
+      background: var(--bg-panel);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .case-study-header {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mode-toggle {
+      display: flex;
+      gap: 4px;
+      background: rgba(255,255,255,0.05);
+      padding: 4px;
+      border-radius: 6px;
+    }
+
+    .mode-btn {
+      padding: 6px 12px;
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .mode-btn.active {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .case-list {
+      list-style: none;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .case-item {
+      padding: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .case-item:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: var(--accent);
+    }
+
+    .case-item.active {
+      background: rgba(0,212,255,0.1);
+      border-color: var(--accent);
+    }
+
+    .case-item .title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .case-item .client {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+    }
+
+    .activation-preview {
+      display: flex;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .activation-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .activation-dot.high { box-shadow: 0 0 8px currentColor; }
+    .activation-dot.med { opacity: 0.6; }
+    .activation-dot.low { opacity: 0.3; }
+
+    /* Brain Legend */
+    .brain-legend {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      background: var(--bg-panel);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      min-width: 240px;
+    }
+
+    .legend-title {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .region-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
+      cursor: pointer;
+      transition: all 0.15s;
+      border-radius: 6px;
+      margin: 0 -8px;
+      padding-left: 8px;
+      padding-right: 8px;
+      position: relative;
+    }
+
+    .region-item:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .region-item.activated::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 70%;
+      background: currentColor;
+      border-radius: 2px;
+      animation: pulse-bar 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-bar {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; box-shadow: 0 0 12px currentColor; }
+    }
+
+    .region-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      box-shadow: 0 0 12px currentColor;
+      transition: all 0.3s;
+    }
+
+    .region-item.activated .region-dot {
+      transform: scale(1.2);
+      box-shadow: 0 0 20px currentColor;
+    }
+
+    .region-name { font-size: 0.8125rem; font-weight: 500; }
+    .region-role { font-size: 0.6875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* Detail Panel for Regions */
+    .detail-panel {
+      position: absolute;
+      top: 50%;
+      right: 24px;
+      transform: translateY(-50%);
+      width: 380px;
+      background: var(--bg-panel);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .detail-panel.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .panel-header {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-region {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .panel-title { font-size: 1.5rem; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
+    .panel-brain-ref { font-size: 0.75rem; color: var(--text-muted); font-style: italic; }
+
+    .panel-section { margin-bottom: 24px; }
+
+    .panel-section h3 {
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-desc { font-size: 0.9375rem; line-height: 1.7; color: var(--text); }
+
+    .capability-list { list-style: none; }
+
+    .capability-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-size: 0.875rem;
+      transition: all 0.15s;
+    }
+
+    .capability-list li:hover { background: rgba(255,255,255,0.06); border-color: var(--accent); }
+    .capability-list .icon { font-size: 1rem; flex-shrink: 0; }
+
+    .pathway-list { list-style: none; }
+
+    .pathway-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+
+    .pathway-item:last-child { border-bottom: none; }
+    .pathway-arrow { font-size: 1.25rem; color: var(--accent); }
+
+    .pulse-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 12px var(--success);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .panel-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 1.25rem;
+    }
+
+    .panel-close:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+
+    /* Case Study Detail Panel */
+    .case-detail-panel {
+      position: absolute;
+      top: 50%;
+      right: 24px;
+      transform: translateY(-50%);
+      width: 420px;
+      background: var(--bg-panel);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 80vh;
+      overflow: hidden;
+    }
+
+    .case-detail-panel.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .case-detail-panel .panel-content {
+      padding: 28px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .case-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .case-tag {
+      padding: 4px 10px;
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--accent);
+      color: var(--bg);
+      border-radius: 4px;
+    }
+
+    .case-client {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .case-title {
+      font-size: 1.375rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .narrative-section {
+      background: linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(233,30,99,0.1) 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .narrative-section h4 {
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .narrative-text {
+      font-size: 0.875rem;
+      line-height: 1.7;
+      font-style: italic;
+      color: var(--text);
+    }
+
+    .narrative-text .region-mention {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .result-list { list-style: none; margin-bottom: 20px; }
+
+    .result-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.875rem;
+    }
+
+    .result-list li::before {
+      content: '✓';
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--success);
+      color: var(--bg);
+      border-radius: 50%;
+      font-size: 0.625rem;
+      font-weight: 700;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tech-tag {
+      padding: 6px 12px;
+      font-size: 0.6875rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+
+    .activation-bar {
+      display: flex;
+      gap: 2px;
+      height: 4px;
+      margin-top: 12px;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .activation-segment {
+      flex: 1;
+      transition: all 0.3s;
+    }
+
+    .stats-overlay {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      gap: 16px;
+    }
+
+    .stat-bubble {
+      background: var(--bg-panel);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-align: center;
+      min-width: 90px;
+    }
+
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-warm) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      font-size: 0.625rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .instructions {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .instruction-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(0,0,0,0.5);
+      padding: 10px 20px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+    .loading {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      z-index: 1000;
+      transition: opacity 0.5s;
+    }
+
+    .loading.hidden { opacity: 0; pointer-events: none; }
+
+    .loading-spinner {
+      width: 48px;
+      height: 48px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 1100px) {
+      .case-study-panel, .detail-panel, .case-detail-panel {
+        width: calc(100% - 48px);
+        right: 24px;
+        left: 24px;
+      }
+      .brain-legend { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <div class="vignette"></div>
+
+  <div class="ui-layer">
+    <header class="brain-header ui-element">
+      <a href="index.html" style="text-decoration: none; color: inherit; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.75rem; color: var(--text-muted);">
+        <span>←</span> Back to Portfolio
+      </a>
+      <h1>Cognitive Architecture</h1>
+      <p>Every solution emerges from interconnected neural pathways. Select a case study to see which cognitive regions activate—or explore regions directly to understand the underlying capabilities.</p>
+    </header>
+
+    <nav class="case-study-panel ui-element">
+      <div class="case-study-header">
+        <span>Exploration Mode</span>
+        <div class="mode-toggle">
+          <button class="mode-btn active" data-mode="cases">Cases</button>
+          <button class="mode-btn" data-mode="regions">Regions</button>
+        </div>
+      </div>
+      <ul class="case-list" id="caseList">
+        <!-- Populated by JS -->
+      </ul>
+    </nav>
+
+    <nav class="brain-legend ui-element" id="brainLegend">
+      <div class="legend-title">Neural Regions</div>
+      <div class="region-item" data-region="prefrontal">
+        <div class="region-dot" style="color: #00d4ff;"></div>
+        <div>
+          <div class="region-name">Prefrontal Cortex</div>
+          <div class="region-role">Strategic Architecture</div>
+        </div>
+      </div>
+      <div class="region-item" data-region="parietal">
+        <div class="region-dot" style="color: #ff6b35;"></div>
+        <div>
+          <div class="region-name">Parietal Lobe</div>
+          <div class="region-role">Systems Integration</div>
+        </div>
+      </div>
+      <div class="region-item" data-region="temporal">
+        <div class="region-dot" style="color: #7c4dff;"></div>
+        <div>
+          <div class="region-name">Temporal Lobe</div>
+          <div class="region-role">Knowledge Architecture</div>
+        </div>
+      </div>
+      <div class="region-item" data-region="occipital">
+        <div class="region-dot" style="color: #00c853;"></div>
+        <div>
+          <div class="region-name">Occipital Lobe</div>
+          <div class="region-role">Data Visualization</div>
+        </div>
+      </div>
+      <div class="region-item" data-region="cerebellum">
+        <div class="region-dot" style="color: #ffc107;"></div>
+        <div>
+          <div class="region-name">Cerebellum</div>
+          <div class="region-role">Execution & Automation</div>
+        </div>
+      </div>
+      <div class="region-item" data-region="limbic">
+        <div class="region-dot" style="color: #e91e63;"></div>
+        <div>
+          <div class="region-name">Limbic System</div>
+          <div class="region-role">Intuition & Innovation</div>
+        </div>
+      </div>
+    </nav>
+
+    <aside class="detail-panel" id="detailPanel">
+      <button class="panel-close" onclick="closeRegionPanel()">×</button>
+      <div id="regionPanelContent"></div>
+    </aside>
+
+    <aside class="case-detail-panel" id="caseDetailPanel">
+      <div class="panel-content">
+        <button class="panel-close" onclick="closeCasePanel()">×</button>
+        <div id="casePanelContent"></div>
+      </div>
+    </aside>
+
+    <div class="stats-overlay ui-element">
+      <div class="stat-bubble">
+        <div class="stat-value" id="nodeCount">47</div>
+        <div class="stat-label">Neural Nodes</div>
+      </div>
+      <div class="stat-bubble">
+        <div class="stat-value" id="connectionCount">156</div>
+        <div class="stat-label">Synaptic Links</div>
+      </div>
+      <div class="stat-bubble">
+        <div class="stat-value">∞</div>
+        <div class="stat-label">Solution Paths</div>
+      </div>
+    </div>
+
+    <div class="instructions">
+      <div class="instruction-text">Select case study or region • Drag to rotate • Scroll to zoom</div>
+    </div>
+  </div>
+
+  <script>
+    // Brain region data
+    const brainRegions = {
+      prefrontal: {
+        name: "Prefrontal Cortex", color: 0x00d4ff,
+        brainRef: "Executive Function & Planning", professionalRole: "Strategic Architecture",
+        description: "The command center where business strategy meets technical architecture. This is where I deconstruct complex stakeholder needs into actionable system designs, weighing trade-offs between scalability, cost, and time-to-market.",
+        capabilities: [
+          { icon: "🎯", text: "Multi-stakeholder requirement synthesis" },
+          { icon: "📐", text: "Enterprise architecture pattern selection" },
+          { icon: "⚖️", text: "Technology trade-off analysis" },
+          { icon: "🗺️", text: "5-year technical roadmap development" }
+        ],
+        connections: ["parietal", "limbic", "temporal"],
+        outputs: "System blueprints, migration strategies"
+      },
+      parietal: {
+        name: "Parietal Lobe", color: 0xff6b35,
+        brainRef: "Spatial Reasoning & Integration", professionalRole: "Systems Integration",
+        description: "The integration hub where disparate subsystems converge into coherent platforms. I visualize component interactions across multiple dimensions—data flow, control flow, failure modes.",
+        capabilities: [
+          { icon: "🔗", text: "Multi-cloud infrastructure orchestration" },
+          { icon: "🔄", text: "API ecosystem design" },
+          { icon: "🛡️", text: "Zero-trust security architecture" },
+          { icon: "📊", text: "Observability frameworks" }
+        ],
+        connections: ["prefrontal", "temporal", "cerebellum"],
+        outputs: "Integrated platforms, Terraform modules"
+      },
+      temporal: {
+        name: "Temporal Lobe", color: 0x7c4dff,
+        brainRef: "Memory & Language Processing", professionalRole: "Knowledge Architecture",
+        description: "Where institutional knowledge becomes computational advantage. I design systems that transform raw data into actionable intelligence—RAG pipelines, digital threads.",
+        capabilities: [
+          { icon: "🧠", text: "RAG pipeline architecture" },
+          { icon: "🕸️", text: "Knowledge graph design" },
+          { icon: "📚", text: "Digital thread & traceability" },
+          { icon: "🔍", text: "Semantic search" }
+        ],
+        connections: ["prefrontal", "parietal", "limbic"],
+        outputs: "Digital thread platforms, LLM systems"
+      },
+      occipital: {
+        name: "Occipital Lobe", color: 0x00c853,
+        brainRef: "Visual Processing", professionalRole: "Data Visualization",
+        description: "Transforming complex system states into intuitive visual representations. Dashboards, digital twins, and simulation interfaces that make the invisible visible.",
+        capabilities: [
+          { icon: "🖥️", text: "Digital twin interfaces" },
+          { icon: "📈", text: "Real-time operational dashboards" },
+          { icon: "🎮", text: "3D visualization systems" },
+          { icon: "🔢", text: "Monte Carlo visualization" }
+        ],
+        connections: ["parietal", "cerebellum", "limbic"],
+        outputs: "Digital twins, BI platforms"
+      },
+      cerebellum: {
+        name: "Cerebellum", color: 0xffc107,
+        brainRef: "Motor Control & Automation", professionalRole: "Execution & Automation",
+        description: "The automation engine transforming architectural intent into operational reality. Infrastructure as code, self-healing pipelines.",
+        capabilities: [
+          { icon: "⚙️", text: "Infrastructure-as-Code at scale" },
+          { icon: "🚀", text: "CI/CD pipeline architecture" },
+          { icon: "🤖", text: "Agentic workflow orchestration" },
+          { icon: "📋", text: "Compliance-as-code" }
+        ],
+        connections: ["parietal", "occipital", "limbic"],
+        outputs: "Automated pipelines, compliance systems"
+      },
+      limbic: {
+        name: "Limbic System", color: 0xe91e63,
+        brainRef: "Emotion & Pattern Recognition", professionalRole: "Intuition & Innovation",
+        description: "The pattern-matching engine drawing connections across seemingly unrelated domains. Where others see isolated problems, I recognize archetypes.",
+        capabilities: [
+          { icon: "💡", text: "Cross-domain pattern recognition" },
+          { icon: "🎨", text: "Creative solution synthesis" },
+          { icon: "🔮", text: "Emerging technology forecasting" },
+          { icon: "⚡", text: "Rapid hypothesis validation" }
+        ],
+        connections: ["prefrontal", "temporal", "occipital"],
+        outputs: "Novel architectures, competitive advantages"
+      }
+    };
+
+    // Case Studies Data
+    const caseStudies = [
+      {
+        id: "agentic-coder",
+        title: "Agentic Coder",
+        client: "Enterprise SaaS Platform",
+        challenge: "Engineering teams drowning in code review bottlenecks. 40% of senior engineer time on repetitive reviews. Knowledge silos causing inconsistent quality.",
+        solution: "Multi-tenant AI coding assistant with persona-based agents (security, performance, style) integrated with enterprise SKILLS repositories.",
+        activation: { primary: ["prefrontal", "temporal", "cerebellum"], secondary: ["limbic", "parietal"], intensity: 0.9 },
+        results: ["70% reduction in review cycle time", "3.5x increase in code quality", "Unified standards across 12 teams"],
+        technologies: ["OpenAI GPT-4", "RAG Pipeline", "MCP Servers", "React", "FastAPI"],
+        neuralNarrative: "Prefrontal cortex deconstructed requirements into agent personas. Temporal lobe architected the knowledge retrieval system. Cerebellum automated execution loops. Limbic system recognized the pattern from aerospace MBSE—applying 'agent swarms' to code review."
+      },
+      {
+        id: "digital-thread",
+        title: "Digital Thread Platform",
+        client: "Defense Contractor",
+        challenge: "50-year engineering programs with millions of artifacts, zero traceability. Compliance audits took 6 months. Design decisions lost to time.",
+        solution: "Full-stack platform connecting metadata, artifacts, and relationships into continuous data thread. Graph database with custom ontology.",
+        activation: { primary: ["temporal", "parietal", "occipital"], secondary: ["prefrontal", "limbic"], intensity: 0.95 },
+        results: ["End-to-end traceability", "Audit prep: 6mo → 2wk", "Knowledge reuse up 340%"],
+        technologies: ["Neo4j", "React", "GraphQL", "Elasticsearch", "Digital Twin"],
+        neuralNarrative: "Pure temporal lobe territory—memory architecture. Occipital lobe demanded data be visualizable, not just queryable. Parietal integration wove together 14 source systems. The aha moment (limbic) realized defense manufacturers already solved this—we just productized it."
+      },
+      {
+        id: "compliance-pipeline",
+        title: "Automated Cyber Compliance",
+        client: "Financial Services",
+        challenge: "Manual compliance across 2000+ cloud resources. Controls drifted within days. Engineers spent 30% of time on compliance paperwork.",
+        solution: "Continuous compliance pipeline from policy-as-code through real-time dashboards. Terraform Sentinel for guardrails. Automated evidence collection.",
+        activation: { primary: ["cerebellum", "parietal", "prefrontal"], secondary: ["occipital"], intensity: 0.85 },
+        results: ["99.7% automated control coverage", "Continuous audit-ready state", "Engineering productivity +35%"],
+        technologies: ["Terraform", "Sentinel", "AWS Config", "Python", "Streamlit"],
+        neuralNarrative: "Pure cerebellum execution—automation as muscle memory. Prefrontal strategy was crucial: redesigning the process around automation. Parietal integration ensured compliance state propagated across 2000+ resources without drift."
+      },
+      {
+        id: "risk-simulator",
+        title: "Monte Carlo Risk Platform",
+        client: "Energy Infrastructure",
+        challenge: "$2B infrastructure decisions with static spreadsheet models. No way to model uncertainty across correlated variables.",
+        solution: "Probabilistic risk platform using Monte Carlo with 10,000+ iterations. Correlated variable modeling. Interactive outcome visualization.",
+        activation: { primary: ["occipital", "limbic", "prefrontal"], secondary: ["parietal", "temporal"], intensity: 0.9 },
+        results: ["$340M in optimized capital allocation", "Risk visibility 10x", "Board decision confidence 95%+"],
+        technologies: ["Python", "NumPy", "D3.js", "FastAPI", "WebSocket"],
+        neuralNarrative: "Occipital lobe did the heavy lifting—risk is invisible without visualization. Limbic pattern recognition connected this to quantum physics: uncertainty isn't ignorance, it's irreducible. Prefrontal architected the Monte Carlo engine."
+      },
+      {
+        id: "terraform-modules",
+        title: "Multi-Cloud Terraform Library",
+        client: "Fortune 500 Enterprise",
+        challenge: "15 engineering teams, 15 different provisioning methods. Configuration drift, security gaps, 40-minute provisioning times.",
+        solution: "Terraform module library with 50+ reusable patterns. Policy-as-code guardrails. Self-service portal with automated compliance.",
+        activation: { primary: ["parietal", "cerebellum", "prefrontal"], secondary: ["limbic"], intensity: 0.8 },
+        results: ["Provisioning: 40min → 4min", "Security misconfigs: -94%", "Developer satisfaction: 8.7/10"],
+        technologies: ["Terraform", "Go", "Python", "Vault", "Atlantis"],
+        neuralNarrative: "Parietal integration combined with cerebellum automation. Limbic innovation: developers don't want infrastructure—they want capability. Prefrontal strategy: modules as API contracts between platform and product teams."
+      },
+      {
+        id: "ai-skills",
+        title: "Enterprise AI Skills Platform",
+        client: "Global Consulting Firm",
+        challenge: "Knowledge trapped in senior consultants' brains. 10,000 consultants couldn't access firm expertise at point of need.",
+        solution: "RAG-based skills platform with company knowledge corpus. Semantic search across cases. AI-assisted solution design with human-in-the-loop.",
+        activation: { primary: ["temporal", "limbic", "prefrontal"], secondary: ["parietal", "cerebellum"], intensity: 0.9 },
+        results: ["Solution design time: -60%", "Knowledge reuse: +400%", "Consultant onboarding: 3mo → 3wk"],
+        technologies: ["OpenAI", "Pinecone", "LangChain", "React", "Node.js"],
+        neuralNarrative: "Temporal lobe core—this is memory architecture at scale. Limbic intuition recognized consulting firms are knowledge networks, not labor pools. Prefrontal cortex designed human-AI collaboration protocol—AI suggests, humans validate, system learns."
+      }
+    ];
+
+    // State
+    let scene, camera, renderer, controls;
+    let regionMeshes = [], connectionLines = [], pulseParticles = [], activationParticles = [];
+    let raycaster, mouse;
+    let hoveredRegion = null, selectedRegion = null, activeCase = null;
+    let animationId, currentMode = 'cases';
+
+    function init() {
+      scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x050508, 0.02);
+
+      camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 0, 18);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      document.body.insertBefore(renderer.domElement, document.body.firstChild);
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.minDistance = 8;
+      controls.maxDistance = 30;
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 0.5;
+
+      scene.add(new THREE.AmbientLight(0x404040, 1.5));
+      const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      dirLight.position.set(5, 10, 7);
+      scene.add(dirLight);
+
+      raycaster = new THREE.Raycaster();
+      mouse = new THREE.Vector2();
+
+      createBrain();
+      createConnections();
+      createPulseParticles();
+
+      window.addEventListener('resize', onWindowResize);
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('click', onClick);
+
+      setupUI();
+
+      setTimeout(() => document.getElementById('loading').classList.add('hidden'), 1000);
+      animate();
+    }
+
+    function createBrain() {
+      const regionPositions = {
+        prefrontal: { x: 0, y: 2.5, z: 2.5, size: 1.8 },
+        parietal: { x: 0, y: 1, z: -0.5, size: 2 },
+        temporal: { x: -2.2, y: -0.5, z: 0.5, size: 1.5 },
+        temporalR: { x: 2.2, y: -0.5, z: 0.5, size: 1.5 },
+        occipital: { x: 0, y: 0.5, z: -2.5, size: 1.6 },
+        cerebellum: { x: 0, y: -2.5, z: -1.5, size: 1.4 },
+        limbic: { x: 0, y: 0.5, z: 0.5, size: 1.2 }
+      };
+
+      Object.keys(regionPositions).forEach(key => {
+        const pos = regionPositions[key];
+        const regionKey = key.replace('R', '');
+        const region = brainRegions[regionKey];
+
+        const geometry = new THREE.IcosahedronGeometry(pos.size, 16);
+        const material = new THREE.MeshBasicMaterial({
+          color: region.color, wireframe: true, transparent: true, opacity: 0.3
+        });
+
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.position.set(pos.x, pos.y, pos.z);
+        mesh.userData = { region: regionKey, originalOpacity: 0.3 };
+        mesh.scale.set(key === 'limbic' ? 0.6 : 1, key === 'limbic' ? 0.8 : 1, key === 'limbic' ? 0.7 : 1);
+        scene.add(mesh);
+        regionMeshes.push(mesh);
+
+        const glowGeo = new THREE.SphereGeometry(pos.size * 0.7, 16, 16);
+        const glowMat = new THREE.MeshBasicMaterial({ color: region.color, transparent: true, opacity: 0.1 });
+        const glow = new THREE.Mesh(glowGeo, glowMat);
+        glow.position.copy(mesh.position);
+        glow.userData = { isGlow: true, parentRegion: regionKey };
+        scene.add(glow);
+        regionMeshes.push(glow);
+      });
+
+      const shellGeo = new THREE.IcosahedronGeometry(4.5, 2);
+      const shellMat = new THREE.MeshBasicMaterial({ color: 0x1a1a2e, wireframe: true, transparent: true, opacity: 0.15 });
+      const shell = new THREE.Mesh(shellGeo, shellMat);
+      shell.scale.set(1, 0.9, 0.85);
+      scene.add(shell);
+    }
+
+    function createConnections() {
+      const pairs = [['prefrontal','parietal'], ['prefrontal','temporal'], ['prefrontal','limbic'], ['parietal','temporal'], ['parietal','occipital'], ['parietal','cerebellum'], ['temporal','limbic'], ['temporal','occipital'], ['occipital','cerebellum'], ['cerebellum','limbic'], ['limbic','prefrontal'], ['limbic','temporal']];
+      const positions = { prefrontal: [0,2.5,2.5], parietal: [0,1,-0.5], temporal: [-2.2,-0.5,0.5], occipital: [0,0.5,-2.5], cerebellum: [0,-2.5,-1.5], limbic: [0,0.5,0.5] };
+
+      pairs.forEach(pair => {
+        const start = new THREE.Vector3(...positions[pair[0]]);
+        const end = new THREE.Vector3(...positions[pair[1]]);
+        const mid = start.clone().add(end).multiplyScalar(0.5);
+        mid.y += (Math.random()-0.5)*0.5;
+        const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
+        const points = curve.getPoints(20);
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const material = new THREE.LineBasicMaterial({ color: 0x2a2a4a, transparent: true, opacity: 0.2 });
+        const line = new THREE.Line(geometry, material);
+        line.userData = { startRegion: pair[0], endRegion: pair[1], originalOpacity: 0.2 };
+        scene.add(line);
+        connectionLines.push(line);
+      });
+    }
+
+    function createPulseParticles() {
+      connectionLines.forEach((line, idx) => {
+        const region = brainRegions[line.userData.startRegion];
+        const material = new THREE.MeshBasicMaterial({ color: region ? region.color : 0x00d4ff });
+        const particle = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 8), material);
+        particle.userData = { lineIndex: idx, progress: Math.random(), speed: 0.002 + Math.random()*0.004 };
+        scene.add(particle);
+        pulseParticles.push(particle);
+      });
+    }
+
+    function setupUI() {
+      // Populate case list
+      const caseList = document.getElementById('caseList');
+      caseStudies.forEach(cs => {
+        const li = document.createElement('li');
+        li.className = 'case-item';
+        li.dataset.case = cs.id;
+        li.innerHTML = `
+          <div class="title">${cs.title}</div>
+          <div class="client">${cs.client}</div>
+          <div class="activation-preview">
+            ${Object.keys(brainRegions).map(r => {
+              const isHigh = cs.activation.primary.includes(r);
+              const isMed = cs.activation.secondary.includes(r);
+              const level = isHigh ? 'high' : isMed ? 'med' : 'low';
+              const color = brainRegions[r].color.toString(16).padStart(6,'0');
+              return `<div class="activation-dot ${level}" style="background: #${color}; color: #${color};"></div>`;
+            }).join('')}
+          </div>
+        `;
+        li.addEventListener('click', () => selectCase(cs.id));
+        caseList.appendChild(li);
+      });
+
+      // Mode toggle
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentMode = btn.dataset.mode;
+          updateMode();
+        });
+      });
+
+      // Legend interactions
+      document.querySelectorAll('.region-item').forEach(item => {
+        item.addEventListener('click', () => selectRegion(item.dataset.region));
+        item.addEventListener('mouseenter', () => highlightRegion(item.dataset.region, true));
+        item.addEventListener('mouseleave', () => highlightRegion(item.dataset.region, false));
+      });
+    }
+
+    function updateMode() {
+      const casePanel = document.querySelector('.case-study-panel');
+      const legend = document.getElementById('brainLegend');
+      if (currentMode === 'cases') {
+        casePanel.style.display = 'block';
+        legend.style.bottom = '24px';
+      } else {
+        casePanel.style.display = 'none';
+        legend.style.bottom = 'auto';
+        legend.style.top = '120px';
+      }
+    }
+
+    function selectCase(caseId) {
+      activeCase = caseStudies.find(c => c.id === caseId);
+      if (!activeCase) return;
+
+      // Update UI
+      document.querySelectorAll('.case-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.case === caseId);
+      });
+
+      controls.autoRotate = false;
+      closeRegionPanel();
+
+      // Animate brain activation
+      activateBrainForCase(activeCase);
+
+      // Show case detail panel
+      showCasePanel(activeCase);
+
+      document.getElementById('nodeCount').textContent = '6';
+      document.getElementById('connectionCount').textContent = activeCase.activation.primary.length + activeCase.activation.secondary.length;
+    }
+
+    function activateBrainForCase(cs) {
+      // Reset all
+      regionMeshes.forEach(mesh => { mesh.material.opacity = 0.1; });
+      connectionLines.forEach(line => { line.material.opacity = 0.05; line.material.color.setHex(0x2a2a4a); });
+
+      // Activate regions with intensity
+      const allActive = [...cs.activation.primary, ...cs.activation.secondary];
+      allActive.forEach(regionKey => {
+        const isPrimary = cs.activation.primary.includes(regionKey);
+        const intensity = isPrimary ? 0.9 : 0.5;
+        const color = brainRegions[regionKey].color;
+
+        regionMeshes.forEach(mesh => {
+          if (mesh.userData.region === regionKey) {
+            mesh.material.opacity = intensity;
+            if (mesh.userData.isGlow) mesh.material.opacity = intensity * 0.4;
+          }
+        });
+
+        // Update legend
+        const legendItem = document.querySelector(`.region-item[data-region="${regionKey}"]`);
+        if (legendItem) legendItem.classList.add('activated');
+      });
+
+      // Activate connections between active regions
+      connectionLines.forEach(line => {
+        if (allActive.includes(line.userData.startRegion) && allActive.includes(line.userData.endRegion)) {
+          line.material.opacity = 0.6;
+          line.material.color.setHex(0x00d4ff);
+        }
+      });
+
+      // Create burst particles from active regions
+      createActivationBurst(cs);
+    }
+
+    function createActivationBurst(cs) {
+      // Clear old activation particles
+      activationParticles.forEach(p => scene.remove(p));
+      activationParticles = [];
+
+      const allActive = [...cs.activation.primary, ...cs.activation.secondary];
+      const positions = { prefrontal: [0,2.5,2.5], parietal: [0,1,-0.5], temporal: [-2.2,-0.5,0.5], occipital: [0,0.5,-2.5], cerebellum: [0,-2.5,-1.5], limbic: [0,0.5,0.5] };
+
+      allActive.forEach(regionKey => {
+        const pos = positions[regionKey];
+        const color = brainRegions[regionKey].color;
+
+        for (let i = 0; i < 8; i++) {
+          const particle = new THREE.Mesh(
+            new THREE.SphereGeometry(0.04, 6, 6),
+            new THREE.MeshBasicMaterial({ color: color, transparent: true })
+          );
+          particle.position.set(pos[0], pos[1], pos[2]);
+          particle.userData = {
+            velocity: new THREE.Vector3((Math.random()-0.5)*0.05, (Math.random()-0.5)*0.05, (Math.random()-0.5)*0.05),
+            life: 1.0
+          };
+          scene.add(particle);
+          activationParticles.push(particle);
+        }
+      });
+    }
+
+    function showCasePanel(cs) {
+      const panel = document.getElementById('caseDetailPanel');
+      const content = document.getElementById('casePanelContent');
+
+      content.innerHTML = `
+        <div class="case-meta">
+          <span class="case-tag">Case Study</span>
+          <span class="case-client">${cs.client}</span>
+        </div>
+        <h2 class="case-title">${cs.title}</h2>
+
+        <div class="narrative-section">
+          <h4>🧠 Neural Activation Pattern</h4>
+          <p class="narrative-text">${cs.neuralNarrative.replace(/([A-Z][a-z]+(?: Cortex|Lobe|System|lobe))/g, '<span class="region-mention">$1</span>')}</p>
+        </div>
+
+        <div class="panel-section">
+          <h3>The Challenge</h3>
+          <p class="panel-desc">${cs.challenge}</p>
+        </div>
+
+        <div class="panel-section">
+          <h3>The Solution</h3>
+          <p class="panel-desc">${cs.solution}</p>
+        </div>
+
+        <div class="panel-section">
+          <h3>Results</h3>
+          <ul class="result-list">
+            ${cs.results.map(r => `<li>${r}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="panel-section">
+          <h3>Technologies</h3>
+          <div class="tech-stack">
+            ${cs.technologies.map(t => `<span class="tech-tag">${t}</span>`).join('')}
+          </div>
+        </div>
+      `;
+
+      panel.classList.add('active');
+    }
+
+    function selectRegion(regionKey) {
+      selectedRegion = regionKey;
+      controls.autoRotate = false;
+      closeCasePanel();
+
+      document.querySelectorAll('.region-item').forEach(item => {
+        item.classList.toggle('activated', item.dataset.region === regionKey);
+      });
+
+      highlightRegion(regionKey, true);
+
+      const region = brainRegions[regionKey];
+      const panel = document.getElementById('detailPanel');
+      const content = document.getElementById('regionPanelContent');
+
+      content.innerHTML = `
+        <div class="panel-header">
+          <div class="panel-region" style="background: rgba(${(region.color>>16)&255},${(region.color>>8)&255},${region.color&255},0.15); color: #${region.color.toString(16).padStart(6,'0')};">
+            <div class="pulse-indicator"></div>
+            ${region.professionalRole}
+          </div>
+          <div class="panel-title">${region.name}</div>
+          <div class="panel-brain-ref">Neural correlate: ${region.brainRef}</div>
+        </div>
+        <div class="panel-section">
+          <h3>Functional Architecture</h3>
+          <p class="panel-desc">${region.description}</p>
+        </div>
+        <div class="panel-section">
+          <h3>Core Capabilities</h3>
+          <ul class="capability-list">
+            ${region.capabilities.map(cap => `<li><span class="icon">${cap.icon}</span><span>${cap.text}</span></li>`).join('')}
+          </ul>
+        </div>
+        <div class="panel-section">
+          <h3>Neural Pathways</h3>
+          <ul class="pathway-list">
+            ${region.connections.map(conn => `
+              <li class="pathway-item">
+                <span>${brainRegions[conn].name}</span>
+                <span class="pathway-arrow">↔</span>
+                <span style="color: var(--text-muted); font-size: 0.75rem;">${brainRegions[conn].professionalRole}</span>
+              </li>
+            `).join('')}
+          </ul>
+        </div>
+        <div class="panel-section">
+          <h3>Signal Output</h3>
+          <p class="panel-desc" style="font-style: italic; color: var(--accent);">${region.outputs}</p>
+        </div>
+      `;
+
+      panel.classList.add('active');
+    }
+
+    function highlightRegion(regionKey, isHighlighted) {
+      if (activeCase || selectedRegion) return;
+      const intensity = isHighlighted ? 0.7 : 0.3;
+      const lineOpacity = isHighlighted ? 0.4 : 0.2;
+      regionMeshes.forEach(mesh => {
+        if (mesh.userData.region === regionKey) mesh.material.opacity = intensity;
+      });
+      connectionLines.forEach(line => {
+        if (line.userData.startRegion === regionKey || line.userData.endRegion === regionKey) {
+          line.material.opacity = lineOpacity;
+        }
+      });
+    }
+
+    function closeRegionPanel() {
+      document.getElementById('detailPanel').classList.remove('active');
+      selectedRegion = null;
+      if (!activeCase) {
+        controls.autoRotate = true;
+        resetBrain();
+      }
+    }
+
+    function closeCasePanel() {
+      document.getElementById('caseDetailPanel').classList.remove('active');
+      setTimeout(() => { if (!activeCase) document.getElementById('casePanelContent').innerHTML = ''; }, 400);
+    }
+
+    function resetBrain() {
+      regionMeshes.forEach(mesh => { mesh.material.opacity = mesh.userData.originalOpacity; });
+      connectionLines.forEach(line => { line.material.opacity = line.userData.originalOpacity; line.material.color.setHex(0x2a2a4a); });
+      document.querySelectorAll('.region-item').forEach(item => item.classList.remove('activated'));
+      document.querySelectorAll('.case-item').forEach(item => item.classList.remove('active'));
+      activeCase = null;
+      document.getElementById('nodeCount').textContent = '47';
+      document.getElementById('connectionCount').textContent = '156';
+    }
+
+    function onMouseMove(event) {
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(regionMeshes);
+      if (intersects.length > 0) {
+        const regionKey = intersects[0].object.userData.region;
+        if (regionKey !== hoveredRegion) {
+          hoveredRegion = regionKey;
+          document.body.style.cursor = 'pointer';
+        }
+      } else {
+        hoveredRegion = null;
+        document.body.style.cursor = 'default';
+      }
+    }
+
+    function onClick() {
+      if (hoveredRegion && !activeCase) selectRegion(hoveredRegion);
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animate() {
+      animationId = requestAnimationFrame(animate);
+      controls.update();
+
+      // Update pulse particles
+      pulseParticles.forEach(particle => {
+        particle.userData.progress += particle.userData.speed;
+        if (particle.userData.progress > 1) particle.userData.progress = 0;
+        const line = connectionLines[particle.userData.lineIndex];
+        const positions = line.geometry.attributes.position.array;
+        const totalPoints = positions.length / 3;
+        const index = Math.floor(particle.userData.progress * (totalPoints - 1));
+        particle.position.set(positions[index * 3], positions[index * 3 + 1], positions[index * 3 + 2]);
+      });
+
+      // Update activation particles
+      activationParticles.forEach((particle, i) => {
+        particle.userData.life -= 0.02;
+        particle.position.add(particle.userData.velocity);
+        particle.material.opacity = Math.max(0, particle.userData.life);
+        if (particle.userData.life <= 0) {
+          scene.remove(particle);
+          activationParticles.splice(i, 1);
+        }
+      });
+
+      // Base glow pulse
+      const time = Date.now() * 0.001;
+      regionMeshes.forEach((mesh, i) => {
+        if (mesh.userData.isGlow && !activeCase && !selectedRegion) {
+          mesh.material.opacity = 0.1 + Math.sin(time * 2 + i) * 0.03;
+        }
+      });
+
+      renderer.render(scene, camera);
+    }
+
+    init();
+  </script>
+</body>
+</html>

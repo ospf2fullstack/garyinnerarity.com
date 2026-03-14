@@ -1,4 +1,4 @@
-﻿/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    GARY INNERARITY â€” PORTFOLIO
    Design principle: DFA (Design for Assembly)
    â€” Every element has one job. One home. One reason to exist.
@@ -202,6 +202,27 @@ a:hover {
 .nav-links a.active {
   color: var(--text);
   text-decoration: none;
+}
+
+.nav-separator {
+  color: var(--border-strong);
+  font-size: 0.875rem;
+  user-select: none;
+}
+
+.nav-links li a[href^="index-"] {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+
+.nav-links li a[href^="index-"]:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--white);
 }
 
 /*-------- SECTIONS -------------------------------------------------â”€â”€â”€â”€ */
@@ -1024,5 +1045,317 @@ section + section {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SYSTEM LIFECYCLE - interactive narrative
+   ═══════════════════════════════════════════════════════════════ */
+
+.lifecycle-container {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/* System Diagram - the four phases */
+.system-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 32px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.phase-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 32px;
+  background: var(--bg-subtle);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  text-align: center;
+  min-width: 140px;
+  position: relative;
+}
+
+.phase-node:hover {
+  border-color: var(--border-strong);
+  background: var(--white);
+}
+
+.phase-node.active {
+  background: var(--white);
+}
+
+.phase-node.active.phase--ingest {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.phase-node.active.phase--process {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 1px #7c3aed, 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+
+.phase-node.active.phase--output {
+  border-color: #059669;
+  box-shadow: 0 0 0 1px #059669, 0 4px 12px rgba(5, 150, 105, 0.15);
+}
+
+.phase-node.active.phase--feedback {
+  border-color: #ea580c;
+  box-shadow: 0 0 0 1px #ea580c, 0 4px 12px rgba(234, 88, 12, 0.15);
+}
+
+.phase-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: color 0.2s var(--ease);
+}
+
+.phase-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.phase-node.active.phase--ingest .phase-icon { color: var(--accent); }
+.phase-node.active.phase--process .phase-icon { color: #7c3aed; }
+.phase-node.active.phase--output .phase-icon { color: #059669; }
+.phase-node.active.phase--feedback .phase-icon { color: #ea580c; }
+
+.phase-label {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.phase-sub {
+  font-size: 0.6875rem;
+  color: var(--text-faint);
+  max-width: 120px;
+  line-height: 1.4;
+}
+
+.flow-arrow {
+  font-family: var(--mono);
+  font-size: 1.25rem;
+  color: var(--border-strong);
+  padding: 0 8px;
+  user-select: none;
+}
+
+.flow-arrow--feedback {
+  transform: rotate(-90deg);
+}
+
+/* Phase Details Panel */
+.phase-details {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.phase-content {
+  padding: 40px 48px;
+  animation: fadeIn 0.3s var(--ease);
+}
+
+.phase-content[hidden] {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.phase-header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.phase-header h3 {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 12px;
+}
+
+[data-phase="ingest"] .phase-header h3 { color: var(--accent); }
+[data-phase="process"] .phase-header h3 { color: #7c3aed; }
+[data-phase="output"] .phase-header h3 { color: #059669; }
+[data-phase="feedback"] .phase-header h3 { color: #ea580c; }
+
+.phase-description {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 640px;
+}
+
+.phase-components {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.phase-components--output {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.component-card {
+  padding: 24px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: all 0.15s var(--ease);
+}
+
+.component-card:hover {
+  background: var(--white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.component-card--enterprise {
+  background: var(--white);
+  border-color: var(--border-strong);
+}
+
+.component-card--enterprise:hover {
+  border-color: #059669;
+}
+
+.component-type {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.component-card h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.component-card p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.phase-cta {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  padding: 12px 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: all 0.15s var(--ease);
+}
+
+.phase-cta:hover {
+  background: var(--text);
+  color: var(--white);
+  border-color: var(--text);
+  text-decoration: none;
+}
+
+/* Mobile responsive for lifecycle */
+@media (max-width: 768px) {
+  .system-diagram {
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px;
+  }
+
+  .flow-arrow {
+    transform: rotate(90deg);
+  }
+
+  .flow-arrow--feedback {
+    transform: rotate(0deg);
+  }
+
+  .phase-node {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 16px 20px;
+    gap: 16px;
+  }
+
+  .phase-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .phase-label-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .phase-sub {
+    max-width: none;
+  }
+
+  .phase-content {
+    padding: 24px;
+  }
+
+  .phase-components {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .phase-node {
+    padding: 14px 16px;
+  }
+
+  .phase-header h3 {
+    font-size: 0.625rem;
+  }
+
+  .phase-description {
+    font-size: 1rem;
   }
 }

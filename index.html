@@ -220,33 +220,199 @@
       <span class="hamburger-line"></span>
     </button>
     <ul class="nav-links" id="nav-links-list" role="list">
+      <li><a href="#lifecycle">System</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="#stack">Stack</a></li>
       <li><a href="#credentials">Credentials</a></li>
       <li><a href="#notes">Notes</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#timeline">Timeline</a></li>
+      <li class="nav-separator" aria-hidden="true">|</li>
+      <li><a href="index-brain.html" title="Cognitive Architecture Visualization">🧠 Brain</a></li>
+      <li><a href="index-rhapsody.html" title="Rhapsody-style MBSE">R</a></li>
+      <li><a href="index-cameo.html" title="Cameo-style MBSE">C</a></li>
+      <li><a href="index-thread.html" title="Digital Thread Navigator">T</a></li>
     </ul>
   </nav>
 
   <main id="main-content">
 
     <!-- ═══════════════════════════════════════════
-         HERO - who, what, where to go
+         HERO - living system architecture
     ═══════════════════════════════════════════ -->
     <section id="hero" aria-labelledby="hero-title">
       <div class="container">
-        <span class="label">Solutions Engineer · MBA</span>
-        <h1 id="hero-title">Gary Innerarity, MBA</h1>
+        <span class="label">Systems Architect · Solutions Engineer · MBA</span>
+        <h1 id="hero-title">Complex systems,<br>made legible.</h1>
         <p class="hero-tagline">
-          I design and operate systems and integrations that scale - across cloud, on-prem, custom API's
-          and everything between. Enterprise platforms, automation at depth,
-          Artificial Intelligence for business. 
+          I deconstruct highly complex problems into working systems.
+          The same lifecycle applies whether architecting enterprise AI workflows
+          or optimizing a single deployment pipeline.
         </p>
-        <nav class="hero-actions" aria-label="Primary actions">
-          <a href="#work" class="btn btn--primary">View Work</a>
-          <a href="#notes" class="btn btn--ghost">Read Notes</a>
-        </nav>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SYSTEM LIFECYCLE - interactive diagram
+    ═══════════════════════════════════════════ -->
+    <section id="lifecycle" aria-labelledby="lifecycle-title">
+      <div class="container">
+        <h2 id="lifecycle-title" class="section-label">System Lifecycle</h2>
+        <p class="section-intro">
+          Every system I build follows this lifecycle. Click any phase to explore
+          how I apply it—from understanding problems to shipping solutions.
+        </p>
+
+        <div class="lifecycle-container">
+          <!-- System Diagram -->
+          <div class="system-diagram" role="tablist" aria-label="System lifecycle phases">
+            <button class="phase-node phase--ingest active" data-phase="ingest" role="tab" aria-selected="true" aria-controls="phase-ingest">
+              <div class="phase-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M2 12h3M19 12h3M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/></svg>
+              </div>
+              <span class="phase-label">Ingest</span>
+              <span class="phase-sub">Problem Understanding</span>
+            </button>
+
+            <div class="flow-arrow" aria-hidden="true">→</div>
+
+            <button class="phase-node phase--process" data-phase="process" role="tab" aria-selected="false" aria-controls="phase-process">
+              <div class="phase-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v4H4zM4 10h16v4H4zM4 16h16v4H4z"/></svg>
+              </div>
+              <span class="phase-label">Process</span>
+              <span class="phase-sub">Design & Architecture</span>
+            </button>
+
+            <div class="flow-arrow" aria-hidden="true">→</div>
+
+            <button class="phase-node phase--output" data-phase="output" role="tab" aria-selected="false" aria-controls="phase-output">
+              <div class="phase-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <span class="phase-label">Output</span>
+              <span class="phase-sub">Shipped Systems</span>
+            </button>
+
+            <div class="flow-arrow flow-arrow--feedback" aria-hidden="true">↻</div>
+
+            <button class="phase-node phase--feedback" data-phase="feedback" role="tab" aria-selected="false" aria-controls="phase-feedback">
+              <div class="phase-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+              </div>
+              <span class="phase-label">Feedback</span>
+              <span class="phase-sub">Evolution & Iteration</span>
+            </button>
+          </div>
+
+          <!-- Phase Details -->
+          <div class="phase-details">
+            <div id="phase-ingest" class="phase-content active" data-phase="ingest">
+              <div class="phase-header">
+                <h3>Phase 1: Ingest</h3>
+                <p class="phase-description">Before building, I deconstruct. Understanding the problem space through systems thinking and foundational mental models.</p>
+              </div>
+              <div class="phase-components">
+                <div class="component-card">
+                  <span class="component-type">Foundation</span>
+                  <h4>MBA + Systems Thinking</h4>
+                  <p>Business strategy perspective on technical problems—connecting organizational goals to architectural decisions.</p>
+                </div>
+                <div class="component-card">
+                  <span class="component-type">Validation</span>
+                  <h4>14+ Certifications</h4>
+                  <p>AWS, Cisco, Security+—credentials that verify understanding across networking, cloud, and security domains.</p>
+                </div>
+                <div class="component-card">
+                  <span class="component-type">Documentation</span>
+                  <h4>Living Knowledge Base</h4>
+                  <p>Notes on architecture patterns, platform deep-dives, and operational runbooks—knowledge made searchable.</p>
+                </div>
+              </div>
+              <a href="#credentials" class="phase-cta">View Credentials →</a>
+            </div>
+
+            <div id="phase-process" class="phase-content" data-phase="process" hidden>
+              <div class="phase-header">
+                <h3>Phase 2: Process</h3>
+                <p class="phase-description">Transform requirements into architectures. Layering tools and patterns to build robust systems.</p>
+              </div>
+              <div class="phase-components">
+                <div class="component-card">
+                  <span class="component-type">Infrastructure</span>
+                  <h4>Cloud & Platform</h4>
+                  <p>AWS · GCP · Azure · Kubernetes · Proxmox · Terraform—multi-cloud foundations with infrastructure as code.</p>
+                </div>
+                <div class="component-card">
+                  <span class="component-type">Intelligence</span>
+                  <h4>Agentic AI Architecture</h4>
+                  <p>LLM orchestration, RAG pipelines, multi-agent systems, MCP servers—designing AI that reasons and acts.</p>
+                </div>
+                <div class="component-card">
+                  <span class="component-type">Systems</span>
+                  <h4>Digital Thread & Twin</h4>
+                  <p>Metadata platforms connecting artifacts across the engineering lifecycle; virtual replicas for predictive analysis.</p>
+                </div>
+              </div>
+              <a href="#stack" class="phase-cta">View Full Stack →</a>
+            </div>
+
+            <div id="phase-output" class="phase-content" data-phase="output" hidden>
+              <div class="phase-header">
+                <h3>Phase 3: Output</h3>
+                <p class="phase-description">Systems shipped. Each project demonstrates a phase of the lifecycle working at scale.</p>
+              </div>
+              <div class="phase-components phase-components--output">
+                <div class="component-card component-card--enterprise">
+                  <span class="component-type">Enterprise</span>
+                  <h4>Agentic Coder</h4>
+                  <p>Multi-tenant, multi-provider AI coding assistant—integrating SKILLS repositories across languages.</p>
+                </div>
+                <div class="component-card component-card--enterprise">
+                  <span class="component-type">Enterprise</span>
+                  <h4>Digital Thread Platform</h4>
+                  <p>Full-stack metadata platform connecting artifacts—end-to-end traceability across engineering lifecycle.</p>
+                </div>
+                <div class="component-card component-card--enterprise">
+                  <span class="component-type">Enterprise</span>
+                  <h4>Digital Twin Simulations</h4>
+                  <p>Virtual replicas feeding real-time data into decision loops—predictive analysis before committing resources.</p>
+                </div>
+                <div class="component-card component-card--enterprise">
+                  <span class="component-type">Enterprise</span>
+                  <h4>Automated Compliance</h4>
+                  <p>Continuous compliance pipelines—policy-as-code through CI/CD to real-time audit dashboards.</p>
+                </div>
+              </div>
+              <a href="#work" class="phase-cta">View All Projects →</a>
+            </div>
+
+            <div id="phase-feedback" class="phase-content" data-phase="feedback" hidden>
+              <div class="phase-header">
+                <h3>Phase 4: Feedback</h3>
+                <p class="phase-description">Systems evolve. Every deployment teaches; every certification represents iteration.</p>
+              </div>
+              <div class="phase-components">
+                <div class="component-card">
+                  <span class="component-type">Evolution</span>
+                  <h4>Career Timeline</h4>
+                  <p>A serial depiction through projects, certifications, and continuous learning.</p>
+                </div>
+                <div class="component-card">
+                  <span class="component-type">Iteration</span>
+                  <h4>Reusable Patterns</h4>
+                  <p>SKILLS repository—documented patterns for AI systems, reusable across contexts.</p>
+                </div>
+                <div class="component-card">
+                  <span class="component-type">Community</span>
+                  <h4>Side Projects & Nonprofits</h4>
+                  <p>Learning through building—EdTech platforms, consulting practice, and board service.</p>
+                </div>
+              </div>
+              <a href="#timeline" class="phase-cta">View Timeline →</a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
