@@ -620,13 +620,246 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* Mobile Navigation */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 200;
+    }
+
+    .mobile-nav-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      background: var(--bg-panel);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 201;
+    }
+
+    .mobile-nav-toggle span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--text);
+      border-radius: 1px;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .mobile-nav-toggle[aria-expanded="true"] span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .mobile-nav-toggle[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
+    .mobile-nav-toggle[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .mobile-nav-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100vh;
+      background: var(--bg-panel);
+      backdrop-filter: blur(30px);
+      padding: 80px 24px 24px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+      z-index: 200;
+    }
+
+    .mobile-nav-menu.active {
+      transform: translateX(0);
+    }
+
+    .mobile-nav-header {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mobile-nav-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .mobile-nav-tab {
+      flex: 1;
+      padding: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .mobile-nav-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+    }
+
+    .mobile-nav-list {
+      list-style: none;
+    }
+
+    .mobile-nav-list.mobile-domain-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .mobile-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .mobile-nav-item:active {
+      transform: scale(0.98);
+    }
+
+    .mobile-domain-list .mobile-nav-item {
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+      padding: 16px 12px;
+      margin-bottom: 0;
+    }
+
+    .mobile-nav-item.active {
+      background: rgba(0,212,255,0.1);
+      border-color: var(--accent);
+    }
+
+    .mobile-nav-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .mobile-domain-list .mobile-nav-dot {
+      width: 20px;
+      height: 20px;
+    }
+
+    .mobile-nav-item span {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .mobile-domain-list .mobile-nav-item span {
+      font-size: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .mobile-case-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .mobile-case-client {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
     @media (max-width: 1100px) {
-      .case-study-panel, .detail-panel, .case-detail-panel {
-        width: calc(100% - 48px);
-        right: 24px;
-        left: 24px;
+      .mobile-nav {
+        display: block;
       }
-      .brain-legend { display: none; }
+
+      .case-study-panel {
+        display: none;
+      }
+
+      .brain-header {
+        max-width: calc(100% - 100px);
+        top: 16px;
+        left: 16px;
+      }
+      .brain-header h1 { font-size: 1.125rem; }
+      .brain-header p {
+        font-size: 0.75rem;
+        max-width: 280px;
+      }
+
+      .detail-panel, .case-detail-panel {
+        width: calc(100% - 32px);
+        top: auto;
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        transform: none;
+        max-height: 60vh;
+        z-index: 150;
+      }
+
+      .brain-legend {
+        display: none;
+      }
+
+      .stats-overlay {
+        display: none;
+      }
+
+      .instructions {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brain-header { max-width: calc(100% - 32px); }
+      .brain-header h1 { font-size: 1.125rem; }
+      .case-study-panel {
+        bottom: 130px;
+        padding: 16px;
+      }
+      .case-study-header {
+        font-size: 0.625rem;
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+      }
+      .case-item { padding: 10px; }
+      .case-item .title { font-size: 0.8125rem; }
+      .case-item .client { font-size: 0.625rem; }
+      .detail-panel, .case-detail-panel {
+        bottom: 70px;
+        padding: 20px;
+      }
+      .panel-title { font-size: 1.25rem; }
+      .panel-desc { font-size: 0.875rem; }
+      .capability-list li { padding: 10px; font-size: 0.8125rem; }
+      .stat-bubble { padding: 10px 12px; min-width: 70px; }
     }
   </style>
 </head>
@@ -640,18 +873,63 @@
   <div class="ui-layer">
     <header class="brain-header ui-element">
       <a href="index.html" style="text-decoration: none; color: inherit; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.75rem; color: var(--text-muted);">
-        <span>←</span> Back to Portfolio
+        <span>←</span> Back
       </a>
       <h1>Cognitive Architecture</h1>
-      <p>Every solution emerges from interconnected neural pathways. Select a case study to see which cognitive regions activate—or explore regions directly to understand the underlying capabilities.</p>
+      <p>Every solution emerges from interconnected capability domains. Select a case study to see which systems activate—or explore domains directly to understand the underlying strengths.</p>
     </header>
 
-    <nav class="case-study-panel ui-element">
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav ui-element" id="mobileNav">
+      <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobileNavMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="mobile-nav-menu" id="mobileNavMenu">
+        <div class="mobile-nav-header">Exploration Mode</div>
+        <div class="mobile-nav-tabs">
+          <button class="mobile-nav-tab active" data-mode="cases">Cases</button>
+          <button class="mobile-nav-tab" data-mode="regions">Domains</button>
+        </div>
+        <ul class="mobile-nav-list" id="mobileCaseList">
+          <!-- Populated by JS -->
+        </ul>
+        <ul class="mobile-nav-list mobile-domain-list" id="mobileDomainList" style="display: none;">
+          <li class="mobile-nav-item" data-region="prefrontal">
+            <div class="mobile-nav-dot" style="background: #00d4ff;"></div>
+            <span>Strategy & Planning</span>
+          </li>
+          <li class="mobile-nav-item" data-region="parietal">
+            <div class="mobile-nav-dot" style="background: #ff6b35;"></div>
+            <span>Systems Integration</span>
+          </li>
+          <li class="mobile-nav-item" data-region="temporal">
+            <div class="mobile-nav-dot" style="background: #7c4dff;"></div>
+            <span>Knowledge Architecture</span>
+          </li>
+          <li class="mobile-nav-item" data-region="occipital">
+            <div class="mobile-nav-dot" style="background: #00c853;"></div>
+            <span>Data Visualization</span>
+          </li>
+          <li class="mobile-nav-item" data-region="cerebellum">
+            <div class="mobile-nav-dot" style="background: #ffc107;"></div>
+            <span>Automation & Execution</span>
+          </li>
+          <li class="mobile-nav-item" data-region="limbic">
+            <div class="mobile-nav-dot" style="background: #e91e63;"></div>
+            <span>Innovation & Insight</span>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <nav class="case-study-panel ui-element" id="caseStudyPanel">
       <div class="case-study-header">
         <span>Exploration Mode</span>
         <div class="mode-toggle">
           <button class="mode-btn active" data-mode="cases">Cases</button>
-          <button class="mode-btn" data-mode="regions">Regions</button>
+          <button class="mode-btn" data-mode="regions">Domains</button>
         </div>
       </div>
       <ul class="case-list" id="caseList">
@@ -660,47 +938,47 @@
     </nav>
 
     <nav class="brain-legend ui-element" id="brainLegend">
-      <div class="legend-title">Neural Regions</div>
+      <div class="legend-title">Capability Domains</div>
       <div class="region-item" data-region="prefrontal">
         <div class="region-dot" style="color: #00d4ff;"></div>
         <div>
-          <div class="region-name">Prefrontal Cortex</div>
-          <div class="region-role">Strategic Architecture</div>
+          <div class="region-name">Strategy & Planning</div>
+          <div class="region-role">Architectural Vision</div>
         </div>
       </div>
       <div class="region-item" data-region="parietal">
         <div class="region-dot" style="color: #ff6b35;"></div>
         <div>
-          <div class="region-name">Parietal Lobe</div>
-          <div class="region-role">Systems Integration</div>
+          <div class="region-name">Systems Integration</div>
+          <div class="region-role">Platform Engineering</div>
         </div>
       </div>
       <div class="region-item" data-region="temporal">
         <div class="region-dot" style="color: #7c4dff;"></div>
         <div>
-          <div class="region-name">Temporal Lobe</div>
-          <div class="region-role">Knowledge Architecture</div>
+          <div class="region-name">Knowledge Architecture</div>
+          <div class="region-role">Information Design</div>
         </div>
       </div>
       <div class="region-item" data-region="occipital">
         <div class="region-dot" style="color: #00c853;"></div>
         <div>
-          <div class="region-name">Occipital Lobe</div>
-          <div class="region-role">Data Visualization</div>
+          <div class="region-name">Data Visualization</div>
+          <div class="region-role">Interface & Analytics</div>
         </div>
       </div>
       <div class="region-item" data-region="cerebellum">
         <div class="region-dot" style="color: #ffc107;"></div>
         <div>
-          <div class="region-name">Cerebellum</div>
-          <div class="region-role">Execution & Automation</div>
+          <div class="region-name">Automation & Execution</div>
+          <div class="region-role">Infrastructure & Ops</div>
         </div>
       </div>
       <div class="region-item" data-region="limbic">
         <div class="region-dot" style="color: #e91e63;"></div>
         <div>
-          <div class="region-name">Limbic System</div>
-          <div class="region-role">Intuition & Innovation</div>
+          <div class="region-name">Innovation & Insight</div>
+          <div class="region-role">Pattern Recognition</div>
         </div>
       </div>
     </nav>
@@ -719,12 +997,12 @@
 
     <div class="stats-overlay ui-element">
       <div class="stat-bubble">
-        <div class="stat-value" id="nodeCount">47</div>
-        <div class="stat-label">Neural Nodes</div>
+        <div class="stat-value" id="nodeCount">6</div>
+        <div class="stat-label">Core Domains</div>
       </div>
       <div class="stat-bubble">
-        <div class="stat-value" id="connectionCount">156</div>
-        <div class="stat-label">Synaptic Links</div>
+        <div class="stat-value" id="connectionCount">12</div>
+        <div class="stat-label">Integration Paths</div>
       </div>
       <div class="stat-bubble">
         <div class="stat-value">∞</div>
@@ -741,8 +1019,8 @@
     // Brain region data
     const brainRegions = {
       prefrontal: {
-        name: "Prefrontal Cortex", color: 0x00d4ff,
-        brainRef: "Executive Function & Planning", professionalRole: "Strategic Architecture",
+        name: "Strategy & Planning", color: 0x00d4ff,
+        professionalRole: "Architectural Vision",
         description: "The command center where business strategy meets technical architecture. This is where I deconstruct complex stakeholder needs into actionable system designs, weighing trade-offs between scalability, cost, and time-to-market.",
         capabilities: [
           { icon: "🎯", text: "Multi-stakeholder requirement synthesis" },
@@ -754,8 +1032,8 @@
         outputs: "System blueprints, migration strategies"
       },
       parietal: {
-        name: "Parietal Lobe", color: 0xff6b35,
-        brainRef: "Spatial Reasoning & Integration", professionalRole: "Systems Integration",
+        name: "Systems Integration", color: 0xff6b35,
+        professionalRole: "Platform Engineering",
         description: "The integration hub where disparate subsystems converge into coherent platforms. I visualize component interactions across multiple dimensions—data flow, control flow, failure modes.",
         capabilities: [
           { icon: "🔗", text: "Multi-cloud infrastructure orchestration" },
@@ -767,8 +1045,8 @@
         outputs: "Integrated platforms, Terraform modules"
       },
       temporal: {
-        name: "Temporal Lobe", color: 0x7c4dff,
-        brainRef: "Memory & Language Processing", professionalRole: "Knowledge Architecture",
+        name: "Knowledge Architecture", color: 0x7c4dff,
+        professionalRole: "Information Design",
         description: "Where institutional knowledge becomes computational advantage. I design systems that transform raw data into actionable intelligence—RAG pipelines, digital threads.",
         capabilities: [
           { icon: "🧠", text: "RAG pipeline architecture" },
@@ -780,8 +1058,8 @@
         outputs: "Digital thread platforms, LLM systems"
       },
       occipital: {
-        name: "Occipital Lobe", color: 0x00c853,
-        brainRef: "Visual Processing", professionalRole: "Data Visualization",
+        name: "Data Visualization", color: 0x00c853,
+        professionalRole: "Interface & Analytics",
         description: "Transforming complex system states into intuitive visual representations. Dashboards, digital twins, and simulation interfaces that make the invisible visible.",
         capabilities: [
           { icon: "🖥️", text: "Digital twin interfaces" },
@@ -793,8 +1071,8 @@
         outputs: "Digital twins, BI platforms"
       },
       cerebellum: {
-        name: "Cerebellum", color: 0xffc107,
-        brainRef: "Motor Control & Automation", professionalRole: "Execution & Automation",
+        name: "Automation & Execution", color: 0xffc107,
+        professionalRole: "Infrastructure & Ops",
         description: "The automation engine transforming architectural intent into operational reality. Infrastructure as code, self-healing pipelines.",
         capabilities: [
           { icon: "⚙️", text: "Infrastructure-as-Code at scale" },
@@ -806,8 +1084,8 @@
         outputs: "Automated pipelines, compliance systems"
       },
       limbic: {
-        name: "Limbic System", color: 0xe91e63,
-        brainRef: "Emotion & Pattern Recognition", professionalRole: "Intuition & Innovation",
+        name: "Innovation & Insight", color: 0xe91e63,
+        professionalRole: "Pattern Recognition",
         description: "The pattern-matching engine drawing connections across seemingly unrelated domains. Where others see isolated problems, I recognize archetypes.",
         capabilities: [
           { icon: "💡", text: "Cross-domain pattern recognition" },
@@ -831,7 +1109,7 @@
         activation: { primary: ["prefrontal", "temporal", "cerebellum"], secondary: ["limbic", "parietal"], intensity: 0.9 },
         results: ["70% reduction in review cycle time", "3.5x increase in code quality", "Unified standards across 12 teams"],
         technologies: ["OpenAI GPT-4", "RAG Pipeline", "MCP Servers", "React", "FastAPI"],
-        neuralNarrative: "Prefrontal cortex deconstructed requirements into agent personas. Temporal lobe architected the knowledge retrieval system. Cerebellum automated execution loops. Limbic system recognized the pattern from aerospace MBSE—applying 'agent swarms' to code review."
+        neuralNarrative: "Strategy & Planning deconstructed requirements into agent personas. Knowledge Architecture designed the retrieval system. Automation & Execution built the execution loops. Innovation & Insight recognized the pattern from aerospace MBSE—applying 'agent swarms' to code review."
       },
       {
         id: "digital-thread",
@@ -842,7 +1120,7 @@
         activation: { primary: ["temporal", "parietal", "occipital"], secondary: ["prefrontal", "limbic"], intensity: 0.95 },
         results: ["End-to-end traceability", "Audit prep: 6mo → 2wk", "Knowledge reuse up 340%"],
         technologies: ["Neo4j", "React", "GraphQL", "Elasticsearch", "Digital Twin"],
-        neuralNarrative: "Pure temporal lobe territory—memory architecture. Occipital lobe demanded data be visualizable, not just queryable. Parietal integration wove together 14 source systems. The aha moment (limbic) realized defense manufacturers already solved this—we just productized it."
+        neuralNarrative: "Pure Knowledge Architecture territory—memory systems at scale. Data Visualization demanded information be visualizable, not just queryable. Systems Integration wove together 14 source systems. The aha moment (Innovation & Insight) realized defense manufacturers already solved this—we just productized it."
       },
       {
         id: "compliance-pipeline",
@@ -853,7 +1131,7 @@
         activation: { primary: ["cerebellum", "parietal", "prefrontal"], secondary: ["occipital"], intensity: 0.85 },
         results: ["99.7% automated control coverage", "Continuous audit-ready state", "Engineering productivity +35%"],
         technologies: ["Terraform", "Sentinel", "AWS Config", "Python", "Streamlit"],
-        neuralNarrative: "Pure cerebellum execution—automation as muscle memory. Prefrontal strategy was crucial: redesigning the process around automation. Parietal integration ensured compliance state propagated across 2000+ resources without drift."
+        neuralNarrative: "Pure Automation & Execution—automation as muscle memory. Strategy & Planning was crucial: redesigning the process around automation. Systems Integration ensured compliance state propagated across 2000+ resources without drift."
       },
       {
         id: "risk-simulator",
@@ -864,7 +1142,7 @@
         activation: { primary: ["occipital", "limbic", "prefrontal"], secondary: ["parietal", "temporal"], intensity: 0.9 },
         results: ["$340M in optimized capital allocation", "Risk visibility 10x", "Board decision confidence 95%+"],
         technologies: ["Python", "NumPy", "D3.js", "FastAPI", "WebSocket"],
-        neuralNarrative: "Occipital lobe did the heavy lifting—risk is invisible without visualization. Limbic pattern recognition connected this to quantum physics: uncertainty isn't ignorance, it's irreducible. Prefrontal architected the Monte Carlo engine."
+        neuralNarrative: "Data Visualization did the heavy lifting—risk is invisible without clear representation. Innovation & Insight connected this to quantum physics: uncertainty isn't ignorance, it's irreducible. Strategy & Planning architected the Monte Carlo engine."
       },
       {
         id: "terraform-modules",
@@ -875,7 +1153,7 @@
         activation: { primary: ["parietal", "cerebellum", "prefrontal"], secondary: ["limbic"], intensity: 0.8 },
         results: ["Provisioning: 40min → 4min", "Security misconfigs: -94%", "Developer satisfaction: 8.7/10"],
         technologies: ["Terraform", "Go", "Python", "Vault", "Atlantis"],
-        neuralNarrative: "Parietal integration combined with cerebellum automation. Limbic innovation: developers don't want infrastructure—they want capability. Prefrontal strategy: modules as API contracts between platform and product teams."
+        neuralNarrative: "Systems Integration combined with Automation & Execution. Innovation & Insight recognized: developers don't want infrastructure—they want capability. Strategy & Planning: modules as API contracts between platform and product teams."
       },
       {
         id: "ai-skills",
@@ -886,7 +1164,7 @@
         activation: { primary: ["temporal", "limbic", "prefrontal"], secondary: ["parietal", "cerebellum"], intensity: 0.9 },
         results: ["Solution design time: -60%", "Knowledge reuse: +400%", "Consultant onboarding: 3mo → 3wk"],
         technologies: ["OpenAI", "Pinecone", "LangChain", "React", "Node.js"],
-        neuralNarrative: "Temporal lobe core—this is memory architecture at scale. Limbic intuition recognized consulting firms are knowledge networks, not labor pools. Prefrontal cortex designed human-AI collaboration protocol—AI suggests, humans validate, system learns."
+        neuralNarrative: "Knowledge Architecture at the core—this is memory systems at scale. Innovation & Insight recognized consulting firms are knowledge networks, not labor pools. Strategy & Planning designed human-AI collaboration protocol—AI suggests, humans validate, system learns."
       }
     ];
 
@@ -1015,7 +1293,7 @@
     }
 
     function setupUI() {
-      // Populate case list
+      // Populate case list (desktop)
       const caseList = document.getElementById('caseList');
       caseStudies.forEach(cs => {
         const li = document.createElement('li');
@@ -1038,7 +1316,54 @@
         caseList.appendChild(li);
       });
 
-      // Mode toggle
+      // Populate mobile case list
+      const mobileCaseList = document.getElementById('mobileCaseList');
+      caseStudies.forEach(cs => {
+        const li = document.createElement('li');
+        li.className = 'mobile-nav-item';
+        li.dataset.case = cs.id;
+        li.innerHTML = `
+          <div>
+            <div class="mobile-case-title">${cs.title}</div>
+            <div class="mobile-case-client">${cs.client}</div>
+          </div>
+        `;
+        li.addEventListener('click', () => {
+          selectCase(cs.id);
+          closeMobileMenu();
+        });
+        mobileCaseList.appendChild(li);
+      });
+
+      // Mobile menu toggle
+      const mobileNavToggle = document.getElementById('mobileNavToggle');
+      const mobileNavMenu = document.getElementById('mobileNavMenu');
+      mobileNavToggle.addEventListener('click', () => {
+        const isExpanded = mobileNavToggle.getAttribute('aria-expanded') === 'true';
+        mobileNavToggle.setAttribute('aria-expanded', !isExpanded);
+        mobileNavMenu.classList.toggle('active');
+      });
+
+      // Mobile tab switching
+      document.querySelectorAll('.mobile-nav-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.mobile-nav-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const mode = tab.dataset.mode;
+          document.getElementById('mobileCaseList').style.display = mode === 'cases' ? 'block' : 'none';
+          document.getElementById('mobileDomainList').style.display = mode === 'regions' ? 'grid' : 'none';
+        });
+      });
+
+      // Mobile domain selection
+      document.querySelectorAll('.mobile-nav-item[data-region]').forEach(item => {
+        item.addEventListener('click', () => {
+          selectRegion(item.dataset.region);
+          closeMobileMenu();
+        });
+      });
+
+      // Desktop mode toggle
       document.querySelectorAll('.mode-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
@@ -1054,6 +1379,13 @@
         item.addEventListener('mouseenter', () => highlightRegion(item.dataset.region, true));
         item.addEventListener('mouseleave', () => highlightRegion(item.dataset.region, false));
       });
+    }
+
+    function closeMobileMenu() {
+      const mobileNavToggle = document.getElementById('mobileNavToggle');
+      const mobileNavMenu = document.getElementById('mobileNavMenu');
+      mobileNavToggle.setAttribute('aria-expanded', 'false');
+      mobileNavMenu.classList.remove('active');
     }
 
     function updateMode() {
@@ -1197,8 +1529,8 @@
         <h2 class="case-title">${cs.title}</h2>
 
         <div class="narrative-section">
-          <h4>🧠 Neural Activation Pattern</h4>
-          <p class="narrative-text">${cs.neuralNarrative.replace(/([A-Z][a-z]+(?: Cortex|Lobe|System|lobe))/g, '<span class="region-mention">$1</span>')}</p>
+          <h4>⚡ Capability Activation Pattern</h4>
+          <p class="narrative-text">${cs.neuralNarrative.replace(/(Strategy & Planning|Systems Integration|Knowledge Architecture|Data Visualization|Automation & Execution|Innovation & Insight)/g, '<span class="region-mention">$1</span>')}</p>
         </div>
 
         <div class="panel-section">
@@ -1284,7 +1616,6 @@
             ${region.professionalRole}
           </div>
           <div class="panel-title">${region.name}</div>
-          <div class="panel-brain-ref">Neural correlate: ${region.brainRef}</div>
         </div>
         <div class="panel-section">
           <h3>Functional Architecture</h3>
@@ -1297,7 +1628,7 @@
           </ul>
         </div>
         <div class="panel-section">
-          <h3>Neural Pathways</h3>
+          <h3>Connected Domains</h3>
           <ul class="pathway-list">
             ${region.connections.map(conn => `
               <li class="pathway-item">
@@ -1309,7 +1640,7 @@
           </ul>
         </div>
         <div class="panel-section">
-          <h3>Signal Output</h3>
+          <h3>Primary Output</h3>
           <p class="panel-desc" style="font-style: italic; color: var(--accent);">${region.outputs}</p>
         </div>
       `;
