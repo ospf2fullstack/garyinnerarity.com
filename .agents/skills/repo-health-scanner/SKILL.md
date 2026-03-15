@@ -11,6 +11,20 @@ Comprehensive repository health analysis using available security and dependency
 
 This skill provides standardized repository health scanning to identify security vulnerabilities, outdated dependencies, lint errors, and configuration issues. It uses the `bash` tool to run project-appropriate scanners based on detected project type and files.
 
+## Quick Start
+
+Use the included `scan.sh` script for a comprehensive scan:
+
+```bash
+# Scan current directory
+$AGENT_SKILL_PATH/scan.sh
+
+# Scan specific project
+$AGENT_SKILL_PATH/scan.sh /path/to/project
+```
+
+Or run individual checks below.
+
 ## Core Principles
 
 1. **Detect Project Type**: Identify project by `package.json`, `Cargo.toml`, `requirements.txt`, `go.mod`, etc.
