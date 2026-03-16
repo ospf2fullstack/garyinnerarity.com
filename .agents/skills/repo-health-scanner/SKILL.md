@@ -54,17 +54,121 @@ ls go.mod 2>/dev/null && echo "GO"
 
 #### Node.js Projects
 
-**Outdated Dependencies:**
+**Outdated Dependencies (`npm outdated`):**
+
+Run `npm outdated` to compare installed, wanted (semver-compatible), and latest versions of every dependency:
+
 ```bash
-# Use npm or yarn as appropriate
-ls yarn.lock 2>/dev/null && yarn outdated --json 2>/dev/null || npm outdated --json 2>/dev/null
+# Human-readable table — quick visual check
+npm outdated
+
+# Machine-readable JSON — better for automated processing
+npm outdated --json 2>/dev/null
 ```
 
-**Security Vulnerabilities:**
-```bash
-# Try npm audit first, fall back to npx
-npm audit --json 2>/dev/null || npx audit-ci@latest --json 2>/dev/null
+JSON output shape (one key per outdated package):
+```json
+{
+  "lodash": {
+    "current": "4.17.20",
+    "wanted": "4.17.21",
+    "latest": "4.17.21",
+    "dependent": "my-project",
+    "location": "node_modules/lodash"
+  }
+}
 ```
+
+Interpreting the output:
+- **current → wanted gap**: safe semver-compatible update; run `npm update` to apply all at once.
+- **current → latest gap (major)**: breaking change likely; review changelogs before upgrading. Update individually with `npm install <pkg>@latest`.
+- Empty JSON `{}` means everything is up to date.
+
+Recommended actions:
+```bash
+# Apply all semver-safe updates at once
+npm update
+
+# Update a single package to latest (may include breaking changes)
+npm install <package>@latest
+
+# Show only production deps (skip devDependencies)
+npm outdated --omit=dev
+```
+
+---
+
+**Security Vulnerabilities (`npm audit`):**
+
+Run `npm audit` to scan the dependency tree against the npm advisory database:
+
+```bash
+# Human-readable report with severity breakdown
+npm audit
+
+# Machine-readable JSON with full advisory details
+npm audit --json 2>/dev/null
+
+# Production dependencies only (ignore devDependencies)
+npm audit --omit=dev
+
+# Show only high and critical severity
+npm audit --audit-level=high
+```
+
+JSON output shape (key fields):
+```json
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "lodash": {
+      "name": "lodash",
+      "severity": "high",
+      "fixAvailable": true,
+      "via": ["...advisory details..."]
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 1,
+      "moderate": 2,
+      "high": 1,
+      "critical": 0,
+      "total": 4
+    }
+  }
+}
+```
+
+Interpreting the output:
+- **critical / high**: address immediately — these are exploitable in production. Block commits if found.
+- **moderate**: plan a fix within the current sprint.
+- **low / info**: track but do not block work.
+- **fixAvailable: true**: `npm audit fix` can resolve it automatically.
+- **fixAvailable: false**: requires manual patching, overriding, or waiting for upstream fix.
+
+Recommended actions:
+```bash
+# Auto-fix all vulnerabilities that have a semver-compatible patch
+npm audit fix
+
+# Auto-fix including major version bumps (review changes after)
+npm audit fix --force
+
+# If a fix is unavailable, override a transitive dep (npm ≥8.3)
+# Add to package.json under "overrides":
+# "overrides": { "vulnerable-pkg": "^2.0.0" }
+```
+
+---
+
+**Combined quick check (audit + outdated in one pass):**
+```bash
+echo "=== npm audit ===" && npm audit 2>/dev/null; echo ""; echo "=== npm outdated ===" && npm outdated 2>/dev/null
+```
+
+---
 
 **Lint Errors (if config exists):**
 ```bash
@@ -191,11 +295,14 @@ After scanning, present findings in this format:
 ---
 
 ### Dependencies Status
-- **Outdated:** <count> packages (run `npm update` or equivalent)
+- **Outdated:** <count> packages
+  - **npm outdated:** <count> (semver-safe: <count>, major bump needed: <count>)
+  - Run `npm update` for safe updates; `npm install <pkg>@latest` for majors
 - **Critical:** <list of critical outdated packages>
 
 ### Security
-- **Vulnerabilities:** <count> (<critical> critical, <high> high, <moderate> moderate)
+- **Vulnerabilities:** <count> (<critical> critical, <high> high, <moderate> moderate, <low> low)
+- **npm audit fix available:** <count> auto-fixable
 - **Recommendation:** <action>
 
 ### Code Quality
@@ -237,11 +344,11 @@ After scanning, present findings in this format:
 > **Scan Date:** 2025-01-XX
 >
 > ### Dependencies Status
-> - **npm:** 2 outdated (lodash, express)
+> - **npm outdated:** 2 outdated (lodash 4.17.20 → 4.17.21 semver-safe, express 4.18.2 → 5.0.0 major)
 > - **pip:** 1 outdated (requests)
 >
 > ### Security
-> - **npm audit:** 0 vulnerabilities ✓
+> - **npm audit:** 1 moderate vulnerability (fixAvailable: true)
 > - **pip-audit:** not installed (install for Python vuln scanning)
 >
 > ### Code Quality
@@ -249,9 +356,11 @@ After scanning, present findings in this format:
 > - **Prettier:** 5 files need formatting
 >
 > ### Immediate Actions
-> 1. Run `npm update lodash express` to update outdated deps
-> 2. Run `npx eslint . --fix` to auto-fix lint errors
-> 3. Run `npx prettier --write .` to format files
+> 1. Run `npm audit fix` to resolve the 1 auto-fixable vulnerability
+> 2. Run `npm update` to apply semver-safe dependency updates
+> 3. Review express 5.0 changelog before running `npm install express@latest`
+> 4. Run `npx eslint . --fix` to auto-fix lint errors
+> 5. Run `npx prettier --write .` to format files
 
 ## Quality Checklist
 
