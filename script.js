@@ -529,12 +529,25 @@ loadSkillList();
 (function initLifecycle() {
   const phaseButtons = document.querySelectorAll('.phase-node');
   const phaseContents = document.querySelectorAll('.phase-content');
+  const diagram = document.querySelector('.system-diagram');
+  const visitedPhases = new Set();
 
   if (!phaseButtons.length) return;
+
+  // Mark initial active phase as visited
+  const initialActive = document.querySelector('.phase-node.active');
+  if (initialActive) {
+    visitedPhases.add(initialActive.dataset.phase);
+    initialActive.classList.add('visited');
+  }
 
   phaseButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       const phase = btn.dataset.phase;
+
+      // Track visited phases
+      visitedPhases.add(phase);
+      btn.classList.add('visited');
 
       // Update button states
       phaseButtons.forEach((b) => {
@@ -554,6 +567,12 @@ loadSkillList();
           content.classList.remove('active');
         }
       });
+
+      // When all 4 phases visited, collapse staircase into vertical stack
+      if (visitedPhases.size === 4 && diagram) {
+        diagram.classList.add('completed');
+        announceToScreenReader('All phases explored — lifecycle complete');
+      }
 
       // Announce to screen readers
       announceToScreenReader(`Viewing ${phase} phase`);

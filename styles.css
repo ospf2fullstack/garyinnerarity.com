@@ -1058,13 +1058,11 @@ section + section {
   gap: 48px;
 }
 
-/* System Diagram - the four phases */
+/* System Diagram - staircase layout */
 .system-diagram {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 8px;
   padding: 32px;
   background: var(--white);
   border: 1px solid var(--border);
@@ -1073,18 +1071,81 @@ section + section {
 
 .phase-node {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: flex-start;
   align-items: center;
-  gap: 8px;
-  padding: 24px 32px;
+  gap: 16px;
+  padding: 16px 20px;
   background: var(--bg-subtle);
   border: 2px solid var(--border);
   border-radius: var(--radius);
   cursor: pointer;
-  transition: all 0.2s var(--ease);
-  text-align: center;
-  min-width: 140px;
+  transition: all 0.5s var(--ease);
+  text-align: left;
   position: relative;
+}
+
+/* Staircase offsets */
+.phase-node.phase--ingest   { margin-left: 0; }
+.phase-node.phase--process  { margin-left: 20%; }
+.phase-node.phase--output   { margin-left: 40%; }
+.phase-node.phase--feedback { margin-left: 60%; }
+
+/* Visited indicator */
+.phase-node.visited::after {
+  content: '✓';
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-size: 0.6875rem;
+  color: var(--text-faint);
+  opacity: 0.7;
+}
+
+/* Completed: stack vertically with loop bracket */
+.system-diagram.completed {
+  position: relative;
+  padding-left: 56px;
+}
+
+.system-diagram.completed .phase-node {
+  margin-left: 0;
+}
+
+/* Left bracket indicating iteration loop */
+.system-diagram.completed::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 44px;
+  bottom: 44px;
+  width: 14px;
+  border: 2px solid var(--border-strong);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  opacity: 0;
+  animation: bracketFadeIn 0.5s 0.5s var(--ease) forwards;
+}
+
+/* Loop arrow at bracket midpoint */
+.system-diagram.completed::after {
+  content: '↻';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.125rem;
+  color: var(--border-strong);
+  background: var(--white);
+  padding: 4px 0;
+  line-height: 1;
+  opacity: 0;
+  animation: bracketFadeIn 0.5s 0.8s var(--ease) forwards;
+}
+
+@keyframes bracketFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .phase-node:hover {
@@ -1153,15 +1214,7 @@ section + section {
 }
 
 .flow-arrow {
-  font-family: var(--mono);
-  font-size: 1.25rem;
-  color: var(--border-strong);
-  padding: 0 8px;
-  user-select: none;
-}
-
-.flow-arrow--feedback {
-  transform: rotate(-90deg);
+  display: none;
 }
 
 /* Phase Details Panel */
@@ -1301,41 +1354,25 @@ section + section {
 /* Mobile responsive for lifecycle */
 @media (max-width: 768px) {
   .system-diagram {
-    flex-direction: column;
-    gap: 12px;
     padding: 24px;
   }
 
-  .flow-arrow {
-    transform: rotate(90deg);
+  .system-diagram.completed {
+    padding-left: 48px;
   }
 
-  .flow-arrow--feedback {
-    transform: rotate(0deg);
+  .system-diagram.completed::before {
+    left: 18px;
   }
 
-  .phase-node {
-    width: 100%;
-    flex-direction: row;
-    justify-content: flex-start;
-    text-align: left;
-    padding: 16px 20px;
-    gap: 16px;
+  .system-diagram.completed::after {
+    left: 6px;
   }
 
-  .phase-icon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .phase-label-wrap {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .phase-sub {
-    max-width: none;
-  }
+  /* Reduce staircase offsets on tablet */
+  .phase-node.phase--process  { margin-left: 12%; }
+  .phase-node.phase--output   { margin-left: 24%; }
+  .phase-node.phase--feedback { margin-left: 36%; }
 
   .phase-content {
     padding: 24px;
@@ -1347,6 +1384,24 @@ section + section {
 }
 
 @media (max-width: 480px) {
+  .system-diagram.completed {
+    padding-left: 40px;
+  }
+
+  .system-diagram.completed::before {
+    left: 12px;
+    width: 12px;
+  }
+
+  .system-diagram.completed::after {
+    left: 2px;
+    font-size: 1rem;
+  }
+
+  .phase-node.phase--process  { margin-left: 8%; }
+  .phase-node.phase--output   { margin-left: 16%; }
+  .phase-node.phase--feedback { margin-left: 24%; }
+
   .phase-node {
     padding: 14px 16px;
   }
