@@ -79,7 +79,7 @@ const noteList = document.getElementById('note-list');
 const mainView = document.getElementById('main-view');
 const outlinePane = document.getElementById('outline-pane');
 
-let allNotes = [];
+const noteCache = new Map();
 let files = [];
 
 // ── Marked setup ──────────────────────────────────────────────
@@ -109,24 +109,23 @@ if (markedFn) {
   }
 }
 
-// ── Load notes ────────────────────────────────────────────────
-async function loadAllNotes() {
+// ── Load note list (lazy — content fetched on click) ──────────
+async function loadNoteList() {
   try {
     const res = await fetch(`${notesDir}file-list.json`);
     files = await res.json();
-
-    allNotes = await Promise.all(
-      files.map(async (filename) => {
-        const r = await fetch(`${notesDir}${filename}`);
-        const content = await r.text();
-        return { filename, content };
-      })
-    );
-
     renderNoteList();
   } catch (err) {
-    console.error('Failed to load notes:', err);
+    console.error('Failed to load note list:', err);
   }
+}
+
+async function fetchNoteContent(filename) {
+  if (noteCache.has(filename)) return noteCache.get(filename);
+  const r = await fetch(`${notesDir}${filename}`);
+  const content = await r.text();
+  noteCache.set(filename, content);
+  return content;
 }
 
 // ── Render sidebar note list ───────────────────────────────────
@@ -134,11 +133,11 @@ function renderNoteList() {
   noteList.innerHTML = '';
 
   const groups = {};
-  allNotes.forEach((note) => {
-    const parts = note.filename.split('/');
+  files.forEach((filename) => {
+    const parts = filename.split('/');
     const group = parts.length > 1 ? parts[0] : 'General';
     if (!groups[group]) groups[group] = [];
-    groups[group].push(note);
+    groups[group].push(filename);
   });
 
   Object.keys(groups).sort().forEach((group) => {
@@ -161,16 +160,16 @@ function renderNoteList() {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFolder(); }
     };
 
-    groups[group].forEach((note) => {
+    groups[group].forEach((filename) => {
       const li = document.createElement('li');
-      li.textContent = note.filename.replace(/^.*\//, '').replace('.md', '');
+      li.textContent = filename.replace(/^.*\//, '').replace('.md', '');
       li.classList.add('note');
       li.setAttribute('tabindex', '0');
       li.setAttribute('role', 'button');
-      li.dataset.filename = note.filename;
-      li.onclick = () => openNote(note);
+      li.dataset.filename = filename;
+      li.onclick = () => openNote(filename);
       li.onkeydown = (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openNote(note); }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openNote(filename); }
       };
       ul.appendChild(li);
     });
@@ -179,15 +178,17 @@ function renderNoteList() {
   });
 }
 
-// ── Open / render a note ───────────────────────────────────────
-function openNote(note) {
+// ── Open / render a note (fetches content lazily) ──────────────
+async function openNote(filename) {
   // Mark active
   document.querySelectorAll('#note-list .note').forEach((el) => {
-    el.classList.toggle('active', el.dataset.filename === note.filename);
+    el.classList.toggle('active', el.dataset.filename === filename);
   });
 
-  renderMarkdown(note.content, note.filename);
-  renderOutline(note.content);
+  mainView.innerHTML = '<div id="note-content"><p style="color:var(--text-faint)">Loading…</p></div>';
+  const content = await fetchNoteContent(filename);
+  renderMarkdown(content, filename);
+  renderOutline(content);
 }
 
 function renderMarkdown(md, filename) {
@@ -255,8 +256,7 @@ document.addEventListener('click', (e) => {
   const linkBase = a.getAttribute('data-wikilink');
   const resolved = resolveNoteFilename(linkBase);
   if (resolved) {
-    const note = allNotes.find((n) => n.filename === resolved);
-    if (note) openNote(note);
+    openNote(resolved);
   } else {
     mainView.innerHTML = `<div id="note-content"><p style="color:var(--text-faint);font-family:var(--mono);font-size:.875rem;">Note not found: ${linkBase}</p></div>`;
   }
@@ -343,7 +343,7 @@ async function loadTimeline() {
   });
 })();
 
-loadAllNotes();
+loadNoteList();
 loadTimeline();
 
 // ── 4. SKILLS VIEWER ──────────────────────────────────────────
@@ -352,27 +352,26 @@ const skillNoteList  = document.getElementById('skills-note-list');
 const skillsView     = document.getElementById('skills-main-view');
 const skillsOutline  = document.getElementById('skills-outline-pane');
 
-let allSkills = [];
+const skillCache = new Map();
 let skillFiles = [];
 let currentSkillRaw = '';
 
-async function loadAllSkills() {
+async function loadSkillList() {
   try {
     const res = await fetch(`${skillsDir}file-list.json`);
     skillFiles = await res.json();
-
-    allSkills = await Promise.all(
-      skillFiles.map(async (filename) => {
-        const r = await fetch(`${skillsDir}${filename}`);
-        const content = await r.text();
-        return { filename, content };
-      })
-    );
-
     renderSkillList();
   } catch (err) {
-    console.error('Failed to load skills:', err);
+    console.error('Failed to load skill list:', err);
   }
+}
+
+async function fetchSkillContent(filename) {
+  if (skillCache.has(filename)) return skillCache.get(filename);
+  const r = await fetch(`${skillsDir}${filename}`);
+  const content = await r.text();
+  skillCache.set(filename, content);
+  return content;
 }
 
 function renderSkillList() {
@@ -380,11 +379,11 @@ function renderSkillList() {
   skillNoteList.innerHTML = '';
 
   const groups = {};
-  allSkills.forEach((skill) => {
-    const parts = skill.filename.split('/');
+  skillFiles.forEach((filename) => {
+    const parts = filename.split('/');
     const group = parts.length > 1 ? parts[0] : 'General';
     if (!groups[group]) groups[group] = [];
-    groups[group].push(skill);
+    groups[group].push(filename);
   });
 
   Object.keys(groups).sort().forEach((group) => {
@@ -407,16 +406,16 @@ function renderSkillList() {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleSkillFolder(); }
     };
 
-    groups[group].forEach((skill) => {
+    groups[group].forEach((filename) => {
       const li = document.createElement('li');
-      li.textContent = skill.filename.replace(/^.*\//, '').replace('.md', '');
+      li.textContent = filename.replace(/^.*\//, '').replace('.md', '');
       li.classList.add('note');
       li.setAttribute('tabindex', '0');
       li.setAttribute('role', 'button');
-      li.dataset.filename = skill.filename;
-      li.onclick = () => openSkill(skill);
+      li.dataset.filename = filename;
+      li.onclick = () => openSkill(filename);
       li.onkeydown = (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSkill(skill); }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSkill(filename); }
       };
       ul.appendChild(li);
     });
@@ -429,15 +428,16 @@ function renderSkillList() {
   if (folders.length === 1) folders[0].click();
 }
 
-function openSkill(skill) {
-  currentSkillRaw = skill.content;
-
+async function openSkill(filename) {
   document.querySelectorAll('#skills-note-list .note').forEach((el) => {
-    el.classList.toggle('active', el.dataset.filename === skill.filename);
+    el.classList.toggle('active', el.dataset.filename === filename);
   });
 
-  renderSkillContent(skill.content);
-  renderSkillOutline(skill.content);
+  skillsView.innerHTML = '<div id="note-content"><p style="color:var(--text-faint)">Loading…</p></div>';
+  const content = await fetchSkillContent(filename);
+  currentSkillRaw = content;
+  renderSkillContent(content);
+  renderSkillOutline(content);
 }
 
 function renderSkillContent(md) {
@@ -523,7 +523,7 @@ document.addEventListener('click', (e) => {
   });
 });
 
-loadAllSkills();
+loadSkillList();
 
 // ── 5. SYSTEM LIFECYCLE INTERACTION ─────────────────────────────
 (function initLifecycle() {
