@@ -1290,6 +1290,7 @@
     let raycaster, mouse;
     let hoveredRegion = null, selectedRegion = null, activeCase = null;
     let animationId, currentMode = 'cases';
+    let cortexMesh, cortexWireMesh, brainStemMesh;
 
     function init() {
       scene = new THREE.Scene();
@@ -1311,10 +1312,16 @@
       controls.autoRotate = true;
       controls.autoRotateSpeed = 0.5;
 
-      scene.add(new THREE.AmbientLight(0x404040, 1.5));
-      const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      scene.add(new THREE.AmbientLight(0x303040, 2.0));
+      const dirLight = new THREE.DirectionalLight(0xeeeeff, 1.0);
       dirLight.position.set(5, 10, 7);
       scene.add(dirLight);
+      const rimLight = new THREE.DirectionalLight(0x4444ff, 0.4);
+      rimLight.position.set(-5, -3, -8);
+      scene.add(rimLight);
+      const topLight = new THREE.PointLight(0x00d4ff, 0.3, 20);
+      topLight.position.set(0, 6, 0);
+      scene.add(topLight);
 
       raycaster = new THREE.Raycaster();
       mouse = new THREE.Vector2();
@@ -1334,34 +1341,154 @@
     }
 
     function createBrain() {
+      // --- Parametric brain cortex surface ---
+      const cortexGeo = new THREE.SphereGeometry(4.5, 96, 72);
+      const pos = cortexGeo.attributes.position;
+
+      for (let i = 0; i < pos.count; i++) {
+        let x = pos.getX(i);
+        let y = pos.getY(i);
+        let z = pos.getZ(i);
+        const r = Math.sqrt(x * x + y * y + z * z);
+        if (r < 0.001) continue;
+
+        const nx = x / r, ny = y / r, nz = z / r;
+        const theta = Math.acos(Math.min(1, Math.max(-1, ny)));
+        const phi = Math.atan2(nz, nx);
+
+        let displacement = 0;
+
+        // Brain proportions: wider, shorter, slightly longer in front
+        let sx = 1.08;
+        let sy = 0.82;
+        let sz = 0.92 + 0.06 * Math.cos(phi);
+
+        // Flatten bottom (brain base)
+        if (ny < -0.2) {
+          displacement -= 0.25 * Math.pow(Math.max(0, -ny - 0.2), 1.2);
+        }
+
+        // Central longitudinal fissure (groove between hemispheres)
+        const fissureDepth = 0.5 * Math.pow(Math.max(0, ny), 0.8) * Math.exp(-nx * nx / 0.015);
+        displacement -= fissureDepth;
+
+        // Lateral (Sylvian) fissure hints on sides
+        const latFissure = 0.1 * Math.exp(-(Math.abs(phi) - 1.2) * (Math.abs(phi) - 1.2) / 0.04) *
+                           Math.max(0, 1 - Math.abs(ny - 0.1) * 2.5);
+        displacement -= latFissure;
+
+        // Sulci wrinkles — layered sinusoidal displacement
+        const sulciMask = Math.pow(Math.sin(theta), 0.6) * Math.min(1, (1 - Math.abs(ny)) * 1.5 + 0.3);
+        displacement += sulciMask * (
+          0.07 * Math.sin(6 * phi + 2 * theta) * Math.sin(5.5 * theta + 0.8) +
+          0.05 * Math.sin(10 * phi - 2.5 * theta + 1.2) * Math.cos(3.5 * theta + 0.7 * phi) +
+          0.03 * Math.sin(16 * phi + 4 * theta - 0.5) * Math.sin(8 * theta) +
+          0.02 * Math.sin(22 * phi - 5 * theta) * Math.cos(12 * theta + 3 * phi)
+        );
+
+        // Temporal lobe bulge (sides, lower)
+        const temporalBulge = 0.15 * Math.max(0, Math.sin(theta) - 0.5) *
+                              Math.exp(-(ny + 0.3) * (ny + 0.3) / 0.3) *
+                              (1 - Math.abs(nz) * 0.3);
+        displacement += temporalBulge;
+
+        // Frontal lobe bulge
+        const frontalBulge = 0.18 * Math.max(0, nz) * Math.max(0, ny + 0.1) * Math.sin(theta);
+        displacement += frontalBulge;
+
+        const finalR = r + displacement;
+        pos.setXYZ(i, nx * finalR * sx, ny * finalR * sy, nz * finalR * sz);
+      }
+
+      cortexGeo.computeVertexNormals();
+
+      // Solid brain surface — semi-translucent with proper shading
+      const cortexMat = new THREE.MeshPhongMaterial({
+        color: 0x3a2a45,
+        emissive: 0x0a0812,
+        transparent: true,
+        opacity: 0.22,
+        side: THREE.FrontSide,
+        shininess: 15,
+        specular: 0x222244,
+        depthWrite: false,
+      });
+      cortexMesh = new THREE.Mesh(cortexGeo, cortexMat);
+      scene.add(cortexMesh);
+
+      // Subtle wireframe overlay for tech aesthetic
+      const wireGeo = cortexGeo.clone();
+      const wireMat = new THREE.MeshBasicMaterial({
+        color: 0x1a1a2e,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.05,
+      });
+      cortexWireMesh = new THREE.Mesh(wireGeo, wireMat);
+      cortexWireMesh.scale.set(1.005, 1.005, 1.005);
+      scene.add(cortexWireMesh);
+
+      // --- Brainstem ---
+      const stemGeo = new THREE.CylinderGeometry(0.5, 0.3, 2.5, 16, 8);
+      const stemPos = stemGeo.attributes.position;
+      for (let j = 0; j < stemPos.count; j++) {
+        const sx = stemPos.getX(j);
+        const sy = stemPos.getY(j);
+        const sz = stemPos.getZ(j);
+        // Slight backward curve
+        const curve = 0.3 * ((sy + 1.25) / 2.5);
+        stemPos.setXYZ(j, sx, sy, sz - curve);
+      }
+      stemGeo.computeVertexNormals();
+      const stemMat = new THREE.MeshPhongMaterial({
+        color: 0x2a2035,
+        emissive: 0x080610,
+        transparent: true,
+        opacity: 0.25,
+        shininess: 10,
+        depthWrite: false,
+      });
+      brainStemMesh = new THREE.Mesh(stemGeo, stemMat);
+      brainStemMesh.position.set(0, -3.5, -1.2);
+      scene.add(brainStemMesh);
+
+      // --- Internal region nodes ---
       const regionPositions = {
-        prefrontal: { x: 0, y: 2.5, z: 2.5, size: 1.8 },
-        parietal: { x: 0, y: 1, z: -0.5, size: 2 },
-        temporal: { x: -2.2, y: -0.5, z: 0.5, size: 1.5 },
-        temporalR: { x: 2.2, y: -0.5, z: 0.5, size: 1.5 },
-        occipital: { x: 0, y: 0.5, z: -2.5, size: 1.6 },
-        cerebellum: { x: 0, y: -2.5, z: -1.5, size: 1.4 },
-        limbic: { x: 0, y: 0.5, z: 0.5, size: 1.2 }
+        prefrontal: { x: 0, y: 2.2, z: 2.2, size: 1.6 },
+        parietal:   { x: 0, y: 1.5, z: -0.5, size: 1.8 },
+        temporal:   { x: -2.0, y: -0.3, z: 0.5, size: 1.3 },
+        temporalR:  { x: 2.0, y: -0.3, z: 0.5, size: 1.3 },
+        occipital:  { x: 0, y: 0.5, z: -2.2, size: 1.4 },
+        cerebellum: { x: 0, y: -2.2, z: -1.3, size: 1.2 },
+        limbic:     { x: 0, y: 0.5, z: 0.5, size: 1.0 }
       };
 
       Object.keys(regionPositions).forEach(key => {
-        const pos = regionPositions[key];
+        const rp = regionPositions[key];
         const regionKey = key.replace('R', '');
         const region = brainRegions[regionKey];
 
-        const geometry = new THREE.IcosahedronGeometry(pos.size, 16);
+        const geometry = new THREE.IcosahedronGeometry(rp.size, 16);
         const material = new THREE.MeshBasicMaterial({
           color: region.color, wireframe: true, transparent: true, opacity: 0.3
         });
 
         const mesh = new THREE.Mesh(geometry, material);
-        mesh.position.set(pos.x, pos.y, pos.z);
+        mesh.position.set(rp.x, rp.y, rp.z);
         mesh.userData = { region: regionKey, originalOpacity: 0.3 };
-        mesh.scale.set(key === 'limbic' ? 0.6 : 1, key === 'limbic' ? 0.8 : 1, key === 'limbic' ? 0.7 : 1);
+
+        // Anatomically-shaped scaling per region
+        if (key === 'limbic') mesh.scale.set(0.6, 0.8, 0.7);
+        else if (key === 'temporal' || key === 'temporalR') mesh.scale.set(0.7, 0.9, 1.1);
+        else if (key === 'prefrontal') mesh.scale.set(1.0, 0.9, 0.8);
+        else if (key === 'parietal') mesh.scale.set(1.2, 0.7, 1.0);
+        else if (key === 'occipital') mesh.scale.set(1.0, 0.8, 0.9);
+        else if (key === 'cerebellum') mesh.scale.set(1.1, 0.6, 0.8);
+
         scene.add(mesh);
         regionMeshes.push(mesh);
 
-        const glowGeo = new THREE.SphereGeometry(pos.size * 0.7, 16, 16);
+        const glowGeo = new THREE.SphereGeometry(rp.size * 0.6, 16, 16);
         const glowMat = new THREE.MeshBasicMaterial({ color: region.color, transparent: true, opacity: 0.1 });
         const glow = new THREE.Mesh(glowGeo, glowMat);
         glow.position.copy(mesh.position);
@@ -1369,17 +1496,11 @@
         scene.add(glow);
         regionMeshes.push(glow);
       });
-
-      const shellGeo = new THREE.IcosahedronGeometry(4.5, 2);
-      const shellMat = new THREE.MeshBasicMaterial({ color: 0x1a1a2e, wireframe: true, transparent: true, opacity: 0.15 });
-      const shell = new THREE.Mesh(shellGeo, shellMat);
-      shell.scale.set(1, 0.9, 0.85);
-      scene.add(shell);
     }
 
     function createConnections() {
       const pairs = [['prefrontal','parietal'], ['prefrontal','temporal'], ['prefrontal','limbic'], ['parietal','temporal'], ['parietal','occipital'], ['parietal','cerebellum'], ['temporal','limbic'], ['temporal','occipital'], ['occipital','cerebellum'], ['cerebellum','limbic'], ['limbic','prefrontal'], ['limbic','temporal']];
-      const positions = { prefrontal: [0,2.5,2.5], parietal: [0,1,-0.5], temporal: [-2.2,-0.5,0.5], occipital: [0,0.5,-2.5], cerebellum: [0,-2.5,-1.5], limbic: [0,0.5,0.5] };
+      const positions = { prefrontal: [0,2.2,2.2], parietal: [0,1.5,-0.5], temporal: [-2.0,-0.3,0.5], occipital: [0,0.5,-2.2], cerebellum: [0,-2.2,-1.3], limbic: [0,0.5,0.5] };
 
       pairs.forEach(pair => {
         const start = new THREE.Vector3(...positions[pair[0]]);
@@ -1584,6 +1705,9 @@
     }
 
     function activateBrainForCase(cs) {
+      // Make cortex more transparent to reveal activation
+      if (cortexMesh) cortexMesh.material.opacity = 0.1;
+
       // Dim ALL regions (inactive start at very low visibility)
       regionMeshes.forEach(mesh => {
         mesh.material.opacity = 0.04;
@@ -1655,7 +1779,7 @@
       activationParticles = [];
 
       const allActive = [...cs.activation.primary, ...cs.activation.secondary];
-      const positions = { prefrontal: [0,2.5,2.5], parietal: [0,1,-0.5], temporal: [-2.2,-0.5,0.5], occipital: [0,0.5,-2.5], cerebellum: [0,-2.5,-1.5], limbic: [0,0.5,0.5] };
+      const positions = { prefrontal: [0,2.2,2.2], parietal: [0,1.5,-0.5], temporal: [-2.0,-0.3,0.5], occipital: [0,0.5,-2.2], cerebellum: [0,-2.2,-1.3], limbic: [0,0.5,0.5] };
 
       allActive.forEach(regionKey => {
         const pos = positions[regionKey];
@@ -1726,6 +1850,7 @@
       controls.autoRotate = false;
       closeCasePanel();
       activeCase = null;
+      if (cortexMesh) cortexMesh.material.opacity = 0.1;
 
       // Clear activation states
       document.querySelectorAll('.region-item').forEach(item => {
@@ -1846,6 +1971,7 @@
     }
 
     function resetBrain() {
+      if (cortexMesh) cortexMesh.material.opacity = 0.22;
       regionMeshes.forEach(mesh => {
         mesh.material.opacity = mesh.userData.originalOpacity;
         if (mesh.userData.region) {
@@ -1881,6 +2007,7 @@
       });
 
       // Activate brain regions
+      if (cortexMesh) cortexMesh.material.opacity = 0.1;
       regionMeshes.forEach(mesh => {
         mesh.material.opacity = 0.04;
         if (mesh.userData.isGlow) mesh.material.opacity = 0.02;
@@ -2048,6 +2175,13 @@
           mesh.material.opacity = 0.1 + Math.sin(time * 2 + i) * 0.03;
         }
       });
+
+      // Cortex breathing effect
+      if (cortexMesh && !activeCase && !selectedRegion) {
+        const breathe = 1.0 + Math.sin(time * 0.8) * 0.003;
+        cortexMesh.scale.set(breathe, breathe, breathe);
+        cortexMesh.material.opacity = 0.22 + Math.sin(time * 0.5) * 0.025;
+      }
 
       renderer.render(scene, camera);
     }
