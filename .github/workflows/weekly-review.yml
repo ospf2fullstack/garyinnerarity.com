@@ -1,0 +1,321 @@
+name: Weekly Repository Health Review
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'   # Every Monday at 08:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  health-review:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: https://garyinnerarity.com   # canonical base URL used across validation checks
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install --include=dev
+
+      # ── Dependency vulnerability scan ──────────────────────────
+
+      - name: npm audit (vulnerability scan)
+        id: npm_audit
+        continue-on-error: true
+        run: |
+          set +e
+          npm audit --json > /tmp/audit.json 2>/dev/null || true
+          CRITICAL=$(jq '.metadata.vulnerabilities.critical // 0' /tmp/audit.json)
+          HIGH=$(jq '.metadata.vulnerabilities.high     // 0' /tmp/audit.json)
+          MODERATE=$(jq '.metadata.vulnerabilities.moderate // 0' /tmp/audit.json)
+          LOW=$(jq '.metadata.vulnerabilities.low       // 0' /tmp/audit.json)
+          {
+            echo "critical=$CRITICAL"
+            echo "high=$HIGH"
+            echo "moderate=$MODERATE"
+            echo "low=$LOW"
+          } >> "$GITHUB_OUTPUT"
+          if [ "$CRITICAL" -gt 0 ] || [ "$HIGH" -gt 0 ]; then
+            echo "status=fail" >> "$GITHUB_OUTPUT"
+            echo "::error::npm audit: $CRITICAL critical, $HIGH high vulnerabilities found"
+            exit 1
+          else
+            echo "status=pass" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ── Outdated dependency check ───────────────────────────────
+
+      - name: Check outdated dependencies
+        id: npm_outdated
+        continue-on-error: true
+        run: |
+          set +e
+          OUTDATED=$(npm outdated --json 2>/dev/null || echo '{}')
+          COUNT=$(echo "$OUTDATED" | jq 'keys | length')
+          PKGS=$(echo "$OUTDATED" | jq -r 'to_entries[] | "\(.key): \(.value.current) → \(.value.latest)"' | head -30 | paste -sd '; ')  # cap at 30 to keep output readable
+          {
+            echo "count=$COUNT"
+            echo "packages=$PKGS"
+          } >> "$GITHUB_OUTPUT"
+          if [ "$COUNT" -gt 0 ]; then
+            echo "status=warn" >> "$GITHUB_OUTPUT"
+            echo "::warning::$COUNT outdated package(s): $PKGS"
+          else
+            echo "status=pass" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ── Code quality ────────────────────────────────────────────
+
+      - name: Run ESLint
+        id: eslint
+        continue-on-error: true
+        run: |
+          set +e
+          OUTPUT=$(npx eslint . --ext .js --format json 2>/dev/null || echo '[]')
+          ERRORS=$(echo "$OUTPUT"   | jq '[.[].errorCount]   | add // 0')
+          WARNINGS=$(echo "$OUTPUT" | jq '[.[].warningCount] | add // 0')
+          {
+            echo "errors=$ERRORS"
+            echo "warnings=$WARNINGS"
+          } >> "$GITHUB_OUTPUT"
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "status=fail" >> "$GITHUB_OUTPUT"
+            echo "::error::ESLint: $ERRORS error(s), $WARNINGS warning(s)"
+            exit 1
+          elif [ "$WARNINGS" -gt 0 ]; then
+            echo "status=warn" >> "$GITHUB_OUTPUT"
+            echo "::warning::ESLint: $WARNINGS warning(s)"
+          else
+            echo "status=pass" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ── JSON schema validation ───────────────────────────────────
+
+      - name: Validate events.json schema
+        id: events_schema
+        continue-on-error: true
+        run: |
+          node - <<'EOF'
+          const fs = require('fs');
+          let events;
+          try {
+            events = JSON.parse(fs.readFileSync('events.json', 'utf8'));
+          } catch (e) {
+            console.error('events.json: failed to parse JSON —', e.message);
+            process.exit(1);
+          }
+          // Documented types per AGENTS.md — "certificate" exists in events.json but is not
+          // listed in the docs; warnings are raised for any type outside this set.
+          const DOCUMENTED_TYPES = ['project', 'training', 'health', 'career'];
+          const errors = [];
+          const warnings = [];
+          events.forEach((e, i) => {
+            if (!e.date || !/^\d{4}-\d{2}-\d{2}$/.test(e.date))
+              errors.push(`[${i}] "${e.title || '?'}" — invalid or missing date: ${JSON.stringify(e.date)}`);
+            if (!e.title)
+              errors.push(`[${i}] event at ${e.date} — missing title`);
+            if (!e.description)
+              errors.push(`[${i}] "${e.title || '?'}" — missing description`);
+            if (!e.type)
+              errors.push(`[${i}] "${e.title || '?'}" — missing type`);
+            else if (!DOCUMENTED_TYPES.includes(e.type))
+              warnings.push(`[${i}] "${e.title || '?'}" — type "${e.type}" is not in documented set: ${DOCUMENTED_TYPES.join(', ')}`);
+          });
+          if (warnings.length > 0) {
+            console.warn('events.json schema warnings:\n' + warnings.map(w => '  ⚠ ' + w).join('\n'));
+          }
+          if (errors.length > 0) {
+            console.error('events.json schema errors:\n' + errors.map(e => '  ✗ ' + e).join('\n'));
+            process.exit(1);
+          }
+          console.log(`events.json: ${events.length} events checked — ${errors.length} errors, ${warnings.length} warnings`);
+          EOF
+
+      # ── robots.txt validation ────────────────────────────────────
+
+      - name: Validate robots.txt
+        id: robots_txt
+        continue-on-error: true
+        run: |
+          ERRORS=0
+          # Check sitemap URL is present and correct
+          if ! grep -qF "Sitemap: $SITE_URL/sitemap.xml" robots.txt; then
+            echo "::error::robots.txt: Sitemap directive missing or does not point to $SITE_URL/sitemap.xml"
+            ERRORS=$((ERRORS + 1))
+          fi
+          # Catch-all User-agent block must exist
+          if ! grep -qF "User-agent: *" robots.txt; then
+            echo "::error::robots.txt: missing catch-all 'User-agent: *' directive"
+            ERRORS=$((ERRORS + 1))
+          fi
+          [ "$ERRORS" -eq 0 ] && echo "robots.txt: OK" || exit 1
+
+      # ── sitemap.xml validation ────────────────────────────────────
+
+      - name: Validate sitemap.xml
+        id: sitemap_xml
+        continue-on-error: true
+        run: |
+          # Ensure xmllint is available
+          if ! command -v xmllint &>/dev/null; then
+            sudo apt-get install -y --quiet libxml2-utils
+          fi
+          if ! xmllint --noout sitemap.xml 2>&1; then
+            echo "::error::sitemap.xml is not well-formed XML"
+            exit 1
+          fi
+          if ! grep -q "$SITE_URL" sitemap.xml; then
+            echo "::error::sitemap.xml: expected base URL $SITE_URL not found"
+            exit 1
+          fi
+          URL_COUNT=$(grep -c "<loc>" sitemap.xml || true)
+          echo "sitemap.xml: valid XML — $URL_COUNT <loc> entries"
+
+      # ── File list integrity ───────────────────────────────────────
+
+      - name: Check file-list integrity
+        id: file_lists
+        continue-on-error: true
+        run: |
+          # Regenerate only the file lists (not the date-sensitive sitemap)
+          node notes/generate-file-list.js
+          node skills/generate-file-list.js
+          if ! git diff --exit-code notes/file-list.json skills/file-list.json; then
+            echo "::warning::notes/file-list.json or skills/file-list.json is out of sync with actual .md files. Run 'npm run build'."
+            exit 1
+          fi
+          echo "File lists are up to date"
+
+      # ── Step summary ──────────────────────────────────────────────
+
+      - name: Generate step summary
+        if: always()
+        run: |
+          {
+            echo "## 🏥 Weekly Repository Health Report"
+            echo ""
+            echo "| Check | Status | Details |"
+            echo "|-------|--------|---------|"
+
+            # npm audit
+            if [ "${{ steps.npm_audit.outputs.status }}" = "pass" ]; then
+              echo "| npm audit | ✅ Pass | No critical/high vulnerabilities |"
+            else
+              echo "| npm audit | ❌ Fail | Critical: ${{ steps.npm_audit.outputs.critical }}, High: ${{ steps.npm_audit.outputs.high }}, Moderate: ${{ steps.npm_audit.outputs.moderate }}, Low: ${{ steps.npm_audit.outputs.low }} |"
+            fi
+
+            # outdated
+            if [ "${{ steps.npm_outdated.outputs.status }}" = "pass" ]; then
+              echo "| Outdated packages | ✅ Pass | All packages up to date |"
+            else
+              echo "| Outdated packages | ⚠️ Warn | ${{ steps.npm_outdated.outputs.count }} outdated: ${{ steps.npm_outdated.outputs.packages }} |"
+            fi
+
+            # ESLint
+            if [ "${{ steps.eslint.outputs.status }}" = "pass" ]; then
+              echo "| ESLint | ✅ Pass | No errors or warnings |"
+            elif [ "${{ steps.eslint.outputs.status }}" = "warn" ]; then
+              echo "| ESLint | ⚠️ Warn | ${{ steps.eslint.outputs.warnings }} warning(s) |"
+            else
+              echo "| ESLint | ❌ Fail | ${{ steps.eslint.outputs.errors }} error(s), ${{ steps.eslint.outputs.warnings }} warning(s) |"
+            fi
+
+            # events.json
+            if [ "${{ steps.events_schema.outcome }}" = "success" ]; then
+              echo "| events.json schema | ✅ Pass | All events valid |"
+            else
+              echo "| events.json schema | ❌ Fail | Schema errors found — see job log |"
+            fi
+
+            # robots.txt
+            if [ "${{ steps.robots_txt.outcome }}" = "success" ]; then
+              echo "| robots.txt | ✅ Pass | Directives correct |"
+            else
+              echo "| robots.txt | ❌ Fail | Missing or incorrect directives |"
+            fi
+
+            # sitemap.xml
+            if [ "${{ steps.sitemap_xml.outcome }}" = "success" ]; then
+              echo "| sitemap.xml | ✅ Pass | Valid XML, correct base URL |"
+            else
+              echo "| sitemap.xml | ❌ Fail | Invalid XML or incorrect base URL |"
+            fi
+
+            # file lists
+            if [ "${{ steps.file_lists.outcome }}" = "success" ]; then
+              echo "| File lists | ✅ Pass | In sync with filesystem |"
+            else
+              echo "| File lists | ⚠️ Warn | Out of sync — run \`npm run build\` |"
+            fi
+
+            echo ""
+            echo "_Triggered by: \`${{ github.event_name }}\` · Run: [${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})_"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # ── Create or update issue when failures are found ───────────
+
+      - name: Create or update issue on failure
+        if: |
+          always() && (
+            steps.npm_audit.outputs.status == 'fail' ||
+            steps.eslint.outputs.status == 'fail' ||
+            steps.events_schema.outcome == 'failure' ||
+            steps.robots_txt.outcome == 'failure' ||
+            steps.sitemap_xml.outcome == 'failure' ||
+            steps.file_lists.outcome == 'failure'
+          )
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BODY="## Weekly Repository Health Review — Issues Detected\n\n"
+          BODY+="**Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\n\n"
+          BODY+="### Findings\n\n"
+
+          if [ "${{ steps.npm_audit.outputs.status }}" = "fail" ]; then
+            BODY+="- ❌ **npm audit**: Critical=${{ steps.npm_audit.outputs.critical }}, High=${{ steps.npm_audit.outputs.high }} vulnerabilities found\n"
+          fi
+          if [ "${{ steps.eslint.outputs.status }}" = "fail" ]; then
+            BODY+="- ❌ **ESLint**: ${{ steps.eslint.outputs.errors }} error(s)\n"
+          fi
+          if [ "${{ steps.events_schema.outcome }}" = "failure" ]; then
+            BODY+="- ❌ **events.json**: Schema validation failed — check job log for details\n"
+          fi
+          if [ "${{ steps.robots_txt.outcome }}" = "failure" ]; then
+            BODY+="- ❌ **robots.txt**: Missing or incorrect directives\n"
+          fi
+          if [ "${{ steps.sitemap_xml.outcome }}" = "failure" ]; then
+            BODY+="- ❌ **sitemap.xml**: Invalid XML or incorrect base URL\n"
+          fi
+          if [ "${{ steps.file_lists.outcome }}" = "failure" ]; then
+            BODY+="- ⚠️ **File lists**: notes/file-list.json or skills/file-list.json out of sync — run \`npm run build\`\n"
+          fi
+
+          BODY+="\n---\n_This issue was automatically created by the [Weekly Repository Health Review](${{ github.server_url }}/${{ github.repository }}/actions/workflows/weekly-review.yml) workflow._"
+
+          # Ensure the label exists (color: pale yellow — distinguishable but non-urgent)
+          gh label create "health-review" \
+            --description "Automated weekly health review findings" \
+            --color "e4e669" 2>/dev/null || true
+
+          # Comment on existing open issue; otherwise open a new one
+          EXISTING=$(gh issue list --label "health-review" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "$(printf '%b' "$BODY")"
+            echo "Commented on existing issue #$EXISTING"
+          else
+            gh issue create \
+              --title "🔍 Weekly Health Review: Issues Detected ($(date +%Y-%m-%d))" \
+              --body "$(printf '%b' "$BODY")" \
+              --label "health-review"
+            echo "Created new health-review issue"
+          fi
