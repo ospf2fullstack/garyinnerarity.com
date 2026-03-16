@@ -13,7 +13,7 @@
 - Job title: Solutions Engineer
 - Location: United States
 - LinkedIn: https://www.linkedin.com/in/garyinnerarity/
-- GitHub: https://github.com/garyinnerarity
+- GitHub: https://github.com/ospf2fullstack
 - Website: https://garyinnerarity.com/
 
 ## Expertise

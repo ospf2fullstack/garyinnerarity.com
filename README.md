@@ -81,7 +81,7 @@ A personal portfolio and technical knowledge-base site showcasing enterprise pro
 ### Setup
 
 ```bash
-git clone https://github.com/garyinnerarity/garyinnerarity.com.git
+git clone https://github.com/ospf2fullstack/garyinnerarity.com.git
 cd garyinnerarity.com
 npm install
 ```
@@ -161,7 +161,7 @@ The live site is served at **[garyinnerarity.com](https://garyinnerarity.com)**.
 
 ## Contributing
 
-This is a personal portfolio site. For bugs or suggestions, open an issue on the [GitHub repository](https://github.com/garyinnerarity/garyinnerarity.com).
+This is a personal portfolio site. For bugs or suggestions, open an issue on the [GitHub repository](https://github.com/ospf2fullstack/garyinnerarity.com).
 
 ---
 
