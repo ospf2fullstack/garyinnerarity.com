@@ -1,0 +1,31 @@
+# Files and directories to exclude from GitHub Pages deployment.
+# Used by the CI workflow to strip dev-only artifacts before upload.
+# Patterns are passed to `rm -rf` — use exact paths or shell globs.
+
+# Git / GitHub
+.git
+.github
+.gitignore
+
+# Node / build tooling
+node_modules
+package.json
+package-lock.json
+.eslintrc.json
+
+# Agent / IDE config
+.agents
+.vscode
+
+# Deployment config (self-referential)
+.pagesignore
+
+# Backup files
+*.bak
+*.tmp
+*.swp
+*.swo
+
+# macOS artifacts
+.DS_Store
+**/.DS_Store

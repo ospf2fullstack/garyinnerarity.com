@@ -155,6 +155,23 @@ When modifying this repository, follow these checks:
 | Change CSS                    | Include standard properties alongside vendor prefixes                          |
 | Edit any file                 | Run `bash .agents/skills/repo-health-scanner/scan.sh` before committing        |
 | Add images                    | Optimize to <1 MB, use proper format (JPEG for photos, PNG for transparency)   |
+| Add dev-only files            | Add the pattern to `.pagesignore` so it is excluded from deployment             |
+
+---
+
+## Deployment Pipeline
+
+The site is deployed via GitHub Actions (`.github/workflows/static.yml`). On push to `main`:
+
+1. Checkout → Setup Node 20 → `npm run build` (regenerate file lists + sitemap)
+2. **Dev file cleanup** — reads `.pagesignore` and removes matched files/dirs from the workspace before upload
+3. Upload remaining files as a Pages artifact → Deploy to GitHub Pages
+
+### `.pagesignore`
+
+Lists files and directories to exclude from the deployed site. One pattern per line; blank lines and `#` comments are ignored. Patterns are expanded as shell globs and passed to `rm -rf`.
+
+Update `.pagesignore` when adding new dev-only files (configs, tooling, editor dirs) that should not be served on the live site.
 
 ---
 

@@ -29,6 +29,14 @@ jobs:
       - name: Regenerate file list and sitemap
         run: npm run build
 
+      - name: Remove dev-only files
+        run: |
+          while IFS= read -r pattern; do
+            pattern="$(echo "$pattern" | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')"
+            [[ -z "$pattern" || "$pattern" == \#* ]] && continue
+            rm -rf $pattern
+          done < .pagesignore
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
