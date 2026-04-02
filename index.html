@@ -882,7 +882,9 @@
           </aside>
           <div id="skills-main-view" aria-label="Skill content" aria-live="polite">
             <div class="notes-placeholder">
-              <p>Select a skill to view and copy.</p>
+              <div class="notes-placeholder__icon" aria-hidden="true">⌘</div>
+              <p>Select a skill from the sidebar to view its pattern.</p>
+              <p class="notes-placeholder__hint">Each skill is a production-tested template you can copy.</p>
             </div>
           </div>
           <aside id="skills-outline-pane" aria-label="Skill outline"></aside>
@@ -905,21 +907,35 @@
     <section id="credentials" aria-labelledby="creds-title">
       <div class="container">
         <h2 id="creds-title" class="section-label scroll-reveal">Credentials</h2>
-        <div class="cert-grid stagger-parent">
 
-          <figure class="cert-card">
+        <!-- Featured certifications -->
+        <div class="cert-featured stagger-parent">
+          <figure class="cert-card cert-card--featured">
             <img src="/assets/certs/SAA.png" alt="AWS Certified Solutions Architect – Associate" loading="lazy">
             <figcaption>AWS Solutions Architect</figcaption>
           </figure>
 
+          <figure class="cert-card cert-card--featured">
+            <img src="/assets/certs/ccna.png" alt="Cisco CCNA" loading="lazy">
+            <figcaption>Cisco CCNA</figcaption>
+          </figure>
+
+          <figure class="cert-card cert-card--featured">
+            <img src="/assets/certs/comptia_sec.png" alt="CompTIA Security+" loading="lazy">
+            <figcaption>CompTIA Security+</figcaption>
+          </figure>
+
+          <figure class="cert-card cert-card--featured">
+            <img src="/assets/certs/databricksGenAI.png" alt="Databricks Generative AI" loading="lazy">
+            <figcaption>Databricks Gen AI</figcaption>
+          </figure>
+        </div>
+
+        <!-- All other certifications -->
+        <div class="cert-grid stagger-parent">
           <figure class="cert-card">
             <img src="/assets/certs/cloudpractitioner.png" alt="AWS Certified Cloud Practitioner" loading="lazy">
             <figcaption>AWS Cloud Practitioner</figcaption>
-          </figure>
-
-          <figure class="cert-card">
-            <img src="/assets/certs/ccna.png" alt="Cisco CCNA" loading="lazy">
-            <figcaption>Cisco CCNA</figcaption>
           </figure>
 
           <figure class="cert-card">
@@ -929,17 +945,7 @@
 
           <figure class="cert-card">
             <img src="/assets/certs/cmno.png" alt="Cisco Meraki Network Operator" loading="lazy">
-            <figcaption>Cisco Meraki Network Operator</figcaption>
-          </figure>
-
-          <figure class="cert-card">
-            <img src="/assets/certs/comptia_sec.png" alt="CompTIA Security+" loading="lazy">
-            <figcaption>CompTIA Security+</figcaption>
-          </figure>
-
-          <figure class="cert-card">
-            <img src="/assets/certs/databricksGenAI.png" alt="Databricks Generative AI" loading="lazy">
-            <figcaption>Databricks Gen AI</figcaption>
+            <figcaption>Meraki Network Operator</figcaption>
           </figure>
 
           <figure class="cert-card">
@@ -949,7 +955,7 @@
 
           <figure class="cert-card">
             <img src="/assets/certs/mta-badge.png" alt="Microsoft Technology Associate" loading="lazy">
-            <figcaption>MTA</figcaption>
+            <figcaption>Microsoft MTA</figcaption>
           </figure>
 
           <figure class="cert-card">
@@ -976,7 +982,6 @@
             <img src="/assets/certs/AWSPartnerSecurityBestPractices_Technical.png" alt="AWS Partner Security Best Practices" loading="lazy">
             <figcaption>AWS Partner Security</figcaption>
           </figure>
-
         </div>
       </div>
     </section>

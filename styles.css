@@ -486,45 +486,75 @@ section + section {
   font-weight: 400;
 }
 
-/*-------- CREDENTIALS -------------------------------------------------â”€ */
-.cert-grid {
+/*-------- CREDENTIALS --------------------------------------------------- */
+.cert-featured {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 1px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--border);
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
 .cert-card {
   background: var(--white);
-  padding: 20px 16px;
+  padding: 24px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   text-align: center;
-  transition: background 0.15s var(--ease);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
   cursor: default;
 }
 
 .cert-card:hover {
-  background: var(--bg-subtle);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  border-color: var(--border-strong);
 }
 
 .cert-card img {
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   object-fit: contain;
   margin-inline: auto;
 }
 
 .cert-card figcaption {
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
   line-height: 1.4;
   font-weight: 500;
+}
+
+/* Featured cert overrides */
+.cert-card--featured {
+  padding: 32px 24px;
+  border-color: var(--border-strong);
+}
+
+.cert-card--featured:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  border-color: var(--accent);
+}
+
+.cert-card--featured img {
+  width: 96px;
+  height: 96px;
+}
+
+.cert-card--featured figcaption {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
 }
 
 /*-------- SKILLS VIEWER ------------------------------------------------- */
@@ -538,6 +568,7 @@ section + section {
   min-height: 500px;
   background: var(--border);
   gap: 1px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
 }
 
 #skills-sidebar {
@@ -627,15 +658,36 @@ section + section {
 
 .notes-placeholder {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
+  gap: 12px;
+}
+
+.notes-placeholder__icon {
+  font-size: 2rem;
+  color: var(--border-strong);
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  margin-bottom: 4px;
 }
 
 .notes-placeholder p {
   font-size: 0.875rem;
   color: var(--text-faint);
   font-family: var(--mono);
+}
+
+.notes-placeholder__hint {
+  font-size: 0.75rem !important;
+  color: var(--border-strong) !important;
+  font-family: var(--sans) !important;
 }
 
 /* Notes content typography */
@@ -985,6 +1037,10 @@ section + section {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .cert-featured {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .cert-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -1018,6 +1074,20 @@ section + section {
 @media (max-width: 480px) {
   .nav-links a {
     padding: 12px 16px;
+  }
+
+  .cert-featured {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .cert-card--featured {
+    padding: 24px 16px;
+  }
+
+  .cert-card--featured img {
+    width: 72px;
+    height: 72px;
   }
 
   .cert-grid {

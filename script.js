@@ -233,6 +233,28 @@ function renderSkillList() {
   // Auto-expand first group if only one
   const folders = skillNoteList.querySelectorAll('li.folder');
   if (folders.length === 1) folders[0].click();
+
+  // Auto-load first skill when section enters viewport
+  const skillsSection = document.getElementById('skills');
+  if (skillsSection && skillFiles.length) {
+    const autoLoadObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Expand folder if collapsed, then open first skill
+            const firstFolder = skillNoteList.querySelector('li.folder');
+            if (firstFolder && !firstFolder.classList.contains('expanded')) {
+              firstFolder.click();
+            }
+            openSkill(skillFiles[0]);
+            autoLoadObserver.disconnect();
+          }
+        });
+      },
+      { rootMargin: '0px 0px -20% 0px', threshold: 0.1 }
+    );
+    autoLoadObserver.observe(skillsSection);
+  }
 }
 
 async function openSkill(filename) {
