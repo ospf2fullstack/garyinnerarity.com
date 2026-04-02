@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gary Innerarity — Cognitive Architecture</title>
+  <meta name="description" content="Interactive 3D visualization of Gary Innerarity's cognitive architecture — explore capability domains, case studies, and the systems lifecycle through an interconnected brain model.">
+  <meta name="author" content="Gary Innerarity">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://garyinnerarity.com/index-brain.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Gary Innerarity — Cognitive Architecture">
+  <meta property="og:description" content="Interactive 3D brain visualization mapping enterprise solution domains, case studies, and the systems lifecycle.">
+  <meta property="og:url" content="https://garyinnerarity.com/index-brain.html">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <style>
@@ -17,6 +25,9 @@
       --success: #00c853;
       --warning: #ffc107;
       --border: rgba(255, 255, 255, 0.1);
+      --mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      --radius: 6px;
+      --nav-h: 48px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,6 +39,71 @@
       height: 100vh;
       overflow: hidden;
       position: relative;
+    }
+
+    /* ── Site Nav Bar ─────────────────────────────────── */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 200;
+      background: linear-gradient(to bottom, rgba(5,5,8,0.85), transparent);
+      pointer-events: none;
+    }
+
+    .site-nav > * {
+      pointer-events: auto;
+    }
+
+    .site-nav__brand {
+      font-family: var(--mono);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .site-nav__brand:hover {
+      color: var(--text);
+    }
+
+    .site-nav__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: all 0.15s;
+    }
+
+    .site-nav__back:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .site-nav__back svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
     }
 
     .vignette {
@@ -49,7 +125,7 @@
 
     .brain-header {
       position: absolute;
-      top: 24px;
+      top: calc(var(--nav-h) + 12px);
       left: 24px;
       max-width: 400px;
     }
@@ -57,7 +133,7 @@
     .brain-header h1 {
       font-size: 1.5rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
       margin-bottom: 8px;
       background: linear-gradient(135deg, var(--accent) 0%, var(--accent-warm) 100%);
       -webkit-background-clip: text;
@@ -74,17 +150,18 @@
     /* Case Study Selector */
     .case-study-panel {
       position: absolute;
-      top: 24px;
+      top: calc(var(--nav-h) + 12px);
       right: 24px;
       width: 320px;
       background: var(--bg-panel);
       backdrop-filter: blur(20px);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: var(--radius);
       padding: 20px;
     }
 
     .case-study-header {
+      font-family: var(--mono);
       font-size: 0.6875rem;
       font-weight: 600;
       letter-spacing: 0.12em;
@@ -108,13 +185,14 @@
 
     .mode-btn {
       padding: 6px 12px;
+      font-family: var(--mono);
       font-size: 0.625rem;
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       background: transparent;
       border: none;
-      border-radius: 4px;
+      border-radius: var(--radius);
       color: var(--text-muted);
       cursor: pointer;
       transition: all 0.15s;
@@ -135,7 +213,7 @@
       padding: 12px;
       background: rgba(255,255,255,0.03);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: var(--radius);
       margin-bottom: 8px;
       cursor: pointer;
       transition: all 0.15s;
@@ -158,6 +236,7 @@
     }
 
     .case-item .client {
+      font-family: var(--mono);
       font-size: 0.6875rem;
       color: var(--text-muted);
     }
@@ -186,12 +265,13 @@
       background: var(--bg-panel);
       backdrop-filter: blur(20px);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: var(--radius);
       padding: 20px;
       min-width: 240px;
     }
 
     .legend-title {
+      font-family: var(--mono);
       font-size: 0.6875rem;
       font-weight: 600;
       letter-spacing: 0.12em;
@@ -209,7 +289,7 @@
       padding: 8px 0;
       cursor: pointer;
       transition: all 0.15s;
-      border-radius: 6px;
+      border-radius: var(--radius);
       margin: 0 -8px;
       padding-left: 8px;
       padding-right: 8px;
@@ -263,7 +343,7 @@
     }
 
     .region-name { font-size: 0.8125rem; font-weight: 500; }
-    .region-role { font-size: 0.6875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .region-role { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
 
     /* Detail Panel for Regions */
     .detail-panel {
@@ -275,7 +355,7 @@
       background: var(--bg-panel);
       backdrop-filter: blur(20px);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: var(--radius);
       padding: 28px;
       opacity: 0;
       pointer-events: none;
@@ -300,7 +380,8 @@
       align-items: center;
       gap: 8px;
       padding: 6px 12px;
-      border-radius: 20px;
+      border-radius: var(--radius);
+      font-family: var(--mono);
       font-size: 0.6875rem;
       font-weight: 600;
       letter-spacing: 0.08em;
@@ -308,12 +389,13 @@
       margin-bottom: 12px;
     }
 
-    .panel-title { font-size: 1.5rem; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
-    .panel-brain-ref { font-size: 0.75rem; color: var(--text-muted); font-style: italic; }
+    .panel-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 8px; }
+    .panel-brain-ref { font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted); font-style: italic; }
 
     .panel-section { margin-bottom: 24px; }
 
     .panel-section h3 {
+      font-family: var(--mono);
       font-size: 0.625rem;
       font-weight: 600;
       letter-spacing: 0.12em;
@@ -335,7 +417,7 @@
       padding: 12px;
       background: rgba(255,255,255,0.03);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: var(--radius);
       margin-bottom: 8px;
       font-size: 0.875rem;
       transition: all 0.15s;
@@ -383,7 +465,7 @@
       justify-content: center;
       background: rgba(255,255,255,0.05);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: var(--radius);
       color: var(--text-muted);
       cursor: pointer;
       transition: all 0.15s;
@@ -402,7 +484,7 @@
       background: var(--bg-panel);
       backdrop-filter: blur(20px);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: var(--radius);
       padding: 0;
       opacity: 0;
       pointer-events: none;
@@ -431,16 +513,18 @@
 
     .case-tag {
       padding: 4px 10px;
+      font-family: var(--mono);
       font-size: 0.625rem;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       background: var(--accent);
       color: var(--bg);
-      border-radius: 4px;
+      border-radius: var(--radius);
     }
 
     .case-client {
+      font-family: var(--mono);
       font-size: 0.8125rem;
       color: var(--text-muted);
     }
@@ -448,6 +532,7 @@
     .case-title {
       font-size: 1.375rem;
       font-weight: 700;
+      letter-spacing: -0.03em;
       line-height: 1.2;
       margin-bottom: 20px;
     }
@@ -455,12 +540,13 @@
     .narrative-section {
       background: linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(233,30,99,0.1) 100%);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: var(--radius);
       padding: 16px;
       margin-bottom: 20px;
     }
 
     .narrative-section h4 {
+      font-family: var(--mono);
       font-size: 0.625rem;
       font-weight: 600;
       letter-spacing: 0.12em;
@@ -517,10 +603,11 @@
 
     .tech-tag {
       padding: 6px 12px;
+      font-family: var(--mono);
       font-size: 0.6875rem;
       background: rgba(255,255,255,0.05);
       border: 1px solid var(--border);
-      border-radius: 4px;
+      border-radius: var(--radius);
       color: var(--text-muted);
     }
 
@@ -550,7 +637,7 @@
       background: var(--bg-panel);
       backdrop-filter: blur(20px);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: var(--radius);
       padding: 16px 20px;
       text-align: center;
       min-width: 90px;
@@ -559,6 +646,7 @@
     .stat-value {
       font-size: 1.75rem;
       font-weight: 700;
+      letter-spacing: -0.03em;
       background: linear-gradient(135deg, var(--accent) 0%, var(--accent-warm) 100%);
       -webkit-background-clip: text;
       background-clip: text;
@@ -566,6 +654,7 @@
     }
 
     .stat-label {
+      font-family: var(--mono);
       font-size: 0.625rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -583,13 +672,14 @@
     }
 
     .instruction-text {
-      font-size: 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.6875rem;
       color: var(--text-muted);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       background: rgba(0,0,0,0.5);
       padding: 10px 20px;
-      border-radius: 20px;
+      border-radius: var(--radius);
       backdrop-filter: blur(10px);
     }
 
@@ -616,6 +706,7 @@
       height: 48px;
       border: 2px solid var(--border);
       border-top-color: var(--accent);
+      border-right-color: var(--accent-warm);
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -642,7 +733,7 @@
       background: var(--bg-panel);
       backdrop-filter: blur(20px);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: var(--radius);
       cursor: pointer;
       z-index: 201;
     }
@@ -686,6 +777,7 @@
     }
 
     .mobile-nav-header {
+      font-family: var(--mono);
       font-size: 0.6875rem;
       font-weight: 600;
       letter-spacing: 0.12em;
@@ -705,13 +797,14 @@
     .mobile-nav-tab {
       flex: 1;
       padding: 12px;
+      font-family: var(--mono);
       font-size: 0.75rem;
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       background: rgba(255,255,255,0.05);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: var(--radius);
       color: var(--text-muted);
       cursor: pointer;
       transition: all 0.15s;
@@ -740,7 +833,7 @@
       padding: 14px 16px;
       background: rgba(255,255,255,0.03);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: var(--radius);
       margin-bottom: 8px;
       cursor: pointer;
       transition: all 0.15s;
@@ -806,7 +899,7 @@
 
       .brain-header {
         max-width: calc(100% - 100px);
-        top: 16px;
+        top: calc(var(--nav-h) + 8px);
         left: 16px;
       }
       .brain-header h1 { font-size: 1.125rem; }
@@ -879,13 +972,14 @@
       display: none;
       text-align: center;
       padding: 12px;
+      font-family: var(--mono);
       font-size: 0.75rem;
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--accent);
       border: 1px solid var(--accent);
-      border-radius: 8px;
+      border-radius: var(--radius);
       background: rgba(0,212,255,0.05);
       margin-top: 8px;
     }
@@ -906,7 +1000,7 @@
       padding: 8px 12px;
       background: rgba(255,255,255,0.03);
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: var(--radius);
       margin-bottom: 6px;
       cursor: pointer;
       font-size: 0.8125rem;
@@ -927,13 +1021,13 @@
     .md-content h2 { font-size: 1.125rem; }
     .md-content h3 { font-size: 1rem; }
     .md-content p { margin-bottom: 12px; }
-    .md-content code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.8125rem; }
-    .md-content pre { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 8px; padding: 12px; overflow-x: auto; margin-bottom: 12px; }
+    .md-content code { font-family: var(--mono); background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: var(--radius); font-size: 0.8125rem; }
+    .md-content pre { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; overflow-x: auto; margin-bottom: 12px; }
     .md-content pre code { background: none; padding: 0; }
     .md-content ul, .md-content ol { margin-bottom: 12px; padding-left: 20px; }
     .md-content li { margin-bottom: 4px; }
     .md-content a { color: var(--accent); }
-    .md-content img { max-width: 100%; border-radius: 6px; }
+    .md-content img { max-width: 100%; border-radius: var(--radius); }
   </style>
 </head>
 <body>
@@ -943,11 +1037,16 @@
 
   <div class="vignette"></div>
 
+  <nav class="site-nav">
+    <span class="site-nav__brand">Gary Innerarity</span>
+    <a href="index.html" class="site-nav__back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Portfolio
+    </a>
+  </nav>
+
   <div class="ui-layer">
     <header class="brain-header ui-element">
-      <a href="index.html" style="text-decoration: none; color: inherit; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.75rem; color: var(--text-muted);">
-        <span>←</span> Back
-      </a>
       <h1>Cognitive Architecture</h1>
       <p>Every solution emerges from interconnected capability domains. Select a case study to see which systems activate—or explore domains directly to understand the underlying strengths.</p>
     </header>
