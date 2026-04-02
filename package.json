@@ -4,13 +4,11 @@
   "description": "Portfolio site for Gary Innerarity — Solutions Architect",
   "private": true,
   "scripts": {
-    "build": "node notes/generate-file-list.js && node skills/generate-file-list.js && node generate-sitemap.js",
-    "filelist": "node notes/generate-file-list.js",
+    "build": "node skills/generate-file-list.js && node generate-sitemap.js",
     "skillslist": "node skills/generate-file-list.js",
     "sitemap": "node generate-sitemap.js",
     "lint": "npx eslint ."
   },
-  "type": "module",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.1.0"
