@@ -1,5 +1,0 @@
-# AWS
-
-```sh
-# coming soon
-```
