@@ -8,9 +8,11 @@
     "filelist": "node notes/generate-file-list.js",
     "skillslist": "node skills/generate-file-list.js",
     "sitemap": "node generate-sitemap.js",
-    "lint": "npx eslint . --ext .js"
+    "lint": "npx eslint ."
   },
+  "type": "module",
   "devDependencies": {
-    "eslint": "^8.57.1"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.1.0"
   }
 }
