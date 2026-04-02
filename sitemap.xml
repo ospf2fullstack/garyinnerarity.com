@@ -4,171 +4,165 @@
 
   <url>
     <loc>https://garyinnerarity.com/</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#work</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#stack</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#credentials</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#timeline</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <!-- Notes knowledge base — 16 files -->
   <url><!-- Welcome.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- about.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- architecture and ops/basics.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- architecture and ops/enterprise.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- certificatons.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- hosting models/aws.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- hosting models/cloud-providers.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- hosting models/gcp.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- hosting models/hybrid-providers.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- hosting models/onprem.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- platform and orchestration/helm.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- platform and orchestration/k3s.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- platform and orchestration/k8s.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- platform and orchestration/proxmox.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- projects.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url><!-- projects/home-lab.md -->
     <loc>https://garyinnerarity.com/#notes</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <!-- Skills library — 5 files -->
   <url><!-- skill: aaa-pipelines.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url><!-- skill: agentic-loop.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url><!-- skill: mcp-server.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url><!-- skill: rag-pipeline.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url><!-- skill: structured-output.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-03-16</lastmod>
+    <lastmod>2026-04-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>

@@ -223,14 +223,16 @@
       <li><a href="#lifecycle">System</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="#stack">Stack</a></li>
-      <li><a href="#credentials">Credentials</a></li>
-      <li><a href="#notes">Notes</a></li>
       <li><a href="#skills">Skills</a></li>
+      <li><a href="#credentials">Credentials</a></li>
       <li><a href="#timeline">Timeline</a></li>
       <li class="nav-separator" aria-hidden="true">|</li>
       <li><a href="index-brain.html" title="Cognitive Architecture Visualization">🧠 Brain</a></li>
     </ul>
   </nav>
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
   <main id="main-content">
 
@@ -239,9 +241,9 @@
     ═══════════════════════════════════════════ -->
     <section id="hero" aria-labelledby="hero-title">
       <div class="container">
-        <span class="label">Systems Architect · Solutions Engineer · MBA</span>
-        <h1 id="hero-title">Complex systems,<br>made easy.</h1>
-        <p class="hero-tagline">
+        <span class="label scroll-reveal">Systems Architect · Solutions Engineer · MBA</span>
+        <h1 id="hero-title" class="scroll-reveal">Complex systems,<br>made easy.</h1>
+        <p class="hero-tagline scroll-reveal">
           I deconstruct highly complex problems into working systems.
           The same lifecycle applies whether architecting enterprise AI workflows
           or optimizing a single deployment pipeline.
@@ -249,18 +251,27 @@
       </div>
     </section>
 
+    <!-- ── Narrative Bridge: Hero → Lifecycle ──────────────── -->
+    <div class="narrative-bridge" aria-hidden="true">
+      <div class="narrative-bridge__inner">
+        <span class="narrative-bridge__label">The Framework</span>
+        <p class="narrative-bridge__text">Every solution follows the same lifecycle.</p>
+        <p class="narrative-bridge__sub">Here's how I think through problems — from signal to system.</p>
+      </div>
+    </div>
+
     <!-- ═══════════════════════════════════════════
          SYSTEM LIFECYCLE - interactive diagram
     ═══════════════════════════════════════════ -->
     <section id="lifecycle" aria-labelledby="lifecycle-title">
       <div class="container">
-        <h2 id="lifecycle-title" class="section-label">System Lifecycle</h2>
-        <p class="section-intro">
+        <h2 id="lifecycle-title" class="section-label scroll-reveal">System Lifecycle</h2>
+        <p class="section-intro scroll-reveal">
           Every system I build follows this lifecycle. Click any phase to explore
           how I apply it—from understanding problems to shipping solutions.
         </p>
 
-        <div class="lifecycle-container">
+        <div class="lifecycle-container scroll-reveal scroll-reveal--scale">
           <!-- System Diagram -->
           <div class="system-diagram" role="tablist" aria-label="System lifecycle phases">
             <button class="phase-node phase--ingest active" data-phase="ingest" role="tab" aria-selected="true" aria-controls="phase-ingest">
@@ -413,16 +424,25 @@
       </div>
     </section>
 
+    <!-- ── Narrative Bridge: Lifecycle → Work ──────────────── -->
+    <div class="narrative-bridge" aria-hidden="true">
+      <div class="narrative-bridge__inner">
+        <span class="narrative-bridge__label">The Output</span>
+        <p class="narrative-bridge__text">This framework produces real systems.</p>
+        <p class="narrative-bridge__sub">Enterprise platforms, AI workflows, and side projects — all built from the same lifecycle.</p>
+      </div>
+    </div>
+
     <!-- ═══════════════════════════════════════════
          WORK - enterprise + personal projects
     ═══════════════════════════════════════════ -->
     <section id="work" aria-labelledby="work-title">
       <div class="container">
-        <h2 id="work-title" class="section-label">Work</h2>
+        <h2 id="work-title" class="section-label scroll-reveal">Work</h2>
 
-        <div class="project-group">
+        <div class="project-group scroll-reveal">
           <h3 class="group-label">Enterprise</h3>
-          <div class="project-grid">
+          <div class="project-grid stagger-parent">
 
             <article class="project-card">
               <div class="project-card__header">
@@ -591,9 +611,9 @@
           </div>
         </div>
 
-        <div class="project-group">
+        <div class="project-group scroll-reveal">
           <h3 class="group-label">Personal</h3>
-          <div class="project-grid project-grid--personal">
+          <div class="project-grid project-grid--personal stagger-parent">
 
             <article class="project-card">
               <div class="project-card__header">
@@ -719,13 +739,22 @@
       </div>
     </section>
 
+    <!-- ── Narrative Bridge: Work → Stack ──────────────────── -->
+    <div class="narrative-bridge" aria-hidden="true">
+      <div class="narrative-bridge__inner">
+        <span class="narrative-bridge__label">The Foundation</span>
+        <p class="narrative-bridge__text">Built on this technology stack.</p>
+        <p class="narrative-bridge__sub">The tools, platforms, and practices behind every system I ship.</p>
+      </div>
+    </div>
+
     <!-- ═══════════════════════════════════════════
          STACK - grouped technology capabilities
     ═══════════════════════════════════════════ -->
     <section id="stack" aria-labelledby="stack-title">
       <div class="container">
-        <h2 id="stack-title" class="section-label">Stack</h2>
-        <div class="stack-grid">
+        <h2 id="stack-title" class="section-label scroll-reveal">Stack</h2>
+        <div class="stack-grid stagger-parent">
 
           <div class="stack-category">
             <h3 class="stack-category__name">Cloud</h3>
@@ -825,13 +854,58 @@
       </div>
     </section>
 
+    <!-- ── Narrative Bridge: Stack → Skills ──────────────── -->
+    <div class="narrative-bridge" aria-hidden="true">
+      <div class="narrative-bridge__inner">
+        <span class="narrative-bridge__label">The Patterns</span>
+        <p class="narrative-bridge__text">Distilled into reusable skills.</p>
+        <p class="narrative-bridge__sub">Documented AI patterns extracted from real systems — copy them, adapt them, ship them.</p>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         SKILLS - reusable AI skill patterns
+    ═══════════════════════════════════════════ -->
+    <section id="skills" aria-labelledby="skills-title">
+      <div class="container container--wide">
+        <div class="section-chapter scroll-reveal">
+          <span class="section-chapter__num">From Practice to Pattern</span>
+          <h2 id="skills-title" class="section-label">Skills</h2>
+        </div>
+        <p class="section-intro scroll-reveal">
+          Every system I build produces reusable patterns. These are production-tested
+          AI skill templates — select any to read, then copy the raw markdown for your own stack.
+        </p>
+        <div id="skills-app" role="region" aria-label="Skills viewer" class="scroll-reveal scroll-reveal--scale">
+          <aside id="skills-sidebar" aria-label="Skill list">
+            <ul id="skills-note-list" role="list" aria-label="Skills"></ul>
+          </aside>
+          <div id="skills-main-view" aria-label="Skill content" aria-live="polite">
+            <div class="notes-placeholder">
+              <p>Select a skill to view and copy.</p>
+            </div>
+          </div>
+          <aside id="skills-outline-pane" aria-label="Skill outline"></aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Narrative Bridge: Skills → Credentials ─────────── -->
+    <div class="narrative-bridge" aria-hidden="true">
+      <div class="narrative-bridge__inner">
+        <span class="narrative-bridge__label">The Proof</span>
+        <p class="narrative-bridge__text">Validated across 14+ certifications.</p>
+        <p class="narrative-bridge__sub">Each credential represents a system mastered — not just an exam passed.</p>
+      </div>
+    </div>
+
     <!-- ═══════════════════════════════════════════
          CREDENTIALS - certification grid
     ═══════════════════════════════════════════ -->
     <section id="credentials" aria-labelledby="creds-title">
       <div class="container">
-        <h2 id="creds-title" class="section-label">Credentials</h2>
-        <div class="cert-grid">
+        <h2 id="creds-title" class="section-label scroll-reveal">Credentials</h2>
+        <div class="cert-grid stagger-parent">
 
           <figure class="cert-card">
             <img src="/assets/certs/SAA.png" alt="AWS Certified Solutions Architect – Associate" loading="lazy">
@@ -907,61 +981,28 @@
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════
-         NOTES - inline knowledge base viewer
-    ═══════════════════════════════════════════ -->
-    <section id="notes" aria-labelledby="notes-title">
-      <div class="container container--wide">
-        <h2 id="notes-title" class="section-label">Notes</h2>
-        <p class="section-intro">
-          A living knowledge base - architecture patterns, platform deep-dives,
-          and operational runbooks. Select any note to read.
-        </p>
-        <div id="notes-app" role="region" aria-label="Notes viewer">
-          <aside id="notes-sidebar" aria-label="Note list">
-            <ul id="note-list" role="list" aria-label="Notes"></ul>
-          </aside>
-          <article id="main-view" aria-label="Note content" aria-live="polite">
-            <div class="notes-placeholder">
-              <p>Select a note from the list to begin reading.</p>
-            </div>
-          </article>
-          <aside id="outline-pane" aria-label="Document outline"></aside>
-        </div>
+    <!-- ── Narrative Bridge: Credentials → Timeline ────────── -->
+    <div class="narrative-bridge" aria-hidden="true">
+      <div class="narrative-bridge__inner">
+        <span class="narrative-bridge__label">The Origin Story</span>
+        <p class="narrative-bridge__text">How I got here.</p>
+        <p class="narrative-bridge__sub">Every project, certification, and milestone that built the solutioneer I am today.</p>
       </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════
-         SKILLS - reusable AI skill patterns
-    ═══════════════════════════════════════════ -->
-    <section id="skills" aria-labelledby="skills-title">
-      <div class="container container--wide">
-        <h2 id="skills-title" class="section-label">Skills</h2>
-        <p class="section-intro">
-          Reusable AI skill patterns — select any skill to read, then copy the raw
-          markdown to adapt for your own stack.
-        </p>
-        <div id="skills-app" role="region" aria-label="Skills viewer">
-          <aside id="skills-sidebar" aria-label="Skill list">
-            <ul id="skills-note-list" role="list" aria-label="Skills"></ul>
-          </aside>
-          <div id="skills-main-view" aria-label="Skill content" aria-live="polite">
-            <div class="notes-placeholder">
-              <p>Select a skill to view and copy.</p>
-            </div>
-          </div>
-          <aside id="skills-outline-pane" aria-label="Skill outline"></aside>
-        </div>
-      </div>
-    </section>
+    </div>
 
     <!-- ═══════════════════════════════════════════
          TIMELINE - career and project milestones
     ═══════════════════════════════════════════ -->
     <section id="timeline" aria-labelledby="timeline-title">
       <div class="container">
-        <h2 id="timeline-title" class="section-label">Timeline</h2>
-        <div class="timeline-filters" role="group" aria-label="Filter timeline">
+        <div class="timeline-chapter scroll-reveal">
+          <h2 id="timeline-title" class="timeline-chapter__title">The Road to Here</h2>
+          <p class="timeline-chapter__desc">
+            From rewiring Cisco switches to building enterprise AI platforms —
+            every milestone below shaped how I think about systems today.
+          </p>
+        </div>
+        <div class="timeline-filters scroll-reveal" role="group" aria-label="Filter timeline">
           <button class="filter-btn filter-btn--active" data-filter="all">All</button>
           <button class="filter-btn" data-filter="project">Projects</button>
           <button class="filter-btn" data-filter="training">Training</button>

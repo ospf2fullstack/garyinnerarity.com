@@ -73,204 +73,12 @@ function announceToScreenReader(message) {
   sections.forEach((section) => observer.observe(section));
 })();
 
-// ── 2. NOTES VIEWER ───────────────────────────────────────────
-const notesDir = 'notes/';
-const noteList = document.getElementById('note-list');
-const mainView = document.getElementById('main-view');
-const outlinePane = document.getElementById('outline-pane');
-
-const noteCache = new Map();
-let files = [];
+// ── 2. MARKDOWN RENDERING (shared by Skills viewer) ───────────
 
 // ── Marked setup ──────────────────────────────────────────────
 const markedFn = (typeof marked !== 'undefined')
   ? (marked.marked || marked)
   : null;
-
-if (markedFn) {
-  // Wikilink extension [[Note Name]]
-  try {
-    marked.use({
-      extensions: [{
-        name: 'wikilink',
-        level: 'inline',
-        start(src) { return src.indexOf('[['); },
-        tokenizer(src) {
-          const match = /^\[\[([^\]]+)\]\]/.exec(src);
-          if (match) return { type: 'wikilink', raw: match[0], text: match[1].trim() };
-        },
-        renderer(token) {
-          return `<a href="#" data-wikilink="${token.text}">${token.text}</a>`;
-        }
-      }]
-    });
-  } catch (e) {
-    console.warn('wikilink extension failed:', e);
-  }
-}
-
-// ── Load note list (lazy — content fetched on click) ──────────
-async function loadNoteList() {
-  try {
-    const res = await fetch(`${notesDir}file-list.json`);
-    files = await res.json();
-    renderNoteList();
-  } catch (err) {
-    console.error('Failed to load note list:', err);
-  }
-}
-
-async function fetchNoteContent(filename) {
-  if (noteCache.has(filename)) return noteCache.get(filename);
-  const r = await fetch(`${notesDir}${filename}`);
-  const content = await r.text();
-  noteCache.set(filename, content);
-  return content;
-}
-
-// ── Render sidebar note list ───────────────────────────────────
-function renderNoteList() {
-  noteList.innerHTML = '';
-
-  const groups = {};
-  files.forEach((filename) => {
-    const parts = filename.split('/');
-    const group = parts.length > 1 ? parts[0] : 'General';
-    if (!groups[group]) groups[group] = [];
-    groups[group].push(filename);
-  });
-
-  Object.keys(groups).sort().forEach((group) => {
-    const folderLi = document.createElement('li');
-    folderLi.textContent = group.charAt(0).toUpperCase() + group.slice(1).replace(/-/g, ' ');
-    folderLi.classList.add('folder');
-    folderLi.setAttribute('tabindex', '0');
-    folderLi.setAttribute('role', 'button');
-    folderLi.setAttribute('aria-expanded', 'false');
-    noteList.appendChild(folderLi);
-
-    const ul = document.createElement('ul');
-    const toggleFolder = () => {
-      const isExpanded = folderLi.classList.toggle('expanded');
-      ul.classList.toggle('expanded');
-      folderLi.setAttribute('aria-expanded', String(isExpanded));
-    };
-    folderLi.onclick = toggleFolder;
-    folderLi.onkeydown = (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFolder(); }
-    };
-
-    groups[group].forEach((filename) => {
-      const li = document.createElement('li');
-      li.textContent = filename.replace(/^.*\//, '').replace('.md', '');
-      li.classList.add('note');
-      li.setAttribute('tabindex', '0');
-      li.setAttribute('role', 'button');
-      li.dataset.filename = filename;
-      li.onclick = () => openNote(filename);
-      li.onkeydown = (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openNote(filename); }
-      };
-      ul.appendChild(li);
-    });
-
-    noteList.appendChild(ul);
-  });
-}
-
-// ── Open / render a note (fetches content lazily) ──────────────
-async function openNote(filename) {
-  // Mark active
-  document.querySelectorAll('#note-list .note').forEach((el) => {
-    el.classList.toggle('active', el.dataset.filename === filename);
-  });
-
-  mainView.innerHTML = '<div id="note-content"><p style="color:var(--text-faint)">Loading…</p></div>';
-  const content = await fetchNoteContent(filename);
-  renderMarkdown(content, filename);
-  renderOutline(content);
-}
-
-function renderMarkdown(md, filename) {
-  if (!markedFn) {
-    mainView.innerHTML = `<div id="note-content"><pre>${md}</pre></div>`;
-    return;
-  }
-
-  const renderer = new markedFn.Renderer();
-
-  renderer.code = (code, language) => {
-    language = language || (typeof code === 'object' && code.lang) || 'plaintext';
-    const content = typeof code === 'object' && code.text ? code.text : String(code);
-    if (language === 'mermaid') {
-      return `<div class="mermaid">${content}</div>`;
-    }
-    return `<pre><code class="language-${language}">${content}</code></pre>`;
-  };
-
-  const html = markedFn(md, { renderer });
-  mainView.innerHTML = `<div id="note-content">${html}</div>`;
-
-  // Mermaid
-  if (window.mermaid) {
-    try {
-      mermaid.init(undefined, mainView.querySelectorAll('.mermaid'));
-    } catch (e) { /* */ }
-  }
-
-  // Highlight.js
-  if (window.hljs) {
-    mainView.querySelectorAll('pre code').forEach((block) => {
-      hljs.highlightElement(block);
-    });
-  }
-}
-
-function renderOutline(content) {
-  const headings = content.match(/^#{1,6} .+/gm) || [];
-  if (!headings.length) {
-    outlinePane.innerHTML = '';
-    return;
-  }
-
-  const heading = document.createElement('h3');
-  heading.textContent = 'Outline';
-  outlinePane.innerHTML = '';
-  outlinePane.appendChild(heading);
-
-  headings.forEach((h) => {
-    const level = h.match(/^#+/)[0].length;
-    const text = h.replace(/^#+ /, '');
-    const div = document.createElement('div');
-    div.textContent = text;
-    div.style.paddingLeft = `${(level - 1) * 12}px`;
-    outlinePane.appendChild(div);
-  });
-}
-
-// ── Wikilink click delegation ──────────────────────────────────
-document.addEventListener('click', (e) => {
-  const a = e.target.closest('a[data-wikilink]');
-  if (!a) return;
-  e.preventDefault();
-  const linkBase = a.getAttribute('data-wikilink');
-  const resolved = resolveNoteFilename(linkBase);
-  if (resolved) {
-    openNote(resolved);
-  } else {
-    mainView.innerHTML = `<div id="note-content"><p style="color:var(--text-faint);font-family:var(--mono);font-size:.875rem;">Note not found: ${linkBase}</p></div>`;
-  }
-});
-
-function resolveNoteFilename(linkBase) {
-  if (!files.length) return null;
-  let candidate = files.find((f) => f === `${linkBase}.md`);
-  if (candidate) return candidate;
-  candidate = files.find((f) => f.split('/').pop() === `${linkBase}.md`);
-  if (candidate) return candidate;
-  const lower = linkBase.toLowerCase();
-  return files.find((f) => f.split('/').pop().toLowerCase() === `${lower}.md`) || null;
-}
 
 // ── 3. TIMELINE ────────────────────────────────────────────────
 async function loadTimeline() {
@@ -343,7 +151,6 @@ async function loadTimeline() {
   });
 })();
 
-loadNoteList();
 loadTimeline();
 
 // ── 4. SKILLS VIEWER ──────────────────────────────────────────
@@ -595,6 +402,137 @@ loadSkillList();
         prev?.focus();
         prev?.click();
       }
+    });
+  });
+})();
+
+// ── 6. SCROLL-DRIVEN NARRATIVE ENGINE ──────────────────────────
+
+(function initScrollExperience() {
+  // Respect reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    // Instantly reveal everything
+    document.querySelectorAll('.scroll-reveal, .narrative-bridge__text, .narrative-bridge__sub, .timeline-entry').forEach((el) => {
+      el.classList.add('revealed');
+    });
+    return;
+  }
+
+  // ── Scroll Progress Bar ────────────────────────────────────
+  const progressBar = document.getElementById('scroll-progress');
+  if (progressBar) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollTop = window.scrollY;
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+          progressBar.style.width = progress + '%';
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  // ── Scroll Reveal Observer ─────────────────────────────────
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { rootMargin: '0px 0px -80px 0px', threshold: 0.1 }
+  );
+
+  // Observe all scroll-reveal elements
+  document.querySelectorAll('.scroll-reveal').forEach((el) => {
+    revealObserver.observe(el);
+  });
+
+  // ── Narrative Bridge Observer ──────────────────────────────
+  const bridgeObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.narrative-bridge__text, .narrative-bridge__sub').forEach((el) => {
+            el.classList.add('revealed');
+          });
+          bridgeObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { rootMargin: '0px 0px -60px 0px', threshold: 0.3 }
+  );
+
+  document.querySelectorAll('.narrative-bridge').forEach((bridge) => {
+    bridgeObserver.observe(bridge);
+  });
+
+  // ── Staggered Card Reveals ─────────────────────────────────
+  document.querySelectorAll('.stagger-parent').forEach((parent) => {
+    const children = parent.children;
+    Array.from(children).forEach((child, index) => {
+      child.classList.add('scroll-reveal');
+      child.style.setProperty('--stagger-index', index);
+      revealObserver.observe(child);
+    });
+  });
+
+  // ── Timeline Progressive Reveal ────────────────────────────
+  const timelineObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          timelineObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { rootMargin: '0px 0px -40px 0px', threshold: 0.15 }
+  );
+
+  // Observe timeline entries after they're loaded
+  const timelineList = document.getElementById('timeline-list');
+  if (timelineList) {
+    const timelineMo = new MutationObserver(() => {
+      timelineList.querySelectorAll('.timeline-entry:not(.revealed)').forEach((entry) => {
+        timelineObserver.observe(entry);
+      });
+    });
+    timelineMo.observe(timelineList, { childList: true });
+  }
+
+  // ── Hero Parallax (subtle) ─────────────────────────────────
+  const heroContainer = document.querySelector('#hero .container');
+  if (heroContainer) {
+    let heroTicking = false;
+    window.addEventListener('scroll', () => {
+      if (!heroTicking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const heroH = document.getElementById('hero').offsetHeight;
+          if (scrollY < heroH) {
+            const progress = scrollY / heroH;
+            heroContainer.style.opacity = 1 - progress * 0.6;
+            heroContainer.style.transform = `translateY(${scrollY * 0.15}px)`;
+          }
+          heroTicking = false;
+        });
+        heroTicking = true;
+      }
+    }, { passive: true });
+  }
+
+  // ── Immediately reveal hero elements that are in view ──────
+  requestAnimationFrame(() => {
+    document.querySelectorAll('#hero .scroll-reveal').forEach((el) => {
+      el.classList.add('revealed');
     });
   });
 })();

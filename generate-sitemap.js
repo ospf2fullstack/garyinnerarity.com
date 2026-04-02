@@ -23,7 +23,6 @@ const staticUrls = [
   { path: '/#work',        changefreq: 'monthly', priority: '0.9' },
   { path: '/#stack',       changefreq: 'monthly', priority: '0.8' },
   { path: '/#credentials', changefreq: 'yearly',  priority: '0.8' },
-  { path: '/#notes',       changefreq: 'weekly',  priority: '0.7' },
   { path: '/#skills',      changefreq: 'weekly',  priority: '0.7' },
   { path: '/#timeline',    changefreq: 'monthly', priority: '0.6' },
 ];
