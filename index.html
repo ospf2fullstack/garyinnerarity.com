@@ -226,6 +226,7 @@
       <li><a href="#skills">Skills</a></li>
       <li><a href="#credentials">Credentials</a></li>
       <li><a href="#timeline">Timeline</a></li>
+      <li><a href="#sysmon">Monitor</a></li>
       <li class="nav-separator" aria-hidden="true">|</li>
       <li><a href="index-brain.html" title="Cognitive Architecture Visualization">🧠 Brain</a></li>
     </ul>
@@ -1017,6 +1018,140 @@
       </div>
     </section>
 
+    <!-- ── Narrative Bridge: Timeline → System Monitor ─────── -->
+    <div class="narrative-bridge" aria-hidden="true">
+      <div class="narrative-bridge__inner">
+        <span class="narrative-bridge__label">Live Telemetry</span>
+        <p class="narrative-bridge__text">Your browser, instrumented.</p>
+        <p class="narrative-bridge__sub">Real-time performance metrics pulled straight from your browser's APIs.</p>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         SYSTEM MONITOR - live browser performance
+    ═══════════════════════════════════════════ -->
+    <section id="sysmon" aria-labelledby="sysmon-title">
+      <div class="container">
+        <h2 id="sysmon-title" class="section-label scroll-reveal">System Monitor</h2>
+        <p class="section-intro scroll-reveal">
+          Live performance telemetry from <em>your</em> browser — page load timing,
+          hardware specs, and resource utilization via the Performance &amp; Navigator APIs.
+        </p>
+
+        <div class="sysmon-grid scroll-reveal">
+
+          <!-- Page Load Timing -->
+          <div class="sysmon-card">
+            <div class="sysmon-card__header">
+              <span class="sysmon-card__icon">⏱</span>
+              <h3 class="sysmon-card__title">Page Load</h3>
+            </div>
+            <dl class="sysmon-metrics" id="sysmon-load">
+              <div class="sysmon-metric">
+                <dt>TTFB</dt>
+                <dd id="metric-ttfb">—</dd>
+              </div>
+              <div class="sysmon-metric">
+                <dt>DOM Interactive</dt>
+                <dd id="metric-dom-interactive">—</dd>
+              </div>
+              <div class="sysmon-metric">
+                <dt>DOM Complete</dt>
+                <dd id="metric-dom-complete">—</dd>
+              </div>
+              <div class="sysmon-metric">
+                <dt>Full Load</dt>
+                <dd id="metric-load">—</dd>
+              </div>
+            </dl>
+          </div>
+
+          <!-- Web Vitals -->
+          <div class="sysmon-card">
+            <div class="sysmon-card__header">
+              <span class="sysmon-card__icon">📊</span>
+              <h3 class="sysmon-card__title">Web Vitals</h3>
+            </div>
+            <dl class="sysmon-metrics" id="sysmon-vitals">
+              <div class="sysmon-metric">
+                <dt>FCP</dt>
+                <dd id="metric-fcp">—</dd>
+              </div>
+              <div class="sysmon-metric">
+                <dt>LCP</dt>
+                <dd id="metric-lcp">—</dd>
+              </div>
+              <div class="sysmon-metric">
+                <dt>CLS</dt>
+                <dd id="metric-cls">—</dd>
+              </div>
+              <div class="sysmon-metric">
+                <dt>Resources</dt>
+                <dd id="metric-resources">—</dd>
+              </div>
+            </dl>
+          </div>
+
+          <!-- Hardware -->
+          <div class="sysmon-card">
+            <div class="sysmon-card__header">
+              <span class="sysmon-card__icon">🖥</span>
+              <h3 class="sysmon-card__title">Hardware</h3>
+            </div>
+            <dl class="sysmon-metrics" id="sysmon-hw">
+              <div class="sysmon-metric">
+                <dt>Logical Cores</dt>
+                <dd id="metric-cores">—</dd>
+              </div>
+              <div class="sysmon-metric">
+                <dt>Device Memory</dt>
+                <dd id="metric-device-mem">—</dd>
+              </div>
+              <div class="sysmon-metric">
+                <dt>Screen</dt>
+                <dd id="metric-screen">—</dd>
+              </div>
+              <div class="sysmon-metric">
+                <dt>Pixel Ratio</dt>
+                <dd id="metric-dpr">—</dd>
+              </div>
+            </dl>
+          </div>
+
+          <!-- Network & Runtime -->
+          <div class="sysmon-card">
+            <div class="sysmon-card__header">
+              <span class="sysmon-card__icon">🌐</span>
+              <h3 class="sysmon-card__title">Network &amp; Runtime</h3>
+            </div>
+            <dl class="sysmon-metrics" id="sysmon-net">
+              <div class="sysmon-metric">
+                <dt>Connection</dt>
+                <dd id="metric-connection">—</dd>
+              </div>
+              <div class="sysmon-metric">
+                <dt>Downlink</dt>
+                <dd id="metric-downlink">—</dd>
+              </div>
+              <div class="sysmon-metric">
+                <dt>JS Heap</dt>
+                <dd id="metric-heap">—</dd>
+              </div>
+              <div class="sysmon-metric">
+                <dt>Transfer Size</dt>
+                <dd id="metric-transfer">—</dd>
+              </div>
+            </dl>
+          </div>
+
+        </div>
+
+        <p class="sysmon-footnote scroll-reveal">
+          All metrics are read-only from standard browser APIs — nothing is collected or transmitted.
+        </p>
+      </div>
+    </section>
+
   </main>
 
   <!-- ═══════════════════════════════════════════
@@ -1037,6 +1172,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script src="script.js"></script>
+  <script src="scripts/sysmon.js"></script>
 
   <!-- Console easter egg -->
   <script>

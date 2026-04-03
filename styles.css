@@ -1657,6 +1657,124 @@ section:not(#hero)::before {
   margin-bottom: 8px;
 }
 
+/* ── System Monitor ───────────────────────────────────────────── */
+.sysmon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.sysmon-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: border-color 0.2s var(--ease);
+}
+
+.sysmon-card:hover {
+  border-color: var(--border-strong);
+}
+
+.sysmon-card__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.sysmon-card__icon {
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+.sysmon-card__title {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.sysmon-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+}
+
+.sysmon-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sysmon-metric dt {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.sysmon-metric dd {
+  font-family: var(--mono);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.sysmon-metric dd .sysmon-unit {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-left: 2px;
+}
+
+.sysmon-metric dd .sysmon-badge {
+  display: inline-block;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.sysmon-badge--good {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.sysmon-badge--ok {
+  background: #fffbeb;
+  color: #92400e;
+}
+
+.sysmon-badge--poor {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.sysmon-footnote {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: var(--text-faint);
+  text-align: center;
+  margin-top: 32px;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 768px) {
+  .sysmon-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── Responsive adjustments for scroll experience ─────────────── */
 @media (max-width: 768px) {
   .narrative-bridge {
