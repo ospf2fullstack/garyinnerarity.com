@@ -64,13 +64,13 @@ Timeline events displayed on the main site. Each entry must follow this schema e
   "date": "YYYY-MM-DD",
   "title": "Short title",
   "description": "Brief description of the event.",
-  "type": "project | training | health | career"
+  "type": "project | training | certificate | health"
 }
 ```
 
 - `date`: ISO 8601 date string (YYYY-MM-DD), required
 - `title`: Short display title, required
-- `type`: One of `"project"`, `"training"`, `"health"`, or `"career"` — required, determines timeline icon/color
+- `type`: One of `"project"`, `"training"`, `"certificate"`, or `"health"` — required, determines timeline icon/color
 - `description`: One-sentence description, required
 - Array must remain valid JSON. Entries are sorted chronologically by the site.
 

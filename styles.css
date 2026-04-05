@@ -878,6 +878,7 @@ section + section {
 
 .timeline-entry[data-type="project"]::before { background: #dbeafe; border-color: var(--accent); }
 .timeline-entry[data-type="training"]::before { background: #dcfce7; border-color: #16a34a; }
+.timeline-entry[data-type="certificate"]::before { background: #fef3c7; border-color: #d97706; }
 .timeline-entry[data-type="health"]::before { background: var(--bg-subtle); border-color: var(--border-strong); }
 
 .timeline-entry.hidden {
@@ -918,9 +919,10 @@ section + section {
   margin-bottom: 6px;
 }
 
-.timeline-type--project  { background: #eff6ff; color: var(--accent); }
-.timeline-type--training { background: #f0fdf4; color: #16a34a; }
-.timeline-type--health   { background: var(--bg-subtle); color: var(--text-faint); }
+.timeline-type--project      { background: #eff6ff; color: var(--accent); }
+.timeline-type--training     { background: #f0fdf4; color: #16a34a; }
+.timeline-type--certificate  { background: #fffbeb; color: #d97706; }
+.timeline-type--health       { background: var(--bg-subtle); color: var(--text-faint); }
 
 /*-------- FOOTER -------------------------------------------------â”€â”€â”€â”€â”€â”€ */
 #site-footer {
