@@ -1,6 +1,6 @@
 # Gary Innerarity — Solutions Engineer, MBA
 # https://garyinnerarity.com/
-# Last updated: 2026-03-01
+# Last updated: 2026-04-05
 
 > Gary Innerarity is a Solutions Engineer and MBA based in the United States.
 > He specializes in enterprise agentic AI systems, LLM orchestration, digital thread
@@ -75,6 +75,9 @@ Developed probabilistic risk analysis tooling using Monte Carlo simulation suppo
 ### Digital Catalog
 Built a digital asset management component ingesting raw BIM, Reality Capture, and 3D modeling outputs and converting them into a structured, queryable catalog.
 
+### Magie-Coder
+Implemented Magie-Coder in 2026, an internal agentic coding assistant for enterprise engineering teams combining LLM orchestration with custom tool integrations to accelerate development workflows.
+
 ## Personal Projects
 
 - Learners of Tomorrow, LLC (https://www.learnersoftomorrow.com/) — free EdTech training platform built and maintained for community access
@@ -82,12 +85,16 @@ Built a digital asset management component ingesting raw BIM, Reality Capture, a
 - Bluebird Professionals, LLC (https://www.bluebirdprofessionals.com/) — small consulting practice for bookkeeping and small business growth services for local businesses and nonprofits
 - La Maestra Loca (https://www.lamaestraloca.com/) — cloud-hosted WordPress site maintained continuously for approximately 10 years; example of sustainable, low-maintenance architecture
 - Cigar Inventory App — private full-stack application with CRUD functionality, user authentication, FastAPI backend, and MongoDB data persistence
+- Splenda.ai — Sweet and Artificial Intelligence — a personal AI assistant platform for personal tasking and automations
+- Physical AI & Robotics — Physical Artificial Intelligence project integrating robotics with AI for real-world interaction and automation
+- Reality Capture Rig — custom rig using Arduino, Raspberry Pi, camera arrays, and LiDAR for photogrammetry and 3D scanning
+- K3s Home Cluster — personal homelab K3s cluster with 5 physical nodes and 10 logical nodes running on Proxmox
 
 ## Technical Stack
 
 Languages: Python, JavaScript, Bash, SQL, PowerShell
 Cloud: AWS, GCP, Azure
-Platform: Kubernetes, K3s, Helm, Docker, Proxmox
+Platform: Kubernetes, K3s (5 physical / 10 logical node home cluster), Helm, Docker, Proxmox
 IaC: Terraform, Ansible, CloudFormation
 AI/ML: Agentic workflows, LLM orchestration, RAG, MCP, multi-agent systems, Databricks, Generative AI
 Networking: Cisco, Meraki, VPC design, SD-WAN

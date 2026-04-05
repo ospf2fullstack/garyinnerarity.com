@@ -151,6 +151,7 @@ When modifying this repository, follow these checks:
 | Add/remove a note `.md` file  | Run `npm run build` to regenerate file lists and sitemap                       |
 | Add/remove a skill `.md` file | Run `npm run build` to regenerate file lists and sitemap                       |
 | Add a timeline event          | Append to `events.json` following the exact schema above                       |
+| Add a new project or milestone | Update `#ai-context` section in `index.html` **and** `llms.txt`               |
 | Add a new HTML page           | Add entry to `staticUrls` in `generate-sitemap.js`, then run `npm run sitemap` |
 | Change CSS                    | Include standard properties alongside vendor prefixes                          |
 | Edit any file                 | Run `bash .agents/skills/repo-health-scanner/scan.sh` before committing        |
@@ -184,3 +185,12 @@ The file `llms.txt` at the repository root is an AI-readable summary of the site
 - Job title or expertise areas change
 
 Keep it factual, structured, and aligned with the content on the live site.
+
+### AI Context — Mandatory Update Rule
+
+Whenever a new project, certification, skill, or milestone is added **anywhere** on the site (timeline events, work cards, credentials, etc.), the following **must** also be updated in the same change:
+
+1. **`#ai-context` section in `index.html`** — the visually-hidden, machine-readable summary near the bottom of the page. Add a paragraph or subsection describing the new addition.
+2. **`llms.txt`** — the AI-readable summary at the repo root. Add the new item to the appropriate section (Enterprise Projects, Personal Projects, Certifications, etc.).
+
+This ensures LLM crawlers and AI indexing systems always have a complete, up-to-date picture of all projects and credentials. **Never add content to the visible site without also updating both AI context sources.**
