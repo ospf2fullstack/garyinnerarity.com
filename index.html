@@ -210,6 +210,129 @@
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- ═══════════════════════════════════════════
+       ROCKET ASSEMBLY — scroll-driven visual
+       Parts scatter (top) → assemble (scroll) → launch (bottom)
+  ═══════════════════════════════════════════ -->
+  <div id="rocket-assembly" aria-hidden="true">
+    <div class="rocket-inner">
+      <svg class="rocket-svg" viewBox="0 0 120 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Blueprint grid (decoration) -->
+        <g class="rocket-decoration rocket-grid">
+          <line x1="0" y1="50" x2="120" y2="50" stroke="currentColor" stroke-width="0.3" opacity="0.12"/>
+          <line x1="0" y1="100" x2="120" y2="100" stroke="currentColor" stroke-width="0.3" opacity="0.12"/>
+          <line x1="0" y1="150" x2="120" y2="150" stroke="currentColor" stroke-width="0.3" opacity="0.12"/>
+          <line x1="0" y1="200" x2="120" y2="200" stroke="currentColor" stroke-width="0.3" opacity="0.12"/>
+          <line x1="30" y1="0" x2="30" y2="250" stroke="currentColor" stroke-width="0.3" opacity="0.12"/>
+          <line x1="60" y1="0" x2="60" y2="250" stroke="currentColor" stroke-width="0.3" opacity="0.12"/>
+          <line x1="90" y1="0" x2="90" y2="250" stroke="currentColor" stroke-width="0.3" opacity="0.12"/>
+        </g>
+
+        <!-- Document sketch (decoration) -->
+        <g class="rocket-decoration">
+          <rect x="5" y="32" width="16" height="20" rx="1" stroke="currentColor" stroke-width="0.5" opacity="0.25"/>
+          <line x1="8" y1="38" x2="18" y2="38" stroke="currentColor" stroke-width="0.3" opacity="0.25"/>
+          <line x1="8" y1="41" x2="18" y2="41" stroke="currentColor" stroke-width="0.3" opacity="0.25"/>
+          <line x1="8" y1="44" x2="15" y2="44" stroke="currentColor" stroke-width="0.3" opacity="0.25"/>
+        </g>
+
+        <!-- Point cloud (decoration) -->
+        <g class="rocket-decoration">
+          <circle cx="100" cy="108" r="1" fill="currentColor" opacity="0.15"/>
+          <circle cx="105" cy="112" r="1" fill="currentColor" opacity="0.15"/>
+          <circle cx="102" cy="117" r="1" fill="currentColor" opacity="0.12"/>
+          <circle cx="108" cy="115" r="1" fill="currentColor" opacity="0.15"/>
+          <circle cx="103" cy="122" r="1" fill="currentColor" opacity="0.12"/>
+          <circle cx="96" cy="114" r="1" fill="currentColor" opacity="0.15"/>
+        </g>
+
+        <!-- Wireframe box (decoration) -->
+        <g class="rocket-decoration">
+          <rect x="96" y="36" width="18" height="12" rx="1" stroke="currentColor" stroke-width="0.4" stroke-dasharray="2 2" opacity="0.2"/>
+          <line x1="96" y1="42" x2="114" y2="36" stroke="currentColor" stroke-width="0.3" opacity="0.15"/>
+          <line x1="96" y1="48" x2="114" y2="42" stroke="currentColor" stroke-width="0.3" opacity="0.15"/>
+        </g>
+
+        <!-- 2D sketch angles (decoration) -->
+        <g class="rocket-decoration">
+          <line x1="8" y1="160" x2="22" y2="160" stroke="currentColor" stroke-width="0.4" opacity="0.2"/>
+          <line x1="8" y1="160" x2="8" y2="145" stroke="currentColor" stroke-width="0.4" opacity="0.2"/>
+          <path d="M8 155 Q12 155 12 160" stroke="currentColor" stroke-width="0.3" fill="none" opacity="0.15"/>
+          <text x="14" y="157" font-size="4" font-family="monospace" fill="currentColor" opacity="0.15">90°</text>
+        </g>
+
+        <!-- ═══ ROCKET PARTS ═══ -->
+
+        <!-- Nose Cone -->
+        <g class="rocket-part" data-part="nose">
+          <path d="M60 8 C60 8 77 35 77 58 L43 58 C43 35 60 8 60 8 Z" stroke="currentColor" stroke-width="1.3"/>
+        </g>
+
+        <!-- Upper Body -->
+        <g class="rocket-part" data-part="body-upper">
+          <rect x="43" y="58" width="34" height="42" rx="1" stroke="currentColor" stroke-width="1.3"/>
+        </g>
+
+        <!-- Window / Porthole -->
+        <g class="rocket-part" data-part="window">
+          <circle cx="60" cy="78" r="9" stroke="currentColor" stroke-width="1.3"/>
+          <circle cx="60" cy="78" r="4" stroke="currentColor" stroke-width="0.6"/>
+        </g>
+
+        <!-- Lower Body -->
+        <g class="rocket-part" data-part="body-lower">
+          <rect x="43" y="100" width="34" height="68" rx="1" stroke="currentColor" stroke-width="1.3"/>
+          <line x1="43" y1="130" x2="77" y2="130" stroke="currentColor" stroke-width="0.4" stroke-dasharray="3 2"/>
+          <line x1="43" y1="148" x2="77" y2="148" stroke="currentColor" stroke-width="0.4" stroke-dasharray="3 2"/>
+        </g>
+
+        <!-- Left Fin -->
+        <g class="rocket-part" data-part="fin-left">
+          <path d="M43 142 L18 188 L18 194 L43 170 Z" stroke="currentColor" stroke-width="1.3"/>
+        </g>
+
+        <!-- Right Fin -->
+        <g class="rocket-part" data-part="fin-right">
+          <path d="M77 142 L102 188 L102 194 L77 170 Z" stroke="currentColor" stroke-width="1.3"/>
+        </g>
+
+        <!-- Engine Bell -->
+        <g class="rocket-part" data-part="engine">
+          <path d="M47 168 L40 198 L80 198 L73 168" stroke="currentColor" stroke-width="1.3"/>
+          <line x1="52" y1="174" x2="52" y2="194" stroke="currentColor" stroke-width="0.4"/>
+          <line x1="60" y1="174" x2="60" y2="196" stroke="currentColor" stroke-width="0.4"/>
+          <line x1="68" y1="174" x2="68" y2="194" stroke="currentColor" stroke-width="0.4"/>
+        </g>
+
+        <!-- Flame (hidden until launch) -->
+        <g class="rocket-flame">
+          <path d="M44 198 L52 236 L60 216 L68 236 L76 198" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M48 198 L56 226 L60 212 L64 226 L72 198" stroke="#ef4444" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+
+        <!-- Blueprint Labels -->
+        <g class="rocket-label">
+          <text x="82" y="38" font-size="5.5" font-family="monospace" fill="currentColor" opacity="0.4">REQ-01</text>
+          <line x1="77" y1="36" x2="80" y2="36" stroke="currentColor" stroke-width="0.3" opacity="0.3"/>
+        </g>
+        <g class="rocket-label">
+          <text x="82" y="76" font-size="5.5" font-family="monospace" fill="currentColor" opacity="0.4">ARCH-02</text>
+        </g>
+        <g class="rocket-label">
+          <text x="82" y="136" font-size="5.5" font-family="monospace" fill="currentColor" opacity="0.4">SYS-03</text>
+        </g>
+        <g class="rocket-label">
+          <text x="82" y="190" font-size="5.5" font-family="monospace" fill="currentColor" opacity="0.4">ENG-04</text>
+        </g>
+
+      </svg>
+    </div>
+    <button id="rocket-launch-btn" aria-label="Launch rocket and return to top of page">
+      <span class="launch-icon" aria-hidden="true">🚀</span> Launch
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
        NAV - fixed, minimal, all links visible
   ═══════════════════════════════════════════ -->
   <nav id="site-nav" aria-label="Site navigation">
@@ -243,7 +366,7 @@
     <section id="hero" aria-labelledby="hero-title">
       <div class="container">
         <span class="label scroll-reveal">Platform Architect · Solutions Engineer · MBA</span>
-        <h1 id="hero-title" class="scroll-reveal">Complex systems,<br>made easy.</h1>
+        <h1 id="hero-title" class="scroll-reveal">Complex systems,<br>made simple.</h1>
         <p class="hero-tagline scroll-reveal">
           I deconstruct highly complex problems into working systems.
           The same lifecycle applies whether architecting enterprise AI workflows
@@ -1173,6 +1296,7 @@
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script src="script.js"></script>
   <script src="scripts/sysmon.js"></script>
+  <script src="scripts/rocket-assembly.js"></script>
 
   <!-- Console easter egg -->
   <script>

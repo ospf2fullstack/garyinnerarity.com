@@ -1775,6 +1775,154 @@ section:not(#hero)::before {
   }
 }
 
+/*-------- ROCKET ASSEMBLY --------─────────────────────────────── */
+#rocket-assembly {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  width: 90px;
+  z-index: 50;
+  pointer-events: none;
+  color: var(--text-muted);
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity 0.6s var(--ease);
+}
+
+#rocket-assembly.rocket-visible {
+  opacity: 1;
+}
+
+.rocket-inner {
+  width: 100%;
+  position: relative;
+}
+
+.rocket-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+/* ── Parts: blueprint dashes → solid on assembly ─────────────── */
+.rocket-part {
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.rocket-part > path,
+.rocket-part > rect,
+.rocket-part > circle {
+  stroke-dasharray: 5 3;
+  transition: stroke-dasharray 0.5s var(--ease);
+}
+
+.rocket-assembled .rocket-part > path,
+.rocket-assembled .rocket-part > rect,
+.rocket-assembled .rocket-part > circle {
+  stroke-dasharray: none;
+}
+
+/* ── Labels & decorations ────────────────────────────────────── */
+.rocket-label,
+.rocket-decoration {
+  will-change: opacity;
+}
+
+/* ── Flame ───────────────────────────────────────────────────── */
+.rocket-flame {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center top;
+  transition: opacity 0.3s;
+}
+
+.rocket-flame--active {
+  opacity: 1;
+  animation: flame-flicker 0.12s ease-in-out infinite alternate;
+}
+
+@keyframes flame-flicker {
+  from { transform: scaleX(0.88) scaleY(0.92); }
+  to   { transform: scaleX(1.12) scaleY(1.08); }
+}
+
+/* ── Shake ───────────────────────────────────────────────────── */
+.rocket-shake {
+  animation: rocket-shake 0.08s ease-in-out infinite;
+}
+
+@keyframes rocket-shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-2px); }
+  75%      { transform: translateX(2px); }
+}
+
+/* ── Liftoff ─────────────────────────────────────────────────── */
+.rocket-liftoff {
+  animation: rocket-liftoff 1.2s cubic-bezier(0.4, 0, 0.15, 1) forwards;
+}
+
+@keyframes rocket-liftoff {
+  0%   { transform: translateY(0); opacity: 1; }
+  60%  { opacity: 1; }
+  100% { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* ── Launch button ───────────────────────────────────────────── */
+#rocket-launch-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.35s var(--ease);
+}
+
+.rocket-assembled #rocket-launch-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#rocket-launch-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--tag-bg);
+}
+
+#rocket-launch-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.launch-icon {
+  font-size: 0.75rem;
+}
+
+/* ── Hide rocket on narrow screens ───────────────────────────── */
+@media (max-width: 1199px) {
+  #rocket-assembly {
+    display: none;
+  }
+}
+
 /* ── Responsive adjustments for scroll experience ─────────────── */
 @media (max-width: 768px) {
   .narrative-bridge {
@@ -1806,6 +1954,10 @@ section:not(#hero)::before {
   }
 
   .scroll-progress {
+    display: none;
+  }
+
+  #rocket-assembly {
     display: none;
   }
 }
