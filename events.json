@@ -262,5 +262,47 @@
     "title": "MBSE Training",
     "description": "MBSE deep dive with Capella MBSE with Carnige Mellon's course",
     "type": "training"
+  },
+  {
+    "date": "2023-06-15",
+    "title": "Digital Catalog",
+    "description": "Designed and built a digital catalog to organize Reality Capture data and 3D modeling outputs during the asset development lifecycle for digital twins.",
+    "type": "project"
+  },
+  {
+    "date": "2025-07-15",
+    "title": "Digital Thread Platform",
+    "description": "Designed, built, and deployed an enterprise digital thread for metadata storage of artifacts and relationships across enterprise source systems.",
+    "type": "project"
+  },
+  {
+    "date": "2026-01-15",
+    "title": "Magie-Coder",
+    "description": "Implemented Magie-Coder, an internal agentic coding assistant for enterprise engineering teams.",
+    "type": "project"
+  },
+  {
+    "date": "2026-03-01",
+    "title": "Splenda.ai",
+    "description": "Built Splenda.ai — Sweet and Artificial Intelligence — a personal AI assistant platform for personal tasking and automations.",
+    "type": "project"
+  },
+  {
+    "date": "2026-04-01",
+    "title": "Physical AI & Robotics",
+    "description": "Started a Physical Artificial Intelligence project integrating robotics with AI for real-world interaction and automation.",
+    "type": "project"
+  },
+  {
+    "date": "2026-04-01",
+    "title": "Reality Capture Rig",
+    "description": "Building a custom Reality Capture rig using Arduino, Raspberry Pi, camera arrays, and LiDAR for photogrammetry and 3D scanning.",
+    "type": "project"
+  },
+  {
+    "date": "2025-01-15",
+    "title": "K3s Home Cluster",
+    "description": "Built a K3s cluster with 5 physical nodes and 10 logical nodes for a home lab Kubernetes environment.",
+    "type": "project"
   }
 ]
