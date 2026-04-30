@@ -284,7 +284,7 @@
   {
     "date": "2026-03-01",
     "title": "Splenda.ai",
-    "description": "Built Splenda.ai — Sweet and Artificial Intelligence — a personal AI assistant platform for personal tasking and automations.",
+    "description": "Built Splenda.ai — a self-hosted AI operations platform combining conversational AI, knowledge management, tool execution, and full audit trail, powered by Amazon Bedrock with multi-model routing and deployed on Kubernetes.",
     "type": "project"
   },
   {
