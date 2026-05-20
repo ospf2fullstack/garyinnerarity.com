@@ -1,3 +1,7 @@
+---
+Tags: blog-post, welcome
+---
+
 # Welcome to the Blog
 
 Published: 2026-05-19

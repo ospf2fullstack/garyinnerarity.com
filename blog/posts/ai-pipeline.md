@@ -1,7 +1,7 @@
-# From Task to Done: Automating My Development Workflow with GitHub Copilot Agents
-Path: notes/blog-post-automated-task-to-github-copilot-pr-workflow.md
-Type: GENERAL
+---
 Tags: blog-post, automation, github-copilot, dev-workflow, ai-agents, productivity
+---
+# From Task to Done: Automating My Development Workflow with GitHub Copilot Agents
 
 ## The Pipeline: How It Works
 

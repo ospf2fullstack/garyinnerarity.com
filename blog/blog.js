@@ -51,7 +51,11 @@ const postList = document.getElementById('blog-post-list');
 const blogView = document.getElementById('blog-main-view');
 const postCache = new Map();
 let blogFiles = [];
+let blogPosts = [];
 let currentPostRaw = '';
+let activeFilters = { type: 'all', tag: 'all' };
+
+const metadataFields = new Set(['published', 'date', 'path', 'type', 'tags', 'category', 'categories', 'summary', 'description']);
 
 function slugFromFilename(filename) {
   return filename
@@ -68,9 +72,74 @@ function titleFromMarkdown(markdown, filename) {
   return filename.replace(/^.*\//, '').replace(/\.md$/i, '').replace(/[-_]+/g, ' ');
 }
 
-function publishedFromMarkdown(markdown) {
-  const match = markdown.match(/^Published:\s*(.+)$/mi);
-  return match ? match[1].trim() : '';
+function parseMetadataLine(line) {
+  const match = line.match(/^([A-Za-z][\w -]*):\s*(.+)?$/);
+  if (!match) return null;
+  const key = match[1].trim().toLowerCase().replace(/\s+/g, '-');
+  if (!metadataFields.has(key)) return null;
+  return [key, (match[2] || '').trim()];
+}
+
+function parseMetadataValue(value) {
+  const trimmed = value.trim();
+  if (!trimmed) return '';
+  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+    return trimmed.slice(1, -1).split(',').map((item) => item.trim().replace(/^['"]|['"]$/g, '')).filter(Boolean);
+  }
+  if (trimmed.includes(',')) return trimmed.split(',').map((item) => item.trim()).filter(Boolean);
+  return trimmed.replace(/^['"]|['"]$/g, '');
+}
+
+function parseFrontmatterBlock(markdown) {
+  const match = markdown.match(/^---\s*\n([\s\S]*?)\n---\s*(?:\n|$)([\s\S]*)$/);
+  if (!match) return null;
+
+  const metadata = {};
+  match[1].split(/\r?\n/).forEach((line) => {
+    const parsed = parseMetadataLine(line);
+    if (!parsed) return;
+    metadata[parsed[0]] = parseMetadataValue(parsed[1]);
+  });
+
+  return { metadata, body: match[2].trimStart() };
+}
+
+function parsePostMarkdown(markdown, filename) {
+  const frontmatter = parseFrontmatterBlock(markdown);
+  const metadata = frontmatter ? { ...frontmatter.metadata } : {};
+  const source = frontmatter ? frontmatter.body : markdown;
+  const lines = source.split(/\r?\n/);
+  const bodyLines = [];
+
+  lines.forEach((line, index) => {
+    const parsed = parseMetadataLine(line);
+    const isTopMetadata = parsed && (index < 12 || bodyLines.every((bodyLine) => bodyLine.trim() === '' || bodyLine.startsWith('#')));
+    if (isTopMetadata) {
+      metadata[parsed[0]] = parseMetadataValue(parsed[1]);
+      return;
+    }
+    bodyLines.push(line);
+  });
+
+  const body = bodyLines.join('\n').replace(/\n{3,}/g, '\n\n').trimStart();
+  return {
+    filename,
+    slug: slugFromFilename(filename),
+    title: titleFromMarkdown(body, filename),
+    published: metadata.published || metadata.date || '',
+    metadata,
+    body
+  };
+}
+
+function getMetadataList(metadata, key) {
+  const value = metadata[key];
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+function filterValue(value) {
+  return String(value).trim().toLowerCase();
 }
 
 function escapeHtml(value) {
@@ -106,17 +175,71 @@ async function loadBlogList() {
 
 async function renderPostList() {
   if (!postList) return;
+
+  blogPosts = await Promise.all(blogFiles.map(async (filename) => {
+    const markdown = await fetchPostContent(filename);
+    return parsePostMarkdown(markdown, filename);
+  }));
+
+  renderBlogFilters();
+  renderFilteredPostList();
+}
+
+function renderBlogFilters() {
+  const sidebar = document.getElementById('blog-sidebar');
+  if (!sidebar) return;
+
+  let controls = document.getElementById('blog-filter-controls');
+  if (!controls) {
+    controls = document.createElement('div');
+    controls.id = 'blog-filter-controls';
+    controls.className = 'blog-filter-controls';
+    sidebar.insertBefore(controls, postList);
+  }
+
+  const types = [...new Set(blogPosts.flatMap((post) => getMetadataList(post.metadata, 'type')))].filter(Boolean).sort((a, b) => a.localeCompare(b));
+  const tags = [...new Set(blogPosts.flatMap((post) => getMetadataList(post.metadata, 'tags')))].filter(Boolean).sort((a, b) => a.localeCompare(b));
+  const groups = [
+    { key: 'type', label: 'Type', values: types },
+    { key: 'tag', label: 'Tags', values: tags }
+  ].filter((group) => group.values.length > 1);
+
+  if (!groups.length) {
+    controls.innerHTML = '';
+    controls.hidden = true;
+    return;
+  }
+
+  controls.hidden = false;
+  controls.innerHTML = groups.map((group) => `
+    <div class="blog-filter-group" aria-label="Filter posts by ${escapeHtml(group.label.toLowerCase())}">
+      <div class="blog-filter-label">${escapeHtml(group.label)}</div>
+      <div class="blog-filter-buttons">
+        ${['all', ...group.values].map((value) => {
+    const label = value === 'all' ? 'All' : String(value);
+    const isActive = activeFilters[group.key] === filterValue(value);
+    return `<button class="filter-btn blog-filter-btn${isActive ? ' filter-btn--active' : ''}" type="button" data-filter-group="${group.key}" data-filter-value="${escapeHtml(filterValue(value))}" aria-pressed="${isActive}">${escapeHtml(label)}</button>`;
+  }).join('')}
+      </div>
+    </div>`).join('');
+}
+
+function renderFilteredPostList() {
   postList.innerHTML = '';
 
-  const posts = await Promise.all(blogFiles.map(async (filename) => {
-    const markdown = await fetchPostContent(filename);
-    return {
-      filename,
-      slug: slugFromFilename(filename),
-      title: titleFromMarkdown(markdown, filename),
-      published: publishedFromMarkdown(markdown)
-    };
-  }));
+  const posts = blogPosts.filter((post) => {
+    const matchesType = activeFilters.type === 'all' || getMetadataList(post.metadata, 'type').some((value) => filterValue(value) === activeFilters.type);
+    const matchesTag = activeFilters.tag === 'all' || getMetadataList(post.metadata, 'tags').some((value) => filterValue(value) === activeFilters.tag);
+    return matchesType && matchesTag;
+  });
+
+  if (!posts.length) {
+    const empty = document.createElement('li');
+    empty.classList.add('blog-post-empty');
+    empty.textContent = 'No posts match these filters.';
+    postList.appendChild(empty);
+    return;
+  }
 
   posts.forEach((post) => {
     const item = document.createElement('li');
@@ -150,6 +273,16 @@ async function renderPostList() {
   });
 }
 
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('.blog-filter-btn');
+  if (!button) return;
+
+  activeFilters[button.dataset.filterGroup] = button.dataset.filterValue;
+  renderBlogFilters();
+  renderFilteredPostList();
+  announceToScreenReader('Blog filters updated');
+});
+
 function openInitialPost() {
   if (!blogFiles.length) return;
   const params = new URLSearchParams(window.location.search);
@@ -172,8 +305,9 @@ async function openPost(filename, updateUrl) {
 
   try {
     const content = await fetchPostContent(filename);
-    currentPostRaw = content;
-    renderPostContent(content);
+    const post = parsePostMarkdown(content, filename);
+    currentPostRaw = post.body;
+    renderPostContent(post.body);
     if (updateUrl) {
       const slug = slugFromFilename(filename);
       window.history.pushState({ post: filename }, '', `?post=${encodeURIComponent(slug)}`);
