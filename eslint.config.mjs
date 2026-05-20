@@ -25,6 +25,7 @@ export default [
         HTMLElement: "readonly",
         Event: "readonly",
         XMLHttpRequest: "readonly",
+        URLSearchParams: "readonly",
         // CDN libraries
         THREE: "readonly",
         marked: "readonly",
@@ -49,6 +50,7 @@ export default [
       "generate-sitemap.js",
       "notes/generate-file-list.js",
       "skills/generate-file-list.js",
+      "blog/generate-file-list.js",
     ],
     languageOptions: {
       globals: {

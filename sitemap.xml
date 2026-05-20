@@ -4,70 +4,89 @@
 
   <url>
     <loc>https://garyinnerarity.com/</loc>
-    <lastmod>2026-04-16</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#work</loc>
-    <lastmod>2026-04-16</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#stack</loc>
-    <lastmod>2026-04-16</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#credentials</loc>
-    <lastmod>2026-04-16</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-04-16</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#timeline</loc>
-    <lastmod>2026-04-16</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://garyinnerarity.com/blog/</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <!-- Skills library — 5 files -->
   <url><!-- skill: aaa-pipelines.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-04-16</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url><!-- skill: agentic-loop.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-04-16</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url><!-- skill: mcp-server.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-04-16</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url><!-- skill: rag-pipeline.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-04-16</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url><!-- skill: structured-output.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-04-16</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <!-- Blog — 2 files -->
+  <url><!-- blog: posts/ai-pipeline.md -->
+    <loc>https://garyinnerarity.com/blog/?post=ai-pipeline</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url><!-- blog: posts/welcome.md -->
+    <loc>https://garyinnerarity.com/blog/?post=welcome</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
 </urlset>

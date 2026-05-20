@@ -295,7 +295,7 @@ function renderSkillContent(md) {
     <div id="note-content">${html}</div>`;
 
   if (window.mermaid) {
-    try { mermaid.init(undefined, skillsView.querySelectorAll('.mermaid')); } catch (e) { /* */ }
+    try { mermaid.init(undefined, skillsView.querySelectorAll('.mermaid')); } catch { /* */ }
   }
   if (window.hljs) {
     skillsView.querySelectorAll('pre code').forEach((block) => hljs.highlightElement(block));

@@ -18,6 +18,7 @@ Profile summary:
 ## Expertise
 
 - [Agentic AI and LLM orchestration](https://garyinnerarity.com/#skills): Multi-agent workflows, MCP, and tool-driven automation.
+- [Blog](https://garyinnerarity.com/blog/): Long-form writing on AI systems, cloud architecture, platform engineering, and delivery patterns.
 - [Architecture notes and deep dives](https://garyinnerarity.com/#notes): Written material on architecture patterns and operations.
 - [Digital thread and simulation portfolio](https://garyinnerarity.com/#work): Enterprise work spanning digital thread and digital twin systems.
 - [Technical stack overview](https://garyinnerarity.com/#stack): Cloud, platform engineering, and infrastructure expertise.
@@ -57,6 +58,7 @@ Profile summary:
 ## Key Pages
 
 - [Homepage](https://garyinnerarity.com/): Main portfolio landing page.
+- [Blog](https://garyinnerarity.com/blog/): Markdown-backed blog for long-form technical writing.
 - [Notes](https://garyinnerarity.com/#notes): Architecture patterns, deep dives, and runbooks.
 - [Skills](https://garyinnerarity.com/#skills): Reusable AI and engineering skill write-ups.
 - [Sitemap](https://garyinnerarity.com/sitemap.xml): Crawlable map of site resources.

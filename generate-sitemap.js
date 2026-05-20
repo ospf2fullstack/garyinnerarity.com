@@ -4,6 +4,7 @@
  * Rebuilds sitemap.xml from:
  *   - Static site sections (hero, work, stack, skills, credentials, timeline)
  *   - Every skill file listed in skills/file-list.json
+ *   - Every blog file listed in blog/file-list.json
  *
  * Run:  node generate-sitemap.js
  * Or:   npm run sitemap
@@ -24,10 +25,21 @@ const staticUrls = [
   { path: '/#credentials', changefreq: 'yearly',  priority: '0.8' },
   { path: '/#skills',      changefreq: 'weekly',  priority: '0.7' },
   { path: '/#timeline',    changefreq: 'monthly', priority: '0.6' },
+  { path: '/blog/',        changefreq: 'weekly',  priority: '0.8' },
 ];
 
 // ── Skill files ────────────────────────────────────────────────
 const SKILLS_FILE_LIST = path.join(__dirname, 'skills', 'file-list.json');
+const BLOG_FILE_LIST   = path.join(__dirname, 'blog', 'file-list.json');
+
+function slugFromFilename(file) {
+  return file
+    .replace(/^.*\//, '')
+    .replace(/\.md$/i, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
 
 function getSkillUrls() {
   if (!fs.existsSync(SKILLS_FILE_LIST)) {
@@ -43,8 +55,23 @@ function getSkillUrls() {
   }));
 }
 
+// ── Blog files ────────────────────────────────────────────────
+function getBlogUrls() {
+  if (!fs.existsSync(BLOG_FILE_LIST)) {
+    console.warn(`⚠  ${BLOG_FILE_LIST} not found — run: node blog/generate-file-list.js`);
+    return [];
+  }
+  const files = JSON.parse(fs.readFileSync(BLOG_FILE_LIST, 'utf8'));
+  return files.map((file) => ({
+    path: `/blog/?post=${slugFromFilename(file)}`,
+    note: file,
+    changefreq: 'monthly',
+    priority: '0.7',
+  }));
+}
+
 // ── Build XML ──────────────────────────────────────────────────
-function buildSitemap(staticUrls, skillUrls) {
+function buildSitemap(staticUrls, skillUrls, blogUrls) {
   const urlTags = [];
 
   staticUrls.forEach(({ path: p, changefreq, priority }) => {
@@ -71,6 +98,20 @@ function buildSitemap(staticUrls, skillUrls) {
     });
   }
 
+  if (blogUrls && blogUrls.length > 0) {
+    urlTags.push(`
+  <!-- Blog — ${blogUrls.length} files -->`);
+    blogUrls.forEach(({ path: p, note, changefreq, priority }) => {
+      urlTags.push(`
+  <url><!-- blog: ${note} -->
+    <loc>${BASE_URL}${p}</loc>
+    <lastmod>${TODAY}</lastmod>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`);
+    });
+  }
+
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
@@ -82,7 +123,8 @@ ${urlTags.join('')}
 
 // ── Run ────────────────────────────────────────────────────────
 const skillUrls = getSkillUrls();
-const xml       = buildSitemap(staticUrls, skillUrls);
+const blogUrls  = getBlogUrls();
+const xml       = buildSitemap(staticUrls, skillUrls, blogUrls);
 
 fs.writeFileSync(OUTPUT_FILE, xml, 'utf8');
-console.log(`✓ sitemap.xml written — ${staticUrls.length} static + ${skillUrls.length} skills (${TODAY})`);
+console.log(`✓ sitemap.xml written — ${staticUrls.length} static + ${skillUrls.length} skills + ${blogUrls.length} blog (${TODAY})`);
