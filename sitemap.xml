@@ -75,7 +75,13 @@
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
-  <!-- Blog — 2 files -->
+  <!-- Blog — 3 files -->
+  <url><!-- blog: posts/ai-governance.md -->
+    <loc>https://garyinnerarity.com/blog/?post=ai-governance</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
   <url><!-- blog: posts/ai-pipeline.md -->
     <loc>https://garyinnerarity.com/blog/?post=ai-pipeline</loc>
     <lastmod>2026-05-20</lastmod>

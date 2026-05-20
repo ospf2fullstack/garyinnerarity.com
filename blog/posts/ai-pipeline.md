@@ -1,4 +1,5 @@
 ---
+Type: AI
 Tags: blog-post, automation, github-copilot, dev-workflow, ai-agents, productivity
 ---
 # From Task to Done: Automating My Development Workflow with GitHub Copilot Agents

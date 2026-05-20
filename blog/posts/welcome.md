@@ -1,4 +1,5 @@
 ---
+Type: GENERAL
 Tags: blog-post, welcome
 ---
 
