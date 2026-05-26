@@ -4,7 +4,7 @@ date: "2026-05-25"
 author: "Gary Innerarity"
 description: "Learn how Knative brings serverless capabilities to Kubernetes, enabling automatic scaling with zero infrastructure management."
 tags: ["knative", "serverless", "kubernetes", "cloud-native", "engineering"]
-audio: "/blog/posts/knative-serverless-kubernetes/audio.mp3"
+audio: "/assets/knative-server.mp3"
 draft: true
 ---
 

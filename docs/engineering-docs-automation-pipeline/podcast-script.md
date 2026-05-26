@@ -3,7 +3,7 @@ title: "Engineering Docs Blog Automation Pipeline - Podcast Script"
 date: "2026-05-25"
 author: "Gary Innerarity"
 voice: "Gary Innerarity"
-audio: "/blog/audio/engineering-docs-automation-pipeline.mp3"
+audio: "/assets/audio/engineering-docs-automation-pipeline.mp3"
 ---
 
 # Podcast Script: Building an Autonomous Engineering Blog Automation Pipeline

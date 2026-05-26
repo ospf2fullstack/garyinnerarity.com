@@ -5,7 +5,7 @@ author: "Gary Innerarity"
 description: "How I built a reusable SOP/skill template that automates the complete pipeline for publishing engineering documentation to my personal blog."
 tags: ["automation", "engineering-documentation", "blog", "elevenlabs", "github", "ai", "pipeline"]
 category: "Engineering"
-audio: "/blog/audio/engineering-docs-automation-pipeline.mp3"
+audio: "/assets/audio/engineering-docs-automation-pipeline.mp3"
 ---
 
 # Building an Autonomous Engineering Blog Automation Pipeline
@@ -105,4 +105,4 @@ Future enhancements I'm considering:
 
 ---
 
-*This post was generated autonomously using the Engineering Docs Blog Automation Pipeline. The audio version here: [Listen Live](https://garyinnerarity.com/blog/audio/engineering-docs-automation-pipeline.mp3).*
+*This post was generated autonomously using the Engineering Docs Blog Automation Pipeline.*

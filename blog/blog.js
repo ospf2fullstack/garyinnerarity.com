@@ -55,7 +55,7 @@ let blogPosts = [];
 let currentPostRaw = '';
 let activeFilters = { type: 'all', tag: 'all' };
 
-const metadataFields = new Set(['published', 'date', 'path', 'type', 'tags', 'category', 'categories', 'summary', 'description']);
+const metadataFields = new Set(['published', 'date', 'path', 'type', 'tags', 'category', 'categories', 'summary', 'description', 'audio']);
 
 function slugFromFilename(filename) {
   return filename
@@ -149,6 +149,26 @@ function escapeHtml(value) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function getAudioSource(metadata) {
+  const [audio] = getMetadataList(metadata, 'audio');
+  return audio ? String(audio).trim() : '';
+}
+
+function renderAudioPlayer(audioSrc, title) {
+  if (!audioSrc) return '';
+  const safeTitle = title ? `Listen to ${title}` : 'Listen to this post';
+  return `
+    <section class="blog-audio-player" aria-label="Audio version">
+      <div class="blog-audio-player__eyebrow">Audio version</div>
+      <div class="blog-audio-player__title">${escapeHtml(safeTitle)}</div>
+      <audio class="blog-audio-player__control" controls preload="none" playsinline>
+        <source src="${escapeHtml(audioSrc)}" type="audio/mpeg">
+        Your browser does not support audio playback.
+      </audio>
+      <a class="blog-audio-player__link" href="${escapeHtml(audioSrc)}">Open audio in a new tab</a>
+    </section>`;
 }
 
 async function fetchPostContent(filename) {
@@ -252,10 +272,23 @@ function renderFilteredPostList() {
     item.setAttribute('tabindex', '0');
     item.setAttribute('role', 'button');
 
+    const titleRow = document.createElement('div');
+    titleRow.classList.add('blog-post-item__row');
+
     const title = document.createElement('span');
     title.classList.add('blog-post-item__title');
     title.textContent = post.title;
-    item.appendChild(title);
+    titleRow.appendChild(title);
+
+    if (getAudioSource(post.metadata)) {
+      const audioBadge = document.createElement('span');
+      audioBadge.classList.add('blog-post-item__badge');
+      audioBadge.textContent = 'Audio';
+      audioBadge.setAttribute('aria-label', 'Audio version available');
+      titleRow.appendChild(audioBadge);
+    }
+
+    item.appendChild(titleRow);
 
     if (post.published) {
       const meta = document.createElement('span');
@@ -310,7 +343,7 @@ async function openPost(filename, updateUrl) {
     const content = await fetchPostContent(filename);
     const post = parsePostMarkdown(content, filename);
     currentPostRaw = post.body;
-    renderPostContent(post.body);
+    renderPostContent(post);
     if (updateUrl) {
       const slug = slugFromFilename(filename);
       window.history.pushState({ post: filename }, '', `?post=${encodeURIComponent(slug)}`);
@@ -322,13 +355,16 @@ async function openPost(filename, updateUrl) {
   }
 }
 
-function renderPostContent(markdown) {
+function renderPostContent(post) {
+  const markdown = post.body;
+  const audioPlayer = renderAudioPlayer(getAudioSource(post.metadata), post.title);
+
   if (!markedFn) {
     blogView.innerHTML = `
       <div class="skills-toolbar">
         <button class="copy-btn" id="blog-copy-btn">Copy</button>
       </div>
-      <div id="note-content"><pre>${escapeHtml(markdown)}</pre></div>`;
+      <div id="note-content">${audioPlayer}<pre>${escapeHtml(markdown)}</pre></div>`;
     return;
   }
 
@@ -344,7 +380,7 @@ function renderPostContent(markdown) {
     <div class="skills-toolbar">
       <button class="copy-btn" id="blog-copy-btn">Copy</button>
     </div>
-    <div id="note-content">${html}</div>`;
+    <div id="note-content">${audioPlayer}${html}</div>`;
 
   if (window.hljs) {
     blogView.querySelectorAll('pre code').forEach((block) => hljs.highlightElement(block));
