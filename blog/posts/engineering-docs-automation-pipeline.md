@@ -105,4 +105,4 @@ Future enhancements I'm considering:
 
 ---
 
-*This post was generated autonomously using the Engineering Docs Blog Automation Pipeline. The audio version is available via ElevenLabs.*
+*This post was generated autonomously using the Engineering Docs Blog Automation Pipeline. The audio version here: [Listen Live](https://garyinnerarity.com/blog/audio/engineering-docs-automation-pipeline.mp3).*
