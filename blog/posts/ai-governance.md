@@ -2,7 +2,6 @@
 Type: AI
 Tags: ai-governance, audit-trails, decision-accountability, blog-post, regulatory-compliance, eu-ai-act, financial-services
 ---
-# Closing the AI Liability Gap: How Immutable Audit Trails Transform Decision Accountability
 
 # Closing the AI Liability Gap: How Immutable Audit Trails Transform Decision Accountability
 

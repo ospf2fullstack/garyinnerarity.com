@@ -212,9 +212,12 @@ function renderBlogFilters() {
 
   controls.hidden = false;
   controls.innerHTML = groups.map((group) => `
-    <div class="blog-filter-group" aria-label="Filter posts by ${escapeHtml(group.label.toLowerCase())}">
-      <div class="blog-filter-label">${escapeHtml(group.label)}</div>
-      <div class="blog-filter-buttons">
+    <div class="blog-filter-group${group.key === 'tag' ? ' blog-filter-group--tags' : ''}" aria-label="Filter posts by ${escapeHtml(group.label.toLowerCase())}">
+      <div class="blog-filter-label-row">
+        <div class="blog-filter-label">${escapeHtml(group.label)}</div>
+        ${group.key === 'tag' && group.values.length > 6 ? '<span class="blog-filter-note">Scroll</span>' : ''}
+      </div>
+      <div class="blog-filter-buttons${group.key === 'tag' ? ' blog-filter-buttons--tags' : ''}">
         ${['all', ...group.values].map((value) => {
     const label = value === 'all' ? 'All' : String(value);
     const isActive = activeFilters[group.key] === filterValue(value);
