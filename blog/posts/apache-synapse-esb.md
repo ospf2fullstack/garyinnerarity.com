@@ -1,3 +1,8 @@
+---
+Type: enterprise-integration
+Tags: open-source, engineering, integration, ESB, Apache Synapse
+audio: "/assets/audio/apache-synapse-esb.mp3"
+---
 # Apache Synapse ESB: The Lightweight Enterprise Service Bus
 
 *Published: June 2026*
