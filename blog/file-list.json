@@ -1,1 +1,9 @@
-["posts/ai-governance.md", "posts/ai-pipeline.md", "posts/engineering-docs-automation-pipeline.md", "posts/knative-serverless-kubernetes.md", "posts/opportunity-without-structure.md"]
+[
+  "posts/ai-governance.md",
+  "posts/ai-pipeline.md",
+  "posts/apache-synapse-esb.md",
+  "posts/engineering-docs-automation-pipeline.md",
+  "posts/knative-serverless-kubernetes.md",
+  "posts/opportunity-without-structure.md",
+  "posts/strimzi-kubernetes-kafka.md"
+]
