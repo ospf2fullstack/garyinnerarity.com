@@ -26,6 +26,9 @@ package-lock.json
 *.swp
 *.swo
 
+# Unpublished pages
+index-brain.html
+
 # macOS artifacts
 .DS_Store
 **/.DS_Store

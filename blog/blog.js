@@ -142,6 +142,44 @@ function filterValue(value) {
   return String(value).trim().toLowerCase();
 }
 
+function getPostCategories(post) {
+  return ['type', 'category', 'categories']
+    .flatMap((key) => getMetadataList(post.metadata, key))
+    .map((value) => String(value).trim())
+    .filter(Boolean);
+}
+
+function getPostTags(post) {
+  return getMetadataList(post.metadata, 'tags')
+    .map((value) => String(value).trim())
+    .filter(Boolean);
+}
+
+function uniqueByValue(values) {
+  const seen = new Map();
+  values.forEach((value) => {
+    const key = filterValue(value);
+    if (key && !seen.has(key)) seen.set(key, value);
+  });
+  return [...seen.values()].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+}
+
+function postTimestamp(post) {
+  if (!post.published) return NaN;
+  const time = Date.parse(post.published);
+  return Number.isNaN(time) ? NaN : time;
+}
+
+function comparePostsByDate(a, b) {
+  const timeA = postTimestamp(a);
+  const timeB = postTimestamp(b);
+  const hasA = !Number.isNaN(timeA);
+  const hasB = !Number.isNaN(timeB);
+  if (hasA && hasB && timeA !== timeB) return timeB - timeA;
+  if (hasA !== hasB) return hasA ? -1 : 1;
+  return a.title.localeCompare(b.title, undefined, { sensitivity: 'base' });
+}
+
 function escapeHtml(value) {
   return String(value)
     .replace(/&/g, '&amp;')
@@ -201,6 +239,8 @@ async function renderPostList() {
     return parsePostMarkdown(markdown, filename);
   }));
 
+  blogPosts.sort(comparePostsByDate);
+
   renderBlogFilters();
   renderFilteredPostList();
 }
@@ -217,8 +257,8 @@ function renderBlogFilters() {
     sidebar.insertBefore(controls, postList);
   }
 
-  const types = [...new Set(blogPosts.flatMap((post) => getMetadataList(post.metadata, 'type')))].filter(Boolean).sort((a, b) => a.localeCompare(b));
-  const tags = [...new Set(blogPosts.flatMap((post) => getMetadataList(post.metadata, 'tags')))].filter(Boolean).sort((a, b) => a.localeCompare(b));
+  const types = uniqueByValue(blogPosts.flatMap(getPostCategories));
+  const tags = uniqueByValue(blogPosts.flatMap(getPostTags));
   const groups = [
     { key: 'type', label: 'Type', values: types },
     { key: 'tag', label: 'Tags', values: tags }
@@ -251,8 +291,8 @@ function renderFilteredPostList() {
   postList.innerHTML = '';
 
   const posts = blogPosts.filter((post) => {
-    const matchesType = activeFilters.type === 'all' || getMetadataList(post.metadata, 'type').some((value) => filterValue(value) === activeFilters.type);
-    const matchesTag = activeFilters.tag === 'all' || getMetadataList(post.metadata, 'tags').some((value) => filterValue(value) === activeFilters.tag);
+    const matchesType = activeFilters.type === 'all' || getPostCategories(post).some((value) => filterValue(value) === activeFilters.type);
+    const matchesTag = activeFilters.tag === 'all' || getPostTags(post).some((value) => filterValue(value) === activeFilters.tag);
     return matchesType && matchesTag;
   });
 
@@ -326,7 +366,8 @@ function openInitialPost() {
   const match = blogFiles.find((filename) => (
     filename === requestedPost || slugFromFilename(filename) === requestedPost
   ));
-  openPost(match || blogFiles[0], false);
+  const fallback = blogPosts.length ? blogPosts[0].filename : blogFiles[0];
+  openPost(match || fallback, false);
 }
 
 async function openPost(filename, updateUrl) {
