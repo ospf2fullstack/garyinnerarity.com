@@ -13,12 +13,13 @@
   --border-strong: #c9c9c6;
   --text:        #111110;
   --text-muted:  #6b6b68;
-  --text-faint:  #737370;
-  --accent:      #2563eb;
-  --accent-dark: #1d4ed8;
-  --tag-bg:      #eef2ff;
-  --tag-text:    #3730a3;
-  --mono:        'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  --text-faint:  #5f5f5c;
+  --accent:      #0c6b65;
+  --accent-dark: #0a5a55;
+  --tag-bg:      #e3f0ee;
+  --tag-text:    #0a5a55;
+  --display:     'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --mono:        'Geist Mono', 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
 
   --nav-h:       60px;
   --max-w:       1100px;
@@ -75,6 +76,16 @@ body {
 img {
   display: block;
   max-width: 100%;
+}
+
+/* Display typeface carries the brand voice on headings; mono labels and
+   body text keep their own families for contrast. */
+h1, h2, h3,
+.narrative-bridge__text,
+.timeline-chapter__title,
+.project-card__title {
+  font-family: var(--display);
+  font-feature-settings: 'ss01';
 }
 
 ul[role="list"],
@@ -393,8 +404,8 @@ section + section {
 }
 
 .project-type--enterprise {
-  background: #eff6ff;
-  color: #1d4ed8;
+  background: #e3f0ee;
+  color: #0a5a55;
 }
 
 .project-type--personal {
@@ -1734,12 +1745,14 @@ section + section {
   position: fixed;
   top: var(--nav-h);
   left: 0;
-  width: 0%;
+  width: 100%;
   height: 2px;
   background: linear-gradient(90deg, var(--accent), #7c3aed, #059669, #ea580c);
   z-index: 1001;
-  transition: width 0.05s linear;
-  will-change: width;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.05s linear;
+  will-change: transform;
 }
 
 /* ── Section Morphing — add gradient fades between sections ──── */
