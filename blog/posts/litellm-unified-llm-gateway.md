@@ -4,7 +4,7 @@ date: "2026-06-29"
 author: "Gary Innerarity"
 description: "How LiteLLM gives you a single OpenAI-compatible API for 100+ LLM providers with virtual keys, spend tracking, load balancing, and componentized Kubernetes deployment."
 tags: [litellm, kubernetes, llm-gateway, api-gateway, ai-infrastructure, engineering]
-audio: "/assets/audio/litellm-unified-llm-gateway.mp3"
+audio: ""
 platformStacks: "https://github.com/ospf2fullstack/PlatformStacks/tree/main/litellm"
 draft: true
 ---
