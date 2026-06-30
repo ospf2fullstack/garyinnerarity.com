@@ -8,6 +8,7 @@
   "posts/kaito-kubernetes-ai-inference.md",
   "posts/knative-serverless-kubernetes.md",
   "posts/kubeai-kubernetes-inference-operator.md",
+  "posts/litellm-unified-llm-gateway.md",
   "posts/ml-network-simulation.md",
   "posts/opportunity-without-structure.md",
   "posts/roboflow-supervision-cv-toolkit.md",
