@@ -55,7 +55,7 @@ function getSkillUrls() {
   }));
 }
 
-// ── Blog files ────────────────────────────────────────────────
+// ── Builders blog files ───────────────────────────────────────
 function getBlogUrls() {
   if (!fs.existsSync(BLOG_FILE_LIST)) {
     console.warn(`⚠  ${BLOG_FILE_LIST} not found — run: node blog/generate-file-list.js`);
@@ -100,10 +100,10 @@ function buildSitemap(staticUrls, skillUrls, blogUrls) {
 
   if (blogUrls && blogUrls.length > 0) {
     urlTags.push(`
-  <!-- Blog — ${blogUrls.length} files -->`);
+  <!-- Builders blog — ${blogUrls.length} files -->`);
     blogUrls.forEach(({ path: p, note, changefreq, priority }) => {
       urlTags.push(`
-  <url><!-- blog: ${note} -->
+  <url><!-- Builders blog: ${note} -->
     <loc>${BASE_URL}${p}</loc>
     <lastmod>${TODAY}</lastmod>
     <changefreq>${changefreq}</changefreq>
@@ -127,4 +127,4 @@ const blogUrls  = getBlogUrls();
 const xml       = buildSitemap(staticUrls, skillUrls, blogUrls);
 
 fs.writeFileSync(OUTPUT_FILE, xml, 'utf8');
-console.log(`✓ sitemap.xml written — ${staticUrls.length} static + ${skillUrls.length} skills + ${blogUrls.length} blog (${TODAY})`);
+console.log(`✓ sitemap.xml written — ${staticUrls.length} static + ${skillUrls.length} skills + ${blogUrls.length} Builders blog (${TODAY})`);

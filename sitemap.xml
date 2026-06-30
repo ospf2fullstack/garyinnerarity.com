@@ -4,165 +4,171 @@
 
   <url>
     <loc>https://garyinnerarity.com/</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#work</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#stack</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#credentials</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/#timeline</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://garyinnerarity.com/blog/</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <!-- Skills library — 5 files -->
   <url><!-- skill: aaa-pipelines.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url><!-- skill: agentic-loop.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url><!-- skill: mcp-server.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url><!-- skill: rag-pipeline.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url><!-- skill: structured-output.md -->
     <loc>https://garyinnerarity.com/#skills</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
-  <!-- Blog — 15 files -->
-  <url><!-- blog: posts/ai-governance.md -->
+  <!-- Builders blog — 16 files -->
+  <url><!-- Builders blog: posts/ai-governance.md -->
     <loc>https://garyinnerarity.com/blog/?post=ai-governance</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/ai-pipeline.md -->
+  <url><!-- Builders blog: posts/ai-pipeline.md -->
     <loc>https://garyinnerarity.com/blog/?post=ai-pipeline</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/apache-kafka.md -->
+  <url><!-- Builders blog: posts/apache-kafka.md -->
     <loc>https://garyinnerarity.com/blog/?post=apache-kafka</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/apache-synapse-esb.md -->
+  <url><!-- Builders blog: posts/apache-synapse-esb.md -->
     <loc>https://garyinnerarity.com/blog/?post=apache-synapse-esb</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/engineering-docs-automation-pipeline.md -->
+  <url><!-- Builders blog: posts/engineering-docs-automation-pipeline.md -->
     <loc>https://garyinnerarity.com/blog/?post=engineering-docs-automation-pipeline</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/hearth-kubernetes-llm-serving.md -->
+  <url><!-- Builders blog: posts/hearth-kubernetes-llm-serving.md -->
     <loc>https://garyinnerarity.com/blog/?post=hearth-kubernetes-llm-serving</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/kaito-kubernetes-ai-inference.md -->
+  <url><!-- Builders blog: posts/kaito-kubernetes-ai-inference.md -->
     <loc>https://garyinnerarity.com/blog/?post=kaito-kubernetes-ai-inference</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/knative-serverless-kubernetes.md -->
+  <url><!-- Builders blog: posts/knative-serverless-kubernetes.md -->
     <loc>https://garyinnerarity.com/blog/?post=knative-serverless-kubernetes</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/kubeai-kubernetes-inference-operator.md -->
+  <url><!-- Builders blog: posts/kubeai-kubernetes-inference-operator.md -->
     <loc>https://garyinnerarity.com/blog/?post=kubeai-kubernetes-inference-operator</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/ml-network-simulation.md -->
+  <url><!-- Builders blog: posts/litellm-unified-llm-gateway.md -->
+    <loc>https://garyinnerarity.com/blog/?post=litellm-unified-llm-gateway</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url><!-- Builders blog: posts/ml-network-simulation.md -->
     <loc>https://garyinnerarity.com/blog/?post=ml-network-simulation</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/opportunity-without-structure.md -->
+  <url><!-- Builders blog: posts/opportunity-without-structure.md -->
     <loc>https://garyinnerarity.com/blog/?post=opportunity-without-structure</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/roboflow-supervision-cv-toolkit.md -->
+  <url><!-- Builders blog: posts/roboflow-supervision-cv-toolkit.md -->
     <loc>https://garyinnerarity.com/blog/?post=roboflow-supervision-cv-toolkit</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/strimzi-kubernetes-kafka.md -->
+  <url><!-- Builders blog: posts/strimzi-kubernetes-kafka.md -->
     <loc>https://garyinnerarity.com/blog/?post=strimzi-kubernetes-kafka</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/tiny-llm-training.md -->
+  <url><!-- Builders blog: posts/tiny-llm-training.md -->
     <loc>https://garyinnerarity.com/blog/?post=tiny-llm-training</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><!-- blog: posts/transformers-in-ai-systems.md -->
+  <url><!-- Builders blog: posts/transformers-in-ai-systems.md -->
     <loc>https://garyinnerarity.com/blog/?post=transformers-in-ai-systems</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

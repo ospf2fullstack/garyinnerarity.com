@@ -221,13 +221,13 @@ async function fetchPostContent(filename) {
 async function loadBlogList() {
   try {
     const response = await fetch(`${blogDir}file-list.json`);
-    if (!response.ok) throw new Error('Unable to load blog file list');
+    if (!response.ok) throw new Error('Unable to load Builders blog file list');
     blogFiles = await response.json();
     await renderPostList();
     openInitialPost();
   } catch (error) {
     console.error('Failed to load blog list:', error);
-    blogView.innerHTML = '<div class="notes-placeholder"><p>Blog posts are unavailable right now.</p></div>';
+    blogView.innerHTML = '<div class="notes-placeholder"><p>Builders blog posts are unavailable right now.</p></div>';
   }
 }
 
@@ -356,7 +356,7 @@ document.addEventListener('click', (event) => {
   activeFilters[button.dataset.filterGroup] = button.dataset.filterValue;
   renderBlogFilters();
   renderFilteredPostList();
-  announceToScreenReader('Blog filters updated');
+  announceToScreenReader('Builders blog filters updated');
 });
 
 function openInitialPost() {
@@ -389,7 +389,7 @@ async function openPost(filename, updateUrl) {
       const slug = slugFromFilename(filename);
       window.history.pushState({ post: filename }, '', `?post=${encodeURIComponent(slug)}`);
     }
-    announceToScreenReader('Blog post loaded');
+    announceToScreenReader('Builders blog post loaded');
   } catch (error) {
     console.error('Failed to open post:', error);
     blogView.innerHTML = '<div class="notes-placeholder"><p>This post could not be loaded.</p></div>';
@@ -435,7 +435,7 @@ document.addEventListener('click', (event) => {
   navigator.clipboard.writeText(currentPostRaw).then(() => {
     button.textContent = 'Copied!';
     button.classList.add('copied');
-    announceToScreenReader('Blog markdown copied to clipboard');
+    announceToScreenReader('Builders blog markdown copied to clipboard');
     setTimeout(() => {
       button.textContent = 'Copy';
       button.classList.remove('copied');
@@ -451,7 +451,7 @@ document.addEventListener('click', (event) => {
     document.body.removeChild(textarea);
     button.textContent = 'Copied!';
     button.classList.add('copied');
-    announceToScreenReader('Blog markdown copied to clipboard');
+    announceToScreenReader('Builders blog markdown copied to clipboard');
     setTimeout(() => {
       button.textContent = 'Copy';
       button.classList.remove('copied');
