@@ -19,13 +19,14 @@ const TODAY       = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
 
 // ── Static sections ────────────────────────────────────────────
 const staticUrls = [
-  { path: '/',             changefreq: 'monthly', priority: '1.0' },
-  { path: '/#work',        changefreq: 'monthly', priority: '0.9' },
-  { path: '/#stack',       changefreq: 'monthly', priority: '0.8' },
-  { path: '/#credentials', changefreq: 'yearly',  priority: '0.8' },
-  { path: '/#skills',      changefreq: 'weekly',  priority: '0.7' },
-  { path: '/#timeline',    changefreq: 'monthly', priority: '0.6' },
-  { path: '/blog/',        changefreq: 'weekly',  priority: '0.8' },
+  { path: '/',               changefreq: 'monthly', priority: '1.0' },
+  { path: '/#work',          changefreq: 'monthly', priority: '0.9' },
+  { path: '/#stack',         changefreq: 'monthly', priority: '0.8' },
+  { path: '/#credentials',   changefreq: 'yearly',  priority: '0.8' },
+  { path: '/#skills',        changefreq: 'weekly',  priority: '0.7' },
+  { path: '/#timeline',      changefreq: 'monthly', priority: '0.6' },
+  { path: '/blog/',          changefreq: 'weekly',  priority: '0.8' },
+  { path: '/accessibility',  changefreq: 'yearly',  priority: '0.3' },
 ];
 
 // ── Skill files ────────────────────────────────────────────────

@@ -61,4 +61,5 @@ Profile summary:
 - [Builders blog](https://garyinnerarity.com/blog/): Markdown-backed blog for long-form technical writing.
 - [Notes](https://garyinnerarity.com/#notes): Architecture patterns, deep dives, and runbooks.
 - [Skills](https://garyinnerarity.com/#skills): Reusable AI and engineering skill write-ups.
+- [Accessibility Statement](https://garyinnerarity.com/accessibility): WCAG 2.1 AA commitment, known limitations, and contact for accessibility issues.
 - [Sitemap](https://garyinnerarity.com/sitemap.xml): Crawlable map of site resources.
